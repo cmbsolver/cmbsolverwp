@@ -4,7 +4,7 @@
 Plugin Name: CMB Solver Rune Calculator
 Description: A rune calculation tool with conversion capabilities
 Version: 1.0
-Author: Your Name
+Author: CMBSOLVER
 */
 
 // Prevent direct access to this file
@@ -31,8 +31,8 @@ function cmbsolver_runecalc_shortcode() {
         <!-- Conversion Type -->
         <div class="conversion-row">
             <select id="conversion-type">
-                <option value="from-latin">from latin</option>
-                <option value="from-rune">from rune</option>
+                <option value="from-latin">From Latin Characters</option>
+                <option value="from-rune">From Rune Characters</option>
             </select>
             <button id="load-button" class="button">Load</button>
         </div>

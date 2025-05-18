@@ -396,15 +396,20 @@ function isEmirp(num) {
     return reversedNum !== num && isPrime(reversedNum);
 }
 
-// Update the display of gematria result to include icons
+/**
+ * updated the gematria sum display
+ * @param sum
+ */
 function updateGematriaDisplay(sum) {
     const gematriaDiv = document.getElementById('gematria-result');
     let displayText = sum.toString();
 
     if (isEmirp(sum)) {
-        displayText += ' <span class="number-indicator emirp" title="Emirp">✓</span>';
-    } else if (isPrime(sum)) {
-        displayText += ' <span class="number-indicator prime" title="Prime">✓</span>';
+        displayText += ' <span class="number-indicator emirp" title="Emirp">✓ Emirp</span>';
+    }
+
+    if (isPrime(sum)) {
+        displayText += ' <span class="number-indicator prime" title="Prime">✓ Prime</span>';
     }
 
     gematriaDiv.innerHTML = displayText;
