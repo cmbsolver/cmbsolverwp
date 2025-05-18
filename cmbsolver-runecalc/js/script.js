@@ -25,7 +25,7 @@ jQuery(document).ready(function($) {
         // Update results (this is just a placeholder)
         $('#runes-result').text(runeText);
         $('#runeglish-result').text(runeglishText);
-        $('#gematria-result').text(gemSum.toString());
+        updateGematriaDisplay(gemSum);
         $('#wordsums-result').text(wordSumsText);
         $('#runevalues-result').text(runeValuesText);
     });
@@ -74,7 +74,7 @@ jQuery(document).ready(function($) {
         // Update results (this is just a placeholder)
         $('#runes-result').text(runeText);
         $('#runeglish-result').text(runeglishText);
-        $('#gematria-result').text(gemSum.toString());
+        updateGematriaDisplay(gemSum);
         $('#wordsums-result').text(wordSumsText);
         $('#runevalues-result').text(runeValuesText);
     });
@@ -371,3 +371,41 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+/**
+ * Checks if a number is prime
+ * @param {number} num - The number to check
+ * @returns {boolean}
+ */
+function isPrime(num) {
+    if (num < 2) return false;
+    for (let i = 2; i <= Math.sqrt(num); i++) {
+        if (num % i === 0) return false;
+    }
+    return true;
+}
+
+/**
+ * Checks if a number is emirp (prime when reversed and different from original)
+ * @param {number} num - The number to check
+ * @returns {boolean}
+ */
+function isEmirp(num) {
+    if (!isPrime(num)) return false;
+    const reversedNum = parseInt(num.toString().split('').reverse().join(''));
+    return reversedNum !== num && isPrime(reversedNum);
+}
+
+// Update the display of gematria result to include icons
+function updateGematriaDisplay(sum) {
+    const gematriaDiv = document.getElementById('gematria-result');
+    let displayText = sum.toString();
+
+    if (isEmirp(sum)) {
+        displayText += ' <span class="number-indicator emirp" title="Emirp">✓</span>';
+    } else if (isPrime(sum)) {
+        displayText += ' <span class="number-indicator prime" title="Prime">✓</span>';
+    }
+
+    gematriaDiv.innerHTML = displayText;
+}

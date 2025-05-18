@@ -103,10 +103,9 @@ function cmbsolver_runecalc_shortcode() {
         <!-- Rune Buttons -->
         <div class="rune-buttons">
             <?php
-            $runes = array('ᚠ/F', 'ᚢ/U', 'ᚦ/TH', 'ᚩ/O', 'ᚱ/R', 'ᚳ/C', 'ᚷ/G', 'ᚹ/W',
-	                       'ᚻ/H', 'ᚾ/N', 'ᛁ/I', 'ᛄ/J', 'ᛇ/EO', 'ᛈ/P', 'ᛉ/X', 'ᛋ/S',
-	                       'ᛏ/T', 'ᛒ/B', 'ᛖ/E', 'ᛗ/M', 'ᛚ/L', 'ᛝ/ING', 'ᛟ/OE', 'ᛞ/D',
-	                       'ᚪ/A', 'ᚫ/AE', 'ᚣ/Y', 'ᛡ/IO', 'ᛠ/EA');
+            $runes = array('ᚪ/A', 'ᚫ/AE', 'ᛒ/B','ᚳ/C', 'ᛞ/D', 'ᛖ/E', 'ᛠ/EA', 'ᛇ/EO', 'ᚠ/F', 'ᚷ/G', 'ᚻ/H',
+                'ᛁ/I', 'ᛡ/IO', 'ᛝ/ING', 'ᛄ/J', 'ᛚ/L', 'ᛗ/M', 'ᚾ/N', 'ᚩ/O', 'ᛟ/OE', 'ᛈ/P', 'ᚱ/R', 'ᛋ/S', 'ᛏ/T','ᚦ/TH',
+                'ᚢ/U', 'ᚹ/W', 'ᛉ/X', 'ᚣ/Y');
             foreach ($runes as $rune) {
                 echo '<button class="button rune-button">' . $rune . '</button>';
             }
