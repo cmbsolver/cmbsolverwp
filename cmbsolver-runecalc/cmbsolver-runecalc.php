@@ -25,6 +25,7 @@ function cmbsolver_runecalc_shortcode() {
     ?>
     <div class="runecalc-container">
         <!-- Input Area -->
+        <div class="text-label">Text To Calculate</div>
         <textarea id="input-area" rows="4" class="wide-input"></textarea>
 
         <!-- Conversion Type -->

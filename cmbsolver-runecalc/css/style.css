@@ -50,6 +50,9 @@
     fill: currentColor;
 }
 
+.text-label {
+    font-weight: bold;
+}
 
 .result-label {
     width: 120px;
