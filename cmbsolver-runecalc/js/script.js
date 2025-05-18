@@ -28,6 +28,7 @@ jQuery(document).ready(function($) {
         updateGematriaDisplay(gemSum);
         $('#wordsums-result').text(wordSumsText);
         $('#runevalues-result').text(runeValuesText);
+        updateIocTexts();
     });
 
     // Handle special character buttons
@@ -77,6 +78,7 @@ jQuery(document).ready(function($) {
         updateGematriaDisplay(gemSum);
         $('#wordsums-result').text(wordSumsText);
         $('#runevalues-result').text(runeValuesText);
+        updateIocTexts();
     });
 });
 
@@ -404,13 +406,102 @@ function updateGematriaDisplay(sum) {
     const gematriaDiv = document.getElementById('gematria-result');
     let displayText = sum.toString();
 
-    if (isEmirp(sum)) {
-        displayText += ' <span class="number-indicator emirp" title="Emirp">✓ Emirp</span>';
-    }
-
     if (isPrime(sum)) {
         displayText += ' <span class="number-indicator prime" title="Prime">✓ Prime</span>';
     }
 
+    if (isEmirp(sum)) {
+        displayText += ' <span class="number-indicator emirp" title="Emirp">✓ Emirp</span>';
+    }
+
     gematriaDiv.innerHTML = displayText;
+}
+
+// This is the IOC stuff.
+function updateIocTexts() {
+    const resultDiv = document.getElementById('runes-result');
+    const resultIoC = calcIOC(resultDiv.textContent, AlphabetType.Rune);
+    const displayResultText = resultDiv.textContent + ' <span class="ioc-text ioc" title="IOC">IOC: ' + resultIoC.toFixed(6) + '</span>';
+    document.getElementById('runes-result').innerHTML = displayResultText;
+
+    const runeglishDiv = document.getElementById('runeglish-result');
+    const runeglishIoC = calcIOC(runeglishDiv.textContent, AlphabetType.Runeglish);
+    const displayRuneglishText = runeglishDiv.textContent + ' <span class="ioc-text ioc" title="IOC">IOC: ' + runeglishIoC.toFixed(6) + '</span>';
+    document.getElementById('runeglish-result').innerHTML = displayRuneglishText;
+}
+
+// AlphabetType enum equivalent
+const AlphabetType = {
+    Latin: 0,
+    Runeglish: 1,
+    Rune: 2
+};
+
+/**
+ * Returns the character set corresponding to the specified alphabet type
+ * @param {number} alphabetType - The type of alphabet to use
+ * @returns {string[]} Array of individual characters in the alphabet
+ */
+function getAlphabet(alphabetType) {
+    let retval = "";
+
+    switch (alphabetType) {
+        case AlphabetType.Latin:
+            retval = "abcdefghijklmnopqrstuvwxyz";
+            break;
+        case AlphabetType.Runeglish:
+            retval = "abcdefghijlmnoprstuwxy";
+            break;
+        case AlphabetType.Rune:
+            retval = "ᛝᛟᛇᛡᛠᚫᚦᚠᚢᚩᚱᚳᚷᚹᚻᚾᛁᛄᛈᛉᛋᛏᛒᛖᛗᛚᛞᚪᚣ";
+            break;
+        default:
+            retval = "abcdefghijklmnopqrstuvwxyz";
+    }
+
+    return retval.split("");
+}
+
+/**
+ * Calculates the incidence of coincidence for the given text using the provided alphabet.
+ * The incidence of coincidence is a measure used in cryptanalysis that
+ * reflects the likelihood of randomly selecting the same letter twice from a text.
+ * It returns a number between 0 and 1.
+ *
+ * @param {string} text - The text to analyze
+ * @param {number} alphabetType - The type of alphabet to use
+ * @returns {number} The Index of Coincidence value
+ */
+function calcIOC(text, alphabetType) {
+    // Get the alphabet
+    const alphabet = getAlphabet(alphabetType);
+
+    // Create a set for faster character lookup
+    const validChars = new Set(alphabet);
+
+    // Create a map to count occurrences of each letter
+    const counts = new Map();
+
+    // Count only characters in our alphabet
+    let totalLetters = 0;
+    for (const char of text.toLowerCase()) {
+        if (validChars.has(char)) {
+            counts.set(char, (counts.get(char) || 0) + 1);
+            totalLetters++;
+        }
+    }
+
+    // If there are fewer than 2 letters, return 0
+    if (totalLetters <= 1) {
+        return 0.0;
+    }
+
+    // Calculate the sum of frequencies squared
+    let sum = 0.0;
+    for (const count of counts.values()) {
+        sum += count * count;
+    }
+
+    // Calculate and return the IOC
+    return sum / (totalLetters * (totalLetters - 1));
 }
