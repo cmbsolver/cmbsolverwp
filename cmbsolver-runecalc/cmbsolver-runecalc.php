@@ -94,10 +94,10 @@ function cmbsolver_runecalc_shortcode() {
         <!-- Special Characters Row -->
         <div class="special-buttons">
             <button class="button" onclick="clearAll()">Clear</button>
-            <button class="button">•</button>
+            <button class="button">• (SPACE)</button>
             <button class="button">'</button>
             <button class="button">"</button>
-            <button class="button">⊹</button>
+            <button class="button">⊹ (PERIOD)</button>
         </div>
 
         <!-- Rune Buttons -->
