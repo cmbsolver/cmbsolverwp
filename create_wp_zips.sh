@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#remove existing zip files
+rm -vf *.zip
+
 # Loop through all subdirectories
 for dir in */; do
     if [ -d "$dir" ]; then
