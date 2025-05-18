@@ -1,0 +1,152 @@
+
+#runecalc-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.wide-input {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.conversion-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#conversion-type {
+    flex: 1;
+    max-width: 200px;
+}
+
+.results-area {
+    margin: 20px 0;
+}
+
+.result-row {
+    display: flex;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding: 5px 0;
+}
+
+.copy-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    margin-right: 8px;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.copy-button:hover {
+    opacity: 1;
+}
+
+.copy-button svg {
+    fill: currentColor;
+}
+
+
+.result-label {
+    width: 120px;
+    font-weight: bold;
+}
+
+.result-content {
+    flex: 1;
+    min-height: 24px;
+}
+
+.special-buttons {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+}
+
+.rune-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 20px;
+}
+
+.rune-button {
+    font-size: 20px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%; /* Makes rune buttons perfectly circular */
+}
+
+#load-button {
+    min-width: 80px;
+}
+
+/* Ensure the select dropdown matches the button style */
+#conversion-type {
+    border-radius: 8px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+}
+
+.button {
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 8px; /* Adds rounded corners to all buttons */
+    border: 1px solid #ccc;
+    transition: all 0.2s ease;
+}
+
+.button:hover {
+    border-color: #999;
+}
+
+#snackbar {
+    visibility: hidden; /* Hidden by default. Visible on click */
+    min-width: 250px; /* Set a default minimum width */
+    margin-left: -125px; /* Divide value of min-width by 2 */
+    background-color: #333; /* Black background color */
+    color: #fff; /* White text color */
+    text-align: center; /* Centered text */
+    border-radius: 2px; /* Rounded borders */
+    padding: 16px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 1; /* Add a z-index if needed */
+    left: 50%; /* Center the snackbar */
+    bottom: 30px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+    visibility: visible; /* Show the snackbar */
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+    However, delay the fade out process for 2.5 seconds */
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}

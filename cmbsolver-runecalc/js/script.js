@@ -1,0 +1,373 @@
+jQuery(document).ready(function($) {
+    // Handle rune button clicks
+    $('.rune-button').click(function() {
+        const rune = $(this).text();
+        const runeOnly = rune.split('/')[0];
+        const textarea = $('#input-area');
+        const cursorPos = textarea[0].selectionStart;
+        const textBefore = textarea.val().substring(0, cursorPos);
+        const textAfter = textarea.val().substring(cursorPos);
+
+        const runeText = textBefore + runeOnly + textAfter;
+        textarea.val(runeText);
+        textarea.focus();
+        textarea[0].selectionStart = textarea[0].selectionEnd = cursorPos + 1;
+
+        const runeglishText = transposeRuneToLatin(runeText);
+        const gemSum = sumAllRuneValues(runeText);
+
+        const wordSums = getWordSums(runeText);
+        const wordSumsText = wordSums.join(', ');
+
+        const runeValues = getRuneValues(runeText);
+        const runeValuesText = runeValues.join(', ');
+
+        // Update results (this is just a placeholder)
+        $('#runes-result').text(runeText);
+        $('#runeglish-result').text(runeglishText);
+        $('#gematria-result').text(gemSum.toString());
+        $('#wordsums-result').text(wordSumsText);
+        $('#runevalues-result').text(runeValuesText);
+    });
+
+    // Handle special character buttons
+    $('.special-buttons button').click(function() {
+        if ($(this).text() === 'Clear') {
+            clearAll();
+            return;
+        }
+
+        const char = $(this).text();
+        const textarea = $('#input-area');
+        const cursorPos = textarea[0].selectionStart;
+        const textBefore = textarea.val().substring(0, cursorPos);
+        const textAfter = textarea.val().substring(cursorPos);
+
+        textarea.val(textBefore + char + textAfter);
+        textarea.focus();
+        textarea[0].selectionStart = textarea[0].selectionEnd = cursorPos + 1;
+    });
+
+    // Handle load button click
+    $('#load-button').click(function() {
+        let runeText = '';
+        let runeglishText = '';
+        const input = $('#input-area').val();
+        const conversionType = $('#conversion-type').val();
+
+        if (conversionType === 'from-latin') {
+            runeglishText = prepLatinToRune(input);
+            runeText = transposeLatinToRune(runeglishText);
+        } else {
+            runeText = input;
+            runeglishText = transposeRuneToLatin(runeText);
+        }
+
+        const gemSum = sumAllRuneValues(runeText);
+
+        const wordSums = getWordSums(runeText);
+        const wordSumsText = wordSums.join(', ');
+
+        const runeValues = getRuneValues(runeText);
+        const runeValuesText = runeValues.join(', ');
+
+        // Update results (this is just a placeholder)
+        $('#runes-result').text(runeText);
+        $('#runeglish-result').text(runeglishText);
+        $('#gematria-result').text(gemSum.toString());
+        $('#wordsums-result').text(wordSumsText);
+        $('#runevalues-result').text(runeValuesText);
+    });
+});
+
+function clearAll() {
+    jQuery('#input-area').val('');
+    jQuery('.result-content').text('');
+}
+
+const runeToValue = {
+    'ᛝ': 79, 'ᛟ': 83, 'ᛇ': 41, 'ᛡ': 107, 'ᛠ': 109, 'ᚫ': 101, 'ᚦ': 5, 'ᚠ': 2,
+    'ᚢ': 3, 'ᚩ': 7, 'ᚱ': 11, 'ᚳ': 13, 'ᚷ': 17, 'ᚹ': 19, 'ᚻ': 23, 'ᚾ': 29,
+    'ᛁ': 31, 'ᛄ': 37, 'ᛈ': 43, 'ᛉ': 47, 'ᛋ': 53, 'ᛏ': 59, 'ᛒ': 61, 'ᛖ': 67,
+    'ᛗ': 71, 'ᛚ': 73, 'ᛞ': 89, 'ᚪ': 97, 'ᚣ': 103
+}
+
+function getRuneValue(rune) {
+    // if the rune is not in the hashmap, return 0
+    if (!runeToValue.hasOwnProperty(rune)) {
+        return 0;
+    } else {
+        return runeToValue[rune];
+    }
+}
+
+// Rune conversion functions
+const letterToRune = {
+    'ING': 'ᛝ', 'NG': 'ᛝ', 'OE': 'ᛟ', 'EO': 'ᛇ', 'IO': 'ᛡ', 'IA': 'ᛡ', 'EA': 'ᛠ', 'AE': 'ᚫ', 'TH': 'ᚦ', 'F': 'ᚠ',
+    'V': 'ᚢ', 'U': 'ᚢ', 'O': 'ᚩ', 'R': 'ᚱ', 'Q': 'ᚳ', 'K': 'ᚳ', 'C': 'ᚳ', 'G': 'ᚷ', 'W': 'ᚹ', 'H': 'ᚻ', 'N': 'ᚾ',
+    'I': 'ᛁ', 'J': 'ᛄ', 'P': 'ᛈ', 'X': 'ᛉ', 'Z': 'ᛋ', 'S': 'ᛋ', 'T': 'ᛏ', 'B': 'ᛒ', 'E': 'ᛖ', 'M': 'ᛗ', 'L': 'ᛚ',
+    'D': 'ᛞ', 'A': 'ᚪ', 'Y': 'ᚣ', ' ': '•', '.': '⊹',
+}
+
+/**
+ * Converts a letter to a rune.
+ * @param letter
+ * @returns {string}
+ */
+function getRuneFromLetter(letter) {
+    if (!letterToRune.hasOwnProperty(letter)) {
+        return letter;
+    } else {
+        return letterToRune[letter];
+    }
+}
+
+// Rune to letter hashmap
+const runeToLetter = {
+    'ᛝ': 'ING', 'ᛟ': 'OE', 'ᛇ': 'EO', 'ᛡ': 'IO', 'ᛠ': 'EA', 'ᚫ': 'AE', 'ᚦ': 'TH', 'ᚠ': 'F', 'ᚢ': 'U', 'ᚩ': 'O',
+    'ᚱ': 'R', 'ᚳ': 'C', 'ᚷ': 'G', 'ᚹ': 'W', 'ᚻ': 'H', 'ᚾ': 'N', 'ᛁ': 'I', 'ᛄ': 'J', 'ᛈ': 'P', 'ᛉ': 'X', 'ᛋ': 'S',
+    'ᛏ': 'T', 'ᛒ': 'B', 'ᛖ': 'E', 'ᛗ': 'M', 'ᛚ': 'L', 'ᛞ': 'D', 'ᚪ': 'A', 'ᚣ': 'Y', '•': ' ', '⊹': '.',
+}
+
+/**
+ * Converts a rune to a letter.
+ * @param {string} rune - The rune to convert
+ * @return {string} The converted letter
+ */
+function getLetterFromRune(rune) {
+    // if the rune is not in the hashmap, return the character itself
+    if (!runeToLetter.hasOwnProperty(rune)) {
+        return rune;
+    } else {
+        return runeToLetter[rune];
+    }
+}
+
+/**
+ * Checks if a rune is a valid rune.
+ * @param {string} rune - The rune to check
+ * @return {boolean} True if the rune is valid, false otherwise
+ */
+function isRune(rune) {
+    return runeToLetter.hasOwnProperty(rune);
+}
+
+/**
+ * Converts Latin text to a format suitable for rune conversion.
+ * @param {string} text - The input text to convert
+ * @return {string} The converted text
+ */
+function prepLatinToRune(text) {
+    // Convert to uppercase
+    text = text.toUpperCase();
+
+    // Replace specific letter combinations
+    text = text.replaceAll("QU", "CW");
+    text = text.replaceAll("Z", "S");
+    text = text.replaceAll("K", "C");
+    text = text.replaceAll("Q", "C");
+    text = text.replaceAll("V", "U");
+
+    // Process special cases with 'I'
+    let result = "";
+
+    for (let i = 0; i < text.length; i++) {
+        const xchar = text[i];
+
+        if (xchar === 'I') {
+            if (i + 1 < text.length && (text[i + 1] === 'O' || text[i + 1] === 'A')) {
+                result += "IO";
+                i++;  // Skip the next character as we've handled it
+            } else {
+                result += 'I';
+            }
+        } else {
+            result += xchar;
+        }
+    }
+
+    return result;
+}
+
+/**
+* Transposes latin to rune
+* @param {string} text - The input text to convert
+* @return {string} The converted text
+*/
+function transposeLatinToRune(text) {
+    let result = "";
+
+    for (let i = 0; i < text.length; i++) {
+        const xchar = text[i];
+        if (!isRune(xchar)) {
+            switch (xchar) {
+                case 'A':
+                    if (i + 1 < text.length && text[i + 1] === 'E') {
+                        result += getRuneFromLetter("AE");
+                        i++
+                    } else {
+                        result += getRuneFromLetter("A");
+                    }
+                    break;
+                case 'E':
+                    if (i + 1 < text.length && text[i + 1] === 'A') {
+                        result += getRuneFromLetter("EA");
+                        i++
+                    } else if (i + 1 < text.length && text[i + 1] === 'O') {
+                        result += getRuneFromLetter("EO");
+                        i++
+                    } else {
+                        result += getRuneFromLetter("E");
+                    }
+                    break;
+                case 'O':
+                    if (i + 1 < text.length && text[i + 1] === 'E') {
+                        result += getRuneFromLetter("OE");
+                        i++
+                    } else {
+                        result += getRuneFromLetter("O");
+                    }
+                    break;
+                case 'T':
+                    if (i + 1 < text.length && text[i + 1] === 'H') {
+                        result += getRuneFromLetter("TH");
+                        i++
+                    } else {
+                        result += getRuneFromLetter("T");
+                    }
+                    break;
+                case 'I':
+                    if (i + 1 < text.length && text[i + 1] === 'O') {
+                        result += getRuneFromLetter("IO");
+                        i++
+                    } else if (i + 2 < text.length && text[i + 1] === 'N' && text[i + 2] === 'G') {
+                        result += getRuneFromLetter("ING");
+                        i += 2
+                    } else if (i + 1 < text.length && text[i + 1] === 'A') {
+                        result += getRuneFromLetter("IA");
+                        i++
+                    } else {
+                        result += getRuneFromLetter("I");
+                    }
+                    break;
+                case 'N':
+                    if (i + 1 < text.length && text[i + 1] === 'G') {
+                        result += getRuneFromLetter("NG");
+                        i++
+                    } else {
+                        result += getRuneFromLetter("N");
+                    }
+                    break;
+                default:
+                    result += getRuneFromLetter(xchar);
+                    break;
+            }
+        } else {
+            result += xchar;
+        }
+    }
+
+    return result;
+}
+
+/**
+ * Transposes runes to latin text.
+ * @param text
+ * @returns {string}
+ */
+function transposeRuneToLatin(text) {
+    let result = "";
+    for (let i = 0; i < text.length; i++) {
+        const xchar = text[i];
+        if (isRune(xchar)) {
+            result += getLetterFromRune(xchar);
+        } else {
+            result += xchar;
+        }
+    }
+    return result;
+}
+
+/**
+ * Sums all rune values in a string.
+ * @param text
+ * @returns {number}
+ */
+function sumAllRuneValues(text) {
+    let result = 0;
+    for (let i = 0; i < text.length; i++) {
+        const xchar = text[i];
+        if (isRune(xchar)) {
+            result += getRuneValue(xchar);
+        }
+    }
+    return result;
+}
+
+/**
+ * Sums all word values in a string.
+ * @param text
+ */
+function getWordSums(text) {
+    const result = [];
+    const tmpText = text.replaceAll('⊹', '•')
+    const words = tmpText.split('•');
+    for (let i = 0; i < words.length; i++) {
+        const word = words[i];
+        const wordSum = sumAllRuneValues(word);
+
+        if (wordSum > 0) {
+            result.push(wordSum);
+        }
+    }
+
+    return result;
+}
+
+/**
+ * Gets all rune values in a string.
+ * @param text
+ * @returns {number[]}
+ */
+function getRuneValues(text) {
+    const result = [];
+    for (let i = 0; i < text.length; i++) {
+        const xchar = text[i];
+        const runeValue = getRuneValue(xchar);
+        if (runeValue > 0) {
+            result.push(runeValue);
+        }
+    }
+    return result;
+}
+
+/**
+ * Adds copy buttons to all result rows.
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    const copyButtons = document.querySelectorAll('.copy-button');
+
+    copyButtons.forEach(button => {
+        button.addEventListener('click', async function() {
+            const resultContent = this.closest('.result-row').querySelector('.result-content');
+            const textToCopy = resultContent.textContent;
+
+            try {
+                await navigator.clipboard.writeText(textToCopy);
+
+                // Get the snackbar DIV
+                const x = document.getElementById("snackbar");
+
+                // Add the "show" class to DIV
+                x.className = "show";
+
+                // After 3 seconds, remove the show class from DIV
+                setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+
+            } catch (err) {
+                console.error('Failed to copy text:', err);
+                button.style.color = '#f44336'; // Error red
+            }
+        });
+    });
+});
