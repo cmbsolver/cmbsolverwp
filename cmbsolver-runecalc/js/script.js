@@ -18,10 +18,10 @@ jQuery(document).ready(function($) {
     // Add special buttons generation code
     const specialButtons = [
         { text: 'Clear', onclick: 'clearAll()' },
-        { text: '• (SPACE)' },
+        { text: '•' },
         { text: '\'' },
         { text: '"' },
-        { text: '⊹ (PERIOD)' }
+        { text: '⊹' }
     ];
 
     // Generate special buttons
