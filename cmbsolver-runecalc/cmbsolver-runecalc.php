@@ -1,4 +1,3 @@
-
 <?php
 /*
 Plugin Name: CMB Solver Rune Calculator
@@ -92,25 +91,10 @@ function cmbsolver_runecalc_shortcode() {
         </div>
 
         <!-- Special Characters Row -->
-        <div class="special-buttons">
-            <button class="button" onclick="clearAll()">Clear</button>
-            <button class="button">• (SPACE)</button>
-            <button class="button">'</button>
-            <button class="button">"</button>
-            <button class="button">⊹ (PERIOD)</button>
-        </div>
+        <div class="special-buttons"></div>
 
         <!-- Rune Buttons -->
-        <div class="rune-buttons">
-            <?php
-            $runes = array('ᚪ/A', 'ᚫ/AE', 'ᛒ/B','ᚳ/C', 'ᛞ/D', 'ᛖ/E', 'ᛠ/EA', 'ᛇ/EO', 'ᚠ/F', 'ᚷ/G', 'ᚻ/H',
-                'ᛁ/I', 'ᛡ/IO', 'ᛝ/ING', 'ᛄ/J', 'ᛚ/L', 'ᛗ/M', 'ᚾ/N', 'ᚩ/O', 'ᛟ/OE', 'ᛈ/P', 'ᚱ/R', 'ᛋ/S', 'ᛏ/T','ᚦ/TH',
-                'ᚢ/U', 'ᚹ/W', 'ᛉ/X', 'ᚣ/Y');
-            foreach ($runes as $rune) {
-                echo '<button class="button rune-button">' . $rune . '</button>';
-            }
-            ?>
-        </div>
+        <div class="rune-buttons"></div>
     </div>
     <div id="snackbar">Copied text</div>
     <?php

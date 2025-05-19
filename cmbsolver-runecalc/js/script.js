@@ -1,4 +1,44 @@
 jQuery(document).ready(function($) {
+    // Add rune button generation code
+    const runes = [
+        'ᚪ/A', 'ᚫ/AE', 'ᛒ/B', 'ᚳ/C', 'ᛞ/D', 'ᛖ/E', 'ᛠ/EA', 'ᛇ/EO', 'ᚠ/F',
+        'ᚷ/G', 'ᚻ/H', 'ᛁ/I', 'ᛡ/IO', 'ᛝ/ING', 'ᛄ/J', 'ᛚ/L', 'ᛗ/M', 'ᚾ/N',
+        'ᚩ/O', 'ᛟ/OE', 'ᛈ/P', 'ᚱ/R', 'ᛋ/S', 'ᛏ/T', 'ᚦ/TH', 'ᚢ/U', 'ᚹ/W',
+        'ᛉ/X', 'ᚣ/Y'
+    ];
+
+    const runeButtonsContainer = $('.rune-buttons');
+    runes.forEach(rune => {
+        $('<button>', {
+            class: 'button rune-button',
+            text: rune
+        }).appendTo(runeButtonsContainer);
+    });
+
+    // Add special buttons generation code
+    const specialButtons = [
+        { text: 'Clear', onclick: 'clearAll()' },
+        { text: '• (SPACE)' },
+        { text: '\'' },
+        { text: '"' },
+        { text: '⊹ (PERIOD)' }
+    ];
+
+    // Generate special buttons
+    const specialButtonsContainer = $('.special-buttons');
+    specialButtons.forEach(button => {
+        const $button = $('<button>', {
+            class: 'button',
+            text: button.text
+        });
+
+        if (button.onclick) {
+            $button.attr('onclick', button.onclick);
+        }
+
+        specialButtonsContainer.append($button);
+    });
+
     // Handle rune button clicks
     $('.rune-button').click(function() {
         const rune = $(this).text();
