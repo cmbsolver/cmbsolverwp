@@ -1,0 +1,70 @@
+.isitprime-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.input-area {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.number-input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 150px;
+    font-size: 16px;
+}
+
+.button {
+    padding: 8px 16px;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.results-area {
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #fff;
+}
+
+.result-message {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.result-detail {
+    margin-top: 10px;
+    color: #fff;
+}
+
+.is-prime {
+    color: #2e7d32;
+}
+
+.not-prime {
+    color: #c62828;
+}
+
+.is-emirp {
+    font-weight: bold;
+}
+
+#prime-result, #emirp-result {
+    margin: 8px 0;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+#prime-result:before, #emirp-result:before {
+    font-weight: bold;
+    margin-right: 8px;
+}
