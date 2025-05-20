@@ -1,0 +1,102 @@
+/**
+ * LP Viewer CSS Styles
+ */
+
+.lpviewer-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.lpviewer-controls {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.lpviewer-page-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    min-width: 120px;
+}
+
+#lpviewer-load-button {
+    padding: 8px 16px;
+    color: white;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Tab Navigation */
+.lpviewer-tab-navigation {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 0;
+}
+
+.lpviewer-tab-button {
+    padding: 10px 20px;
+    border: 1px solid #fff;
+    border-bottom: none;
+    margin-right: 5px;
+    border-radius: 5px 5px 0 0;
+    cursor: pointer;
+    color: #fff;
+}
+
+.lpviewer-tab-button.active {
+    background-color: #d43a3a;
+    border-bottom: 1px solid #fff;
+    margin-bottom: -1px;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Tab Content */
+.lpviewer-tab-content {
+    border: 1px solid #ccc;
+    border-top: none;
+    padding: 20px;
+    min-height: 400px;
+}
+
+.lpviewer-tab-pane {
+    display: none;
+}
+
+.lpviewer-tab-pane.active {
+    display: block;
+}
+
+/* Image container */
+.lpviewer-image-container {
+    text-align: center;
+}
+
+#lpviewer-image {
+    max-width: 100%;
+    height: auto;
+    max-height: 600px;
+}
+
+/* Text content */
+.lpviewer-text-content {
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    white-space: pre-wrap;
+    font-family: monospace;
+    line-height: 1.5;
+}
+
+/* Loading indicator */
+.lpviewer-loading {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+}

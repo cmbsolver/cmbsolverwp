@@ -74,26 +74,4 @@ function cmbsolver_isitprime_shortcode() {
     return ob_get_clean();
 }
 add_shortcode('isitprime', 'cmbsolver_isitprime_shortcode');
-
-// Ajax handler to process prime check
-function cmbsolver_isitprime_ajax_handler() {
-    // Check nonce for security
-    check_ajax_referer('isitprime_nonce', 'nonce');
-
-    $number = isset($_POST['number']) ? intval($_POST['number']) : 0;
-
-    $isPrime = is_prime($number);
-    $isEmirp = is_emirp($number);
-
-    $response = array(
-        'number' => $number,
-        'isPrime' => $isPrime,
-        'isEmirp' => $isEmirp
-    );
-
-    wp_send_json($response);
-    wp_die();
-}
-add_action('wp_ajax_isitprime_check', 'cmbsolver_isitprime_ajax_handler');
-add_action('wp_ajax_nopriv_isitprime_check', 'cmbsolver_isitprime_ajax_handler');
 ?>
