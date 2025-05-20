@@ -1,4 +1,18 @@
 jQuery(document).ready(function($) {
+    // Tab switching functionality
+    $('.tab-button').on('click', function() {
+        // Remove the active class from all tabs
+        $('.tab-button').removeClass('active');
+        $('.tab-pane').removeClass('active');
+
+        // Add active class to clicked tab
+        $(this).addClass('active');
+
+        // Show corresponding tab content
+        const tabId = $(this).data('tab');
+        $('#' + tabId).addClass('active');
+    });
+
     // Add rune button generation code
     const runes = [
         'ᚪ/A', 'ᚫ/AE', 'ᛒ/B', 'ᚳ/C', 'ᛞ/D', 'ᛖ/E', 'ᛠ/EA', 'ᛇ/EO', 'ᚠ/F',
@@ -67,7 +81,9 @@ jQuery(document).ready(function($) {
         $('#runeglish-result').text(runeglishText);
         updateGematriaDisplay(gemSum);
         $('#wordsums-result').text(wordSumsText);
+        $('#wordcount-result').text(getWordCount(runeText));
         $('#runevalues-result').text(runeValuesText);
+        updateGPView(runeglishText);
         updateIocTexts();
     });
 
@@ -116,8 +132,10 @@ jQuery(document).ready(function($) {
         $('#runes-result').text(runeText);
         $('#runeglish-result').text(runeglishText);
         updateGematriaDisplay(gemSum);
+        $('#wordcount-result').text(getWordCount(runeText));
         $('#wordsums-result').text(wordSumsText);
         $('#runevalues-result').text(runeValuesText);
+        updateGPView(runeglishText);
         updateIocTexts();
     });
 });
@@ -125,6 +143,7 @@ jQuery(document).ready(function($) {
 function clearAll() {
     jQuery('#input-area').val('');
     jQuery('.result-content').text('');
+    updateGPView('');
 }
 
 const runeToValue = {
@@ -134,6 +153,11 @@ const runeToValue = {
     'ᛗ': 71, 'ᛚ': 73, 'ᛞ': 89, 'ᚪ': 97, 'ᚣ': 103
 }
 
+/**
+ * Gets the value of a rune.
+ * @param {string} rune - The rune to get the value of
+ * @return {number} The value of the rune
+ */
 function getRuneValue(rune) {
     // if the rune is not in the hashmap, return 0
     if (!runeToValue.hasOwnProperty(rune)) {
@@ -367,6 +391,24 @@ function getWordSums(text) {
 }
 
 /**
+ * Gets the word count in a string.
+ * @param text
+ */
+function getWordCount(text) {
+    let result = 0;
+    const tmpText = text.replaceAll('⊹', '•')
+    const words = tmpText.split('•');
+    for (let i = 0; i < words.length; i++) {
+        const word = words[i];
+        if (word.length > 0) {
+            result++;
+        }
+    }
+
+    return result;
+}
+
+/**
  * Gets all rune values in a string.
  * @param text
  * @returns {number[]}
@@ -439,6 +481,101 @@ function isEmirp(num) {
 }
 
 /**
+ * Calculate word value
+ * @param word
+ * @returns {number}
+ */
+function calculateWordValue(word) {
+    let sum = 0;
+    for (let i = 0; i < word.length; i++) {
+        const runeValue = getRuneValue(word[i]);
+        sum += runeValue;
+    }
+    return sum;
+}
+
+/**
+ * Function to update the GP View
+ */
+function updateGPView(inputText) {
+    const gpContainer = document.getElementById('gp-visualization');
+    // Clear the container
+    gpContainer.innerHTML = '';
+
+    if (!inputText.trim()) return;
+
+    // Split into lines by newline ⊹, or . character
+    const lines = inputText.split(/[\n\.\⊹\␍\␗\␊]/);
+
+    lines.forEach(line => {
+        if (!line.trim()) return; // Skip empty lines
+
+        // Create a line container
+        const lineDiv = document.createElement('div');
+        lineDiv.className = 'gp-line';
+
+        // Split the line into words
+        const words = line.trim().split(/[\s•]+/);
+
+        let lineSum = 0;
+
+        // Process each word
+        words.forEach(word => {
+            if (!word.trim()) return; // Skip empty words
+
+            // Calculate word value
+            const runeValue = transposeLatinToRune(word);
+            const wordValue = calculateWordValue(runeValue);
+            lineSum += wordValue;
+
+            // Determine color coding
+            let boxClass = 'gp-word-nonprime';
+            if (isEmirp(wordValue)) {
+                boxClass = 'gp-word-emirp';
+            } else if (isPrime(wordValue)) {
+                boxClass = 'gp-word-prime';
+            }
+
+            // Create the word box
+            const wordBox = document.createElement('div');
+            wordBox.className = `gp-word-box ${boxClass}`;
+            wordBox.title = `Value: ${wordValue}`;
+
+            // Create and append text element
+            const wordText = document.createElement('div');
+            wordText.className = 'gp-word-text';
+            wordText.textContent = word + ' (' + runeValue + ')';
+            wordBox.appendChild(wordText);
+
+            // Create and append value element
+            const wordValueElement = document.createElement('div');
+            wordValueElement.className = 'gp-word-value';
+            wordValueElement.textContent = wordValue;
+            wordBox.appendChild(wordValueElement);
+
+            lineDiv.appendChild(wordBox);
+        });
+
+        // Add the line sum at the end
+        const lineSumElement = document.createElement('div');
+        lineSumElement.className = 'gp-line-sum-nonprime';
+
+        if (isPrime(lineSum)) {
+            lineSumElement.className = 'gp-line-sum-prime';
+        }
+
+        if (isEmirp(lineSum)) {
+            lineSumElement.className = 'gp-line-sum-emirp';
+        }
+
+        lineSumElement.textContent = `Line Sum: ${lineSum}`;
+        lineDiv.appendChild(lineSumElement);
+
+        gpContainer.appendChild(lineDiv);
+    });
+}
+
+/**
  * updated the gematria sum display
  * @param sum
  */
@@ -457,7 +594,9 @@ function updateGematriaDisplay(sum) {
     gematriaDiv.innerHTML = displayText;
 }
 
-// This is the IOC stuff.
+/**
+ * Updates the gematria sum for the given text.
+ */
 function updateIocTexts() {
     const resultDiv = document.getElementById('runes-result');
     const resultIoC = calcIOC(resultDiv.textContent, AlphabetType.Rune);

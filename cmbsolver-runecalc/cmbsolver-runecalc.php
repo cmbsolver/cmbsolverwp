@@ -36,65 +36,100 @@ function cmbsolver_runecalc_shortcode() {
             <button id="load-button" class="button">Load</button>
         </div>
 
-        <!-- Results Area -->
-        <div class="results-area">
-            <div class="result-row">
-                <button class="copy-button" aria-label="Copy to clipboard">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                </button>
-                <div class="result-label">Runes:</div>
-                <div id="runes-result" class="result-content"></div>
-            </div>
-            <div class="result-row">
-                <button class="copy-button" aria-label="Copy to clipboard">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                </button>
-                <div class="result-label">Runeglish:</div>
-                <div id="runeglish-result" class="result-content"></div>
-            </div>
-            <div class="result-row">
-                <button class="copy-button" aria-label="Copy to clipboard">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                </button>
-                <div class="result-label">Gematria Sum:</div>
-                <div id="gematria-result" class="result-content"></div>
-            </div>
-            <div class="result-row">
-                <button class="copy-button" aria-label="Copy to clipboard">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                </button>
-                <div class="result-label">Word Sums:</div>
-                <div id="wordsums-result" class="result-content"></div>
-            </div>
-            <div class="result-row">
-                <button class="copy-button" aria-label="Copy to clipboard">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                </button>
-                <div class="result-label">Rune Values:</div>
-                <div id="runevalues-result" class="result-content"></div>
-            </div>
-        </div>
-
         <!-- Special Characters Row -->
         <div class="special-buttons"></div>
 
         <!-- Rune Buttons -->
         <div class="rune-buttons"></div>
+
+        <!-- Tabs Navigation -->
+        <div class="tabs-navigation">
+            <button class="tab-button active" data-tab="information-tab">Information View</button>
+            <button class="tab-button" data-tab="gp-view-tab">Line View</button>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Information Tab (First Tab) -->
+            <div id="information-tab" class="tab-pane active">
+                <!-- Results Area -->
+                <div class="results-area">
+                    <div class="result-row">
+                        <button class="copy-button" aria-label="Copy to clipboard">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                        <div class="result-label">Runes:</div>
+                        <div id="runes-result" class="result-content"></div>
+                    </div>
+                    <div class="result-row">
+                        <button class="copy-button" aria-label="Copy to clipboard">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                        <div class="result-label">Runeglish:</div>
+                        <div id="runeglish-result" class="result-content"></div>
+                    </div>
+                    <div class="result-row">
+                        <button class="copy-button" aria-label="Copy to clipboard">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                        <div class="result-label">Gematria Sum:</div>
+                        <div id="gematria-result" class="result-content"></div>
+                    </div>
+                    <div class="result-row">
+                        <button class="copy-button" aria-label="Copy to clipboard">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                        <div class="result-label">Word Count:</div>
+                        <div id="wordcount-result" class="result-content"></div>
+                    </div>
+                    <div class="result-row">
+                        <button class="copy-button" aria-label="Copy to clipboard">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                        <div class="result-label">Word Sums:</div>
+                        <div id="wordsums-result" class="result-content"></div>
+                    </div>
+                    <div class="result-row">
+                        <button class="copy-button" aria-label="Copy to clipboard">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                        <div class="result-label">Rune Values:</div>
+                        <div id="runevalues-result" class="result-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GP View Tab (Second Tab) -->
+            <div id="gp-view-tab" class="tab-pane">
+                <div class="gp-view-content">
+                    <div id="gp-visualization" class="gp-lines-container"></div>
+                    <div>
+                        <b>Legend:</b>
+                        <div class="gp-line-sum-nonprime">Non-Prime</div>
+                        <div class="gp-line-sum-prime">Prime</div>
+                        <div class="gp-line-sum-emirp">Emirp</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div id="snackbar">Copied text</div>
     <?php

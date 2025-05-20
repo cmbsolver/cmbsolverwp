@@ -1,5 +1,6 @@
 
 #runecalc-container {
+    background-color: #373737;
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
@@ -179,4 +180,122 @@
     display: inline-block;
     font-size: 12px;
     color: #d43a3a;
+}
+
+/* Tab Navigation */
+.tabs-navigation {
+    display: flex;
+    margin: 20px 0 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    cursor: pointer;
+    margin-right: 5px;
+    border-radius: 5px 5px 0 0;
+}
+
+.tab-button.active {
+    background-color: #d43a3a;
+    border-bottom: 1px solid #fff;
+    margin-bottom: -1px;
+}
+
+/* Tab Content */
+.tab-content {
+    border: 1px solid #ccc;
+    border-top: none;
+    padding: 15px;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* GP View specific styles */
+.gp-view-content {
+    min-height: 300px;
+}
+
+/* GP View specific styles */
+.gp-lines-container {
+    width: 100%;
+}
+
+.gp-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.gp-word-box {
+    padding: 8px 12px;
+    margin: 0 8px 8px 0;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gp-word-value {
+    font-size: 12px;
+    margin-top: 4px;
+    font-weight: bold;
+}
+
+.gp-word-text {
+    word-break: break-word;
+}
+
+/* Word box color coding */
+.gp-word-nonprime {
+    color: #000;
+    background-color: #8a8a8a;
+}
+
+.gp-word-prime {
+    color: #000;
+    background-color: #73ff7a; /* Green */
+}
+
+.gp-word-emirp {
+    color: #000;
+    background-color: #ff995a; /* Orange */
+}
+
+.gp-line-sum-nonprime {
+    color: #000;
+    margin-left: auto;
+    font-weight: bold;
+    padding: 8px 15px;
+    background-color: #8a8a8a;
+    border-radius: 4px;
+}
+
+.gp-line-sum-prime {
+    color: #000;
+    margin-left: auto;
+    font-weight: bold;
+    padding: 8px 15px;
+    background-color: #73ff7a;
+    border-radius: 4px;
+}
+
+.gp-line-sum-emirp {
+    color: #000;
+    margin-left: auto;
+    font-weight: bold;
+    padding: 8px 15px;
+    background-color: #ff995a;
+    border-radius: 4px;
 }
