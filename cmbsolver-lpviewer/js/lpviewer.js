@@ -69,6 +69,10 @@ jQuery(document).ready(function($) {
         loadPageContent();
     });
 
+    $('#lpviewer-sload-button').on('click', function() {
+        loadSectionContent();
+    });
+
     // Initial content load
     loadPageContent();
 
@@ -78,16 +82,23 @@ jQuery(document).ready(function($) {
     function loadPageContent() {
         const pageNumber = $('#lpviewer-page-select').val();
 
-        // Clear existing content and show loading indicators
-        $('#lpviewer-image').attr('src', '');
-        $('.lpviewer-text-content').html('<div class="lpviewer-loading">Loading content...</div>');
+        // Clear the image container
+        $('#lpviewer-image-container').empty();
 
         // Load image content
         const imageUrl = `${lpviewer_vars.plugin_url}files/images/${pageNumber}.jpg`;
-        $('#lpviewer-image').attr('src', imageUrl)
-            .on('error', function() {
-                $(this).attr('src', `${lpviewer_vars.plugin_url}files/images/${pageNumber}.jpg`);
-            });
+        console.log(imageUrl);
+
+        // Create the image element
+        const img = $('<img>', {
+            id: 'lpviewer-image',
+            class: 'lpviewer-image',
+            src: imageUrl,
+            alt: `Page ${pageNumber}`
+        });
+
+        // Append the image to the container
+        $('#lpviewer-image-container').append(img);
 
         // Load text with line breaks
         $.ajax({
@@ -104,6 +115,66 @@ jQuery(document).ready(function($) {
         // Load text without line breaks
         $.ajax({
             url: `${lpviewer_vars.plugin_url}files/text/nlb/${pageNumber}.txt`,
+            dataType: 'text',
+            success: function(data) {
+                $('#lpviewer-text-nlb').text(data);
+
+                const runeglish = transposeRuneToLatin(data);
+                $('#lpviewer-runeglish').text(runeglish);
+            },
+            error: function() {
+                $('#lpviewer-text-nlb').html('<p class="lpviewer-error">Error loading text content. The file may not exist.</p>');
+            }
+        });
+    }
+
+    /**
+     * Load page content based on the selected page
+     */
+    function loadSectionContent() {
+        const pageNumber = $('#lpviewer-section-select').val();
+
+        // Clear the image container
+        $('#lpviewer-image-container').empty();
+
+
+        // Now we are going to split pageNumber on the -
+        const splitPageNumber = pageNumber.split('-');
+        for (let i = splitPageNumber[0]; i <= splitPageNumber[1]; i++) {
+            const imageUrl = `${lpviewer_vars.plugin_url}files/images/${i}.jpg`;
+            console.log(imageUrl);
+
+            const breaker = $('<br />');
+            $('#lpviewer-image-container').append(breaker);
+            $('#lpviewer-image-container').append(breaker);
+
+            // Create the image element
+            const img = $('<img>', {
+                id: `lpviewer-image-${i}`,
+                class: 'lpviewer-image',
+                src: imageUrl,
+                alt: `Page ${i}`
+            });
+
+            // Append the image to the container
+            $('#lpviewer-image-container').append(img);
+        }
+
+        // Load text with line breaks
+        $.ajax({
+            url: `${lpviewer_vars.plugin_url}files/text/sections/${pageNumber}.txt`,
+            dataType: 'text',
+            success: function(data) {
+                $('#lpviewer-text-lb').text(data);
+            },
+            error: function() {
+                $('#lpviewer-text-lb').html('<p class="lpviewer-error">Error loading text content. The file may not exist.</p>');
+            }
+        });
+
+        // Load text without line breaks
+        $.ajax({
+            url: `${lpviewer_vars.plugin_url}files/text/sections/${pageNumber}.txt`,
             dataType: 'text',
             success: function(data) {
                 $('#lpviewer-text-nlb').text(data);
