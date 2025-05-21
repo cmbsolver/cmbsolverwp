@@ -87,7 +87,6 @@ jQuery(document).ready(function($) {
 
         // Load image content
         const imageUrl = `${lpviewer_vars.plugin_url}files/images/${pageNumber}.jpg`;
-        console.log(imageUrl);
 
         // Create the image element
         const img = $('<img>', {
@@ -140,9 +139,11 @@ jQuery(document).ready(function($) {
 
         // Now we are going to split pageNumber on the -
         const splitPageNumber = pageNumber.split('-');
+        // make sure the start and end split page number are integers.
+        splitPageNumber[0] = parseInt(splitPageNumber[0]);
+        splitPageNumber[1] = parseInt(splitPageNumber[1]);
         for (let i = splitPageNumber[0]; i <= splitPageNumber[1]; i++) {
             const imageUrl = `${lpviewer_vars.plugin_url}files/images/${i}.jpg`;
-            console.log(imageUrl);
 
             const breaker = $('<br />');
             $('#lpviewer-image-container').append(breaker);
