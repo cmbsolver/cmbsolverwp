@@ -59,11 +59,11 @@ function cmbslpv_shortcode($atts) {
                 </div>
 
                 <div id="text-lb-tab" class="lpviewer-tab-pane">
-                    <div id="lpviewer-text-lb" class="lpviewer-text-content"></div>
+                    <div id="lpviewer-text-lb" class="lpviewer-rune-content"></div>
                 </div>
 
                 <div id="text-nlb-tab" class="lpviewer-tab-pane">
-                    <div id="lpviewer-text-nlb" class="lpviewer-text-content"></div>
+                    <div id="lpviewer-text-nlb" class="lpviewer-rune-content"></div>
                 </div>
 
                 <div id="runeglish-tab" class="lpviewer-tab-pane">
