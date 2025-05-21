@@ -25,20 +25,21 @@ function cmbslpv_shortcode($atts) {
                 <?php echo $options; ?>
             </select>
             <button id="lpviewer-load-button" class="button">Load</button>
-            &nbsp;&nbsp;OR&nbsp;&nbsp;
+        </div>
+        <div class="lpviewer-controls">
             <label for="lpviewer-page-select">Select Section: </label>
             <select id="lpviewer-section-select" class="lpviewer-page-select">
-                <option value="0-2">Section 0-2 Sign Post Cross</option>
-                <option value="3-7">Section 3-7 Spirals</option>
-                <option value="8-14">Section 8-14 Branches</option>
-                <option value="15-22">Section 15-22 Mobius</option>
-                <option value="23-26">Section 23-26 Mayfly</option>
-                <option value="27-32">Section 27-32 Wing Tree</option>
-                <option value="33-39">Section 33-39 Cuneiform</option>
-                <option value="40-53">Section 40-53 Spiral Branches</option>
-                <option value="54-55">Section 54-55 More Spiral Branches</option>
-                <option value="56-56">Section 56 An End</option>
-                <option value="57-57">Section 57 Parable</option>
+                <option value="0-2">Section 0-2</option>
+                <option value="3-7">Section 3-7</option>
+                <option value="8-14">Section 8-14</option>
+                <option value="15-22">Section 15-22</option>
+                <option value="23-26">Section 23-26</option>
+                <option value="27-32">Section 27-32</option>
+                <option value="33-39">Section 33-39</option>
+                <option value="40-53">Section 40-53</option>
+                <option value="54-55">Section 54-55</option>
+                <option value="56-56">Section 56</option>
+                <option value="57-57">Section 57</option>
             </select>
             <button id="lpviewer-sload-button" class="button">Load</button>
         </div>
