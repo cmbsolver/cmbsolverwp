@@ -1,0 +1,29 @@
+# Add proper MIME type for WebAssembly files
+<IfModule mod_mime.c>
+  AddType application/wasm .wasm
+</IfModule>
+
+# If the MIME module isn't available, try this approach
+<IfModule !mod_mime.c>
+  <Files *.wasm>
+    ForceType application/wasm
+  </Files>
+</IfModule>
+
+# Ensure no compression is applied to WASM files which can cause issues
+<IfModule mod_deflate.c>
+  SetEnvIfNoCase Request_URI \.wasm$ no-gzip dont-vary
+</IfModule>
+
+# Ensure proper caching headers for WASM files
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType application/wasm "access plus 1 year"
+</IfModule>
+
+# Allow CORS for WASM files if needed
+<IfModule mod_headers.c>
+  <FilesMatch "\.wasm$">
+    Header set Access-Control-Allow-Origin "*"
+  </FilesMatch>
+</IfModule>

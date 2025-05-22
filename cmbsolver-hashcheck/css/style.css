@@ -1,0 +1,119 @@
+.hashcheck-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.wide-input {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.hash-controls-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#hash-mode {
+    flex: 1;
+    max-width: 300px;
+    border-radius: 8px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+}
+
+.hash-results-area {
+    margin-top: 30px;
+}
+
+.hash-results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.hash-results-table th,
+.hash-results-table td {
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.hash-results-table th {
+    background-color: #d43a3a;
+    color: #000;
+    font-weight: bold;
+}
+
+.hash-value {
+    font-family: monospace;
+    word-break: break-all;
+}
+
+.button {
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: all 0.2s ease;
+}
+
+.text-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #4CAF50;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+}
+
+#snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+.hash-match {
+    text-align: center;
+    font-weight: bold;
+}
+
+.match-success {
+    color: #28a745;
+}
+
+.match-fail {
+    color: #dc3545;
+}
