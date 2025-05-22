@@ -12,7 +12,6 @@
         const $hashMode = $('#hash-mode');
         const $checkButton = $('#check-hash-button');
         const $resultsContainer = $('#hash-results-list');
-        const $snackbar = $('#snackbar');
 
         // Initialize with default mode
         HashingBox.setMode($hashMode.val());
