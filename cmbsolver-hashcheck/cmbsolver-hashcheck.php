@@ -126,6 +126,10 @@ function cmbsolver_hashcheck_shortcode() {
                 <option value="most" selected>Most Algorithms</option>
                 <option value="all">All Algorithms</option>
             </select>
+            <div class="multiline-option">
+                <input type="checkbox" id="multiline-check" name="multiline-check">
+                <label for="multiline-check">Multiline</label>
+            </div>
             <button id="check-hash-button" class="button">Check Hash</button>
         </div>
 

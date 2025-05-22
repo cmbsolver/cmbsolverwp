@@ -11,10 +11,36 @@
 
 .hash-controls-row {
     display: flex;
+    align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
+.multiline-option {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.multiline-option label {
+    margin-left: 5px;
+}
+
+.multiline-hash-results {
+    margin-top: 15px;
+}
+
+.line-hash-results {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+h4 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
 #hash-mode {
     flex: 1;
     max-width: 300px;
