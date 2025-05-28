@@ -62,7 +62,7 @@ function cmbsolver_runecalc_shortcode() {
                             </svg>
                         </button>
                         <div class="result-label">Runes:</div>
-                        <div id="runes-result" class="result-content"></div>
+                        <div id="runes-result" class="rune-result-content"></div>
                     </div>
                     <div class="result-row">
                         <button class="copy-button" aria-label="Copy to clipboard">
@@ -72,7 +72,7 @@ function cmbsolver_runecalc_shortcode() {
                             </svg>
                         </button>
                         <div class="result-label">Runeglish:</div>
-                        <div id="runeglish-result" class="result-content"></div>
+                        <div id="runeglish-result" class="rune-result-content"></div>
                     </div>
                     <div class="result-row">
                         <button class="copy-button" aria-label="Copy to clipboard">

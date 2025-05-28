@@ -1,0 +1,109 @@
+.genseq-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.genseq-container h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.genseq-input-area {
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.genseq-input-group {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.genseq-input-group label {
+    width: 150px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.genseq-number-input {
+    width: 80px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.genseq-sequence-select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 300px;
+}
+
+.genseq-additional-options {
+    margin-left: 20px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.genseq-button {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.genseq-results-area {
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    min-height: 100px;
+}
+
+.genseq-sequence-description {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.genseq-sequence-result {
+    overflow-x: auto;
+}
+
+.genseq-sequence-numbers {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.genseq-sequence-number {
+    display: inline-block;
+    margin: 5px;
+    padding: 8px 12px;
+    border: 1px solid #b3e0ff;
+    border-radius: 4px;
+}
+
+.genseq-definitions-box {
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.genseq-definitions-box h4 {
+    margin-top: 0;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.genseq-definitions-box p {
+    margin: 10px 0;
+}
+
+.genseq-error {
+    color: #d9534f;
+    font-weight: bold;
+}
