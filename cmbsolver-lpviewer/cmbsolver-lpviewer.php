@@ -29,7 +29,7 @@ function cmbslpv_enqueue_scripts() {
     );
 
     wp_enqueue_script(
-        'cmbslpv-script',
+        'cmbslpv-js',
         CMBSLPV_PLUGIN_URL . 'js/lpviewer.js',
         array('jquery'),
         CMBSLPV_VERSION,
@@ -51,7 +51,7 @@ add_action('init', 'cmbslpv_register_shortcode');
  * Pass variables to JavaScript
  */
 function cmbslpv_localize_script() {
-    wp_localize_script('cmbslpv-script', 'lpviewer_vars', array(
+    wp_localize_script('cmbslpv-js', 'lpviewer_vars', array(
         'ajax_url' => admin_url('admin-ajax.php'),
         'plugin_url' => CMBSLPV_PLUGIN_URL,
     ));

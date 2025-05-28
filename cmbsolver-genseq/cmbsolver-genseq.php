@@ -1,4 +1,3 @@
-
 <?php
 /*
 Plugin Name: CMB Solver Sequence Generator
@@ -15,7 +14,7 @@ if (!defined('ABSPATH')) {
 // Enqueue necessary scripts and styles
 function cmbsolver_genseq_scripts() {
     wp_enqueue_style('cmbsolver-genseq-style', plugins_url('css/style.css', __FILE__));
-    wp_enqueue_script('cmbsolver-genseq-script', plugins_url('js/script.js', __FILE__), array('jquery'), '1.0', true);
+    wp_enqueue_script('cmbsolver-genseq-js', plugins_url('js/script.js', __FILE__), array('jquery'), '1.0', true);
 }
 add_action('wp_enqueue_scripts', 'cmbsolver_genseq_scripts');
 
@@ -76,6 +75,9 @@ function cmbsolver_genseq_shortcode() {
         <!-- Results Area -->
         <div class="genseq-results-area">
             <div id="sequence-description" class="genseq-sequence-description"></div>
+            <div class="genseq-sequence-actions">
+                <button id="copy-sequence-button" class="genseq-button" style="display: none;">Copy Sequence</button>
+            </div>
             <div id="sequence-result" class="genseq-sequence-result"></div>
         </div>
 

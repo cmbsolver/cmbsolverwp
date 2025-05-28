@@ -2,7 +2,7 @@
     $(document).ready(function() {
         // Check if HashingBox is defined
         if (typeof HashingBox === 'undefined') {
-            console.error('HashingBox is not defined. Make sure hashbox.js is loaded before this script.');
+            console.error('HashingBox is not defined. Make sure hashbox.js is loaded before this js.');
             $('#hash-results-list').html('<div class="error">Error: Hash functionality is not available.</div>');
             return;
         }

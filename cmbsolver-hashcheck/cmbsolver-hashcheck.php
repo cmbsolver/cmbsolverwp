@@ -80,7 +80,7 @@ function cmbsolver_hashcheck_scripts() {
     wp_register_script('cmbsolver-whirlpool-wasm', plugins_url('js/whirlpool-wasm.js', __FILE__), array('jquery', 'cmbsolver-wasm-loader-fix'), '1.0', true);
     wp_enqueue_script('cmbsolver-whirlpool-wasm');
 
-    // Register hashbox script with all hash libraries as dependencies
+    // Register hashbox js with all hash libraries as dependencies
     $hash_deps = array(
         'jquery',
         'cmbsolver-blake-wrapped',
@@ -101,11 +101,11 @@ function cmbsolver_hashcheck_scripts() {
     wp_register_script('cmbsolver-hashbox', plugins_url('js/hashbox.js', __FILE__), $hash_deps, '1.0', true);
     wp_enqueue_script('cmbsolver-hashbox');
 
-    // Register main script with proper dependencies
-    wp_register_script('cmbsolver-hashcheck-script', plugins_url('js/script.js', __FILE__), array('jquery', 'cmbsolver-hashbox'), '1.0', true);
-    wp_enqueue_script('cmbsolver-hashcheck-script');
+    // Register main js with proper dependencies
+    wp_register_script('cmbsolver-hashcheck-js', plugins_url('js/js.js', __FILE__), array('jquery', 'cmbsolver-hashbox'), '1.0', true);
+    wp_enqueue_script('cmbsolver-hashcheck-js');
 
-    // Add inline script to make HashingBox available globally
+    // Add inline js to make HashingBox available globally
     wp_add_inline_script('cmbsolver-hashbox', 'window.HashingBox = HashingBox;', 'after');
 }
 add_action('wp_enqueue_scripts', 'cmbsolver_hashcheck_scripts');

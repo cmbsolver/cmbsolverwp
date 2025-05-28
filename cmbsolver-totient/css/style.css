@@ -1,0 +1,54 @@
+.totient-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.totient-input-area {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.totient-number-input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 150px;
+}
+
+.totient-button {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.totient-results-area {
+    margin-top: 20px;
+}
+
+.totient-result-message {
+    font-size: 18px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.totient-result-detail {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.totient-definitions-box {
+    margin-top: 20px;
+    padding: 15px;
+    border-left: 4px solid #4CAF50;
+    border-radius: 4px;
+}

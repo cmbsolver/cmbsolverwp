@@ -30,7 +30,7 @@
 }
 
 .genseq-number-input {
-    width: 80px;
+    width: 300px;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -106,4 +106,28 @@
 .genseq-error {
     color: #d9534f;
     font-weight: bold;
+}
+
+/* Add this to your existing CSS file */
+.genseq-sequence-actions {
+    margin: 10px 0;
+}
+
+#copy-sequence-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+#copy-sequence-button:hover {
+    background-color: #45a049;
 }

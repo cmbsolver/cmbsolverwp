@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 // Enqueue necessary scripts and styles
 function cmbsolver_runecalc_scripts() {
     wp_enqueue_style('cmbsolver-runecalc-style', plugins_url('css/style.css', __FILE__));
-    wp_enqueue_script('cmbsolver-runecalc-script', plugins_url('js/script.js', __FILE__), array('jquery'), '1.0', true);
+    wp_enqueue_script('cmbsolver-runecalc-js', plugins_url('js/js.js', __FILE__), array('jquery'), '1.0', true);
 }
 add_action('wp_enqueue_scripts', 'cmbsolver_runecalc_scripts');
 

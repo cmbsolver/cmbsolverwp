@@ -1,3 +1,4 @@
+
 (function($) {
     $(document).ready(function() {
         // Show/hide additional options based on sequence type
@@ -37,13 +38,15 @@
             }
         });
 
+        // Variable to store the current sequence
+        var currentSequence = [];
+
         // Handle generate button click
         $('#generate-button').on('click', function() {
             var length = parseInt($('#sequence-length').val());
             var type = $('#sequence-type').val();
 
             // Limit length for performance reasons
-            if (length > 100) length = 100;
             if (length < 1) length = 1;
 
             // Get additional parameters if needed
@@ -61,6 +64,7 @@
 
             // Show loading state
             $('#sequence-result').html('<p>Generating sequence...</p>');
+            $('#copy-sequence-button').hide();
 
             // Calculate sequence directly on the client side
             var sequence = [];
@@ -104,6 +108,9 @@
                     break;
             }
 
+            // Store the current sequence for the copy function
+            currentSequence = sequence;
+
             // Display sequence description
             var typeLabel = $('#sequence-type option:selected').text();
             $('#sequence-description').html('<p>Generated ' + typeLabel + ':</p>');
@@ -116,6 +123,31 @@
             sequenceHTML += '</div>';
 
             $('#sequence-result').html(sequenceHTML);
+
+            // Show copy button if sequence was generated
+            if (sequence.length > 0) {
+                $('#copy-sequence-button').show();
+            }
+        });
+
+        // Handle copy button click
+        $('#copy-sequence-button').on('click', function() {
+            // Create a comma-separated string from the sequence
+            var sequenceString = currentSequence.join(', ');
+
+            // Use the Clipboard API to copy the text
+            navigator.clipboard.writeText(sequenceString).then(function() {
+                // Show a temporary success message
+                var originalText = $(this).text();
+                $(this).text('Copied!');
+
+                setTimeout(function() {
+                    $('#copy-sequence-button').text(originalText);
+                }, 2000);
+            }.bind(this)).catch(function(err) {
+                console.error('Could not copy text: ', err);
+                alert('Failed to copy the sequence. Please try again or copy manually.');
+            });
         });
     });
 
@@ -127,6 +159,8 @@
         }
         return sequence;
     }
+
+    // Rest of the functions remain unchanged...
 
     // Function to generate Prime numbers
     function generatePrimes(length) {
