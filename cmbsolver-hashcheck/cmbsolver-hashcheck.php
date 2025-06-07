@@ -2,7 +2,7 @@
 /*
 Plugin Name: CMB Solver Hash Checker
 Description: A tool for checking and displaying hashes using various algorithms
-Version: 1.0
+Version: 1.1
 Author: CMBSOLVER
 */
 
@@ -102,7 +102,7 @@ function cmbsolver_hashcheck_scripts() {
     wp_enqueue_script('cmbsolver-hashbox');
 
     // Register main js with proper dependencies
-    wp_register_script('cmbsolver-hashcheck-js', plugins_url('js/js.js', __FILE__), array('jquery', 'cmbsolver-hashbox'), '1.0', true);
+    wp_register_script('cmbsolver-hashcheck-js', plugins_url('js/script.js', __FILE__), array('jquery', 'cmbsolver-hashbox'), '1.0', true);
     wp_enqueue_script('cmbsolver-hashcheck-js');
 
     // Add inline js to make HashingBox available globally
@@ -115,21 +115,28 @@ function cmbsolver_hashcheck_shortcode() {
     ob_start();
     ?>
     <div class="hashcheck-container">
+        <div class="hash-controls-row">
+            <div class="text-label">Input Mode</div>
+            <select id="input-mode">
+                <option value="string">String</option>
+                <option value="bytes">Bytes</option>
+            </select>
+            <div class="multiline-option">
+                <input type="checkbox" id="multiline-check" name="multiline-check">
+                <label for="multiline-check">Multiline Input</label>
+            </div>
+        </div>
         <!-- Input Area -->
         <div class="text-label">Text To Hash</div>
-        <textarea id="hash-input-area" rows="4" class="wide-input"></textarea>
+        <textarea id="hash-input-area" rows="5" class="wide-input"></textarea>
 
         <!-- Hash Mode Selection -->
         <div class="hash-controls-row">
             <select id="hash-mode">
+                <option value="all" selected>All Algorithms</option>
                 <option value="min">Minimal Algorithms</option>
                 <option value="most" selected>Most Algorithms</option>
-                <option value="all">All Algorithms</option>
             </select>
-            <div class="multiline-option">
-                <input type="checkbox" id="multiline-check" name="multiline-check">
-                <label for="multiline-check">Multiline</label>
-            </div>
             <button id="check-hash-button" class="button">Check Hash</button>
         </div>
 

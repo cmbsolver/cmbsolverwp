@@ -13,6 +13,7 @@
         const $multilineCheck = $('#multiline-check');
         const $checkButton = $('#check-hash-button');
         const $resultsContainer = $('#hash-results-list');
+        const $inputMode = $('#input-mode');
 
         // Initialize with default mode
         HashingBox.setMode($hashMode.val());
@@ -26,6 +27,7 @@
         $checkButton.on('click', function() {
             const inputText = $inputArea.val();
             const isMultiline = $multilineCheck.is(':checked');
+            const mode = $inputMode.val();
 
             if (!inputText.trim()) {
                 alert('Please enter text to hash');
@@ -52,7 +54,12 @@
 
                     // Convert text to Uint8Array for hashing
                     const encoder = new TextEncoder();
-                    const data = encoder.encode(line);
+                    let data;
+                    if (mode === 'bytes') {
+                        data = getBytesFromIntArray(line.trim());
+                    } else {
+                        data = encoder.encode(line.trim());
+                    }
 
                     // Get all hashes for this line
                     const hashResults = HashingBox.getAllHashes(data);
@@ -67,7 +74,12 @@
             } else {
                 // Process the entire text as a single input
                 const encoder = new TextEncoder();
-                const data = encoder.encode(inputText);
+                let data;
+                if (mode === 'bytes') {
+                    data = getBytesFromIntArray(inputText.trim());
+                } else {
+                    data = encoder.encode(inputText.trim());
+                }
 
                 // Get all hashes for the input
                 const hashResults = HashingBox.getAllHashes(data);
@@ -104,6 +116,25 @@
             });
 
             return $table;
+        }
+
+        function getBytesFromIntArray(items) {
+            // Split the items into a number array
+            const itemArray = items.split(',');
+
+            // Convert string values to integers and validate range (0-255)
+            const byteValues = itemArray.map(item => {
+                const trimmedItem = item.trim();
+                const num = parseInt(trimmedItem, 10);
+                // Validate number is in valid byte range
+                if (isNaN(num) || num < 0 || num > 255) {
+                    throw new Error(`Invalid byte value: ${item}. Values must be between 0-255.`);
+                }
+                return num;
+            });
+
+            // Create and return a Uint8Array from the values
+            return new Uint8Array(byteValues);
         }
     });
 })(jQuery);
