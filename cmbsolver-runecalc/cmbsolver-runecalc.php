@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 // Enqueue necessary scripts and styles
 function cmbsolver_runecalc_scripts() {
     wp_enqueue_style('cmbsolver-runecalc-style', plugins_url('css/style.css', __FILE__));
-    wp_enqueue_script('cmbsolver-runecalc-js', plugins_url('js/js.js', __FILE__), array('jquery'), '1.0', true);
+    wp_enqueue_script('cmbsolver-runecalc-js', plugins_url('js/script.js', __FILE__), array('jquery'), '1.0', true);
 }
 add_action('wp_enqueue_scripts', 'cmbsolver_runecalc_scripts');
 
@@ -113,6 +113,16 @@ function cmbsolver_runecalc_shortcode() {
                         </button>
                         <div class="result-label">Rune Values:</div>
                         <div id="runevalues-result" class="result-content"></div>
+                    </div>
+                    <div class="result-row">
+                        <button class="copy-button" aria-label="Copy to clipboard">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                        <div class="result-label">Distinct Runes:</div>
+                        <div id="distinct-runes-result" class="result-content"></div>
                     </div>
                 </div>
             </div>
