@@ -2,7 +2,7 @@
 /*
 Plugin Name: CMB Solver Rune Calculator
 Description: A rune calculation tool with conversion capabilities
-Version: 1.0
+Version: 1.6
 Author: CMBSOLVER
 */
 

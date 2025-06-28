@@ -77,6 +77,10 @@ jQuery(document).ready(function($) {
         const runeValuesText = runeValues.join(', ');
 
         const distinctRunes = getDistinctRunes(runeText);
+        let distinctRunesText = '';
+        for (const distinctRune of distinctRunes) {
+            distinctRunesText += distinctRune[0] + '(' + distinctRune[1] + '), ';
+        }
 
         // Update results (this is just a placeholder)
         $('#runes-result').text(runeText);
@@ -85,7 +89,7 @@ jQuery(document).ready(function($) {
         $('#wordsums-result').text(wordSumsText);
         $('#wordcount-result').text(getWordCount(runeText));
         $('#runevalues-result').text(runeValuesText);
-        $('#distinct-runes-result').text(Array.from(distinctRunes).join(', ') + ' (' + distinctRunes.size + ')');
+        $('#distinct-runes-result').text(distinctRunesText);
         updateGPView(runeglishText);
         updateIocTexts();
     });
@@ -132,6 +136,10 @@ jQuery(document).ready(function($) {
         const runeValuesText = runeValues.join(', ');
 
         const distinctRunes = getDistinctRunes(runeText);
+        let distinctRunesText = '';
+        for (const distinctRune of distinctRunes) {
+            distinctRunesText += distinctRune[0] + '(' + distinctRune[1] + '), ';
+        }
 
         // Update results (this is just a placeholder)
         $('#runes-result').text(runeText);
@@ -140,9 +148,7 @@ jQuery(document).ready(function($) {
         $('#wordcount-result').text(getWordCount(runeText));
         $('#wordsums-result').text(wordSumsText);
         $('#runevalues-result').text(runeValuesText);
-        $('#distinct-runes-result').text(Array.from(distinctRunes).join(', ') + ' (' + distinctRunes.size + ')');
-        updateGPView(runeglishText);
-        updateIocTexts();
+        $('#distinct-runes-result').text(distinctRunesText);
         updateGPView(runeglishText);
         updateIocTexts();
     });
@@ -700,18 +706,24 @@ function calcIOC(text, alphabetType) {
 /**
  * Returns a set of unique runes found in the input text.
  * @param {string} runeText - The text containing runes to analyze
- * @returns {Set<string>} A set containing all unique runes found in the text
+ * @returns {Map<string, number>} A set containing all unique runes found in the text
  */
 function getDistinctRunes(runeText) {
-    const runeArray = new Set;
+    const runeArray = new Map;
     for (let i = 0; i < runeText.length; i++) {
         const rune = runeText[i];
         if (!runeArray.has(rune)) {
             if (isRune(rune) && !isDinkus(rune)) {
-                runeArray.add(rune);
+                runeArray.set(rune, 1);
+            }
+        } else {
+            if (isRune(rune) && !isDinkus(rune)) {
+                runeArray.set(rune, runeArray.get(rune) + 1);
             }
         }
     }
 
-    return runeArray;
+
+    // Convert Map entries to array, sort by count values (descending), and create new Map
+    return new Map([...runeArray.entries()].sort((a, b) => b[1] - a[1]));
 }

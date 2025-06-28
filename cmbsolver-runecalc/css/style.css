@@ -67,7 +67,8 @@
 .rune-result-content {
     flex: 1;
     min-height: 24px;
-    word-wrap: break-word;
+    word-wrap: anywhere !important;
+    overflow-wrap: anywhere !important;
 }
 
 .special-buttons {
