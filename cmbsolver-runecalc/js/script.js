@@ -76,11 +76,8 @@ jQuery(document).ready(function($) {
         const runeValues = getRuneValues(runeText);
         const runeValuesText = runeValues.join(', ');
 
-        const distinctRunes = getDistinctRunes(runeText);
-        let distinctRunesText = '';
-        for (const distinctRune of distinctRunes) {
-            distinctRunesText += distinctRune[0] + '(' + distinctRune[1] + '), ';
-        }
+        let distinctRunesText = getDistinctRuneText(runeText);
+        let doubletText = getDoubletsText(runeText);
 
         // Update results (this is just a placeholder)
         $('#runes-result').text(runeText);
@@ -90,6 +87,7 @@ jQuery(document).ready(function($) {
         $('#wordcount-result').text(getWordCount(runeText));
         $('#runevalues-result').text(runeValuesText);
         $('#distinct-runes-result').text(distinctRunesText);
+        $('#doublets-result').text(doubletText);
         updateGPView(runeglishText);
         updateIocTexts();
     });
@@ -128,18 +126,12 @@ jQuery(document).ready(function($) {
         }
 
         const gemSum = sumAllRuneValues(runeText);
-
         const wordSums = getWordSums(runeText);
         const wordSumsText = wordSums.join(', ');
-
         const runeValues = getRuneValues(runeText);
         const runeValuesText = runeValues.join(', ');
-
-        const distinctRunes = getDistinctRunes(runeText);
-        let distinctRunesText = '';
-        for (const distinctRune of distinctRunes) {
-            distinctRunesText += distinctRune[0] + '(' + distinctRune[1] + '), ';
-        }
+        let distinctRunesText = getDistinctRuneText(runeText);
+        let doubletText = getDoubletsText(runeText);
 
         // Update results (this is just a placeholder)
         $('#runes-result').text(runeText);
@@ -149,6 +141,7 @@ jQuery(document).ready(function($) {
         $('#wordsums-result').text(wordSumsText);
         $('#runevalues-result').text(runeValuesText);
         $('#distinct-runes-result').text(distinctRunesText);
+        $('#doublets-result').text(doubletText);
         updateGPView(runeglishText);
         updateIocTexts();
     });
@@ -726,4 +719,89 @@ function getDistinctRunes(runeText) {
 
     // Convert Map entries to array, sort by count values (descending), and create new Map
     return new Map([...runeArray.entries()].sort((a, b) => b[1] - a[1]));
+}
+
+/**
+ * Gets the distinct rune text
+ * @param runeText
+ * @returns {string}
+ */
+function getDistinctRuneText(runeText) {
+    const distinctRunes = getDistinctRunes(runeText);
+    let distinctRunesText = '';
+    let firstIteration = true;
+    for (const distinctRune of distinctRunes) {
+        const myRuneValue = getRuneValue(distinctRune[0]);
+        const isPrimeValue = isPrime(distinctRune[1]);
+        const isPrimeChar = isPrimeValue ? ' Is Prime' : '';
+        const separator = firstIteration ? '' : ', ';
+        if (myRuneValue === distinctRune[1]) {
+            distinctRunesText += separator + distinctRune[0] + '* (' + distinctRune[1] + isPrimeChar + ')';
+        } else {
+            distinctRunesText += separator + distinctRune[0] + '(' + distinctRune[1] + isPrimeChar + ')';
+        }
+        firstIteration = false;
+    }
+
+    return distinctRunesText;
+}
+
+/**
+ * Returns a set of runes with doublets.
+ * @param {string} runeText - The text containing runes to analyze
+ * @returns {Map<string, number>} A set containing all unique runes found in the text
+ */
+function getDoublets(runeText) {
+    const runeArray = new Map;
+    let i = 0
+    while (i < runeText.length) {
+        const rune = runeText[i];
+        let nextRune = '';
+        if (i + 1 <= runeText.length) {
+            nextRune = runeText[i + 1];
+        }
+
+        if (isRune(rune) && !isDinkus(rune)) {
+            if (rune === nextRune) {
+                i++;
+                if (runeArray.has(rune)) {
+                    runeArray.set(rune, runeArray.get(rune) + 1);
+                } else {
+                    runeArray.set(rune, 1);
+                }
+            }
+        }
+
+        i++;
+    }
+
+    return runeArray;
+}
+
+/**
+ * Get the doublets text
+ * @param runeText
+ * @returns {string}
+ */
+function getDoubletsText(runeText) {
+    const doublets = getDoublets(runeText);
+
+    if (doublets === undefined || doublets.size === 0) return ('No doublets found.')
+
+    let doubletText = '';
+    let firstIteration = true;
+    for (const doublet of doublets) {
+        const myRuneValue = getRuneValue(doublet[0]);
+        const isPrimeValue = isPrime(doublet[1]);
+        const isPrimeChar = isPrimeValue ? ' Is Prime' : '';
+        const separator = firstIteration ? '' : ', ';
+        if (myRuneValue === doublet[1]) {
+            doubletText += separator + doublet[0] + '* (' + doublet[1] + isPrimeChar + ')';
+        } else {
+            doubletText += separator + doublet[0] + '(' + doublet[1] + isPrimeChar + ')';
+        }
+        firstIteration = false;
+    }
+
+    return doubletText;
 }
