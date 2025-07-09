@@ -116,13 +116,26 @@ jQuery(document).ready(function($) {
         let runeglishText = '';
         const input = $('#input-area').val();
         const conversionType = $('#conversion-type').val();
+        const isReversed = $('#reverse-checkbox').is(':checked');
 
         if (conversionType === 'from-latin') {
-            runeglishText = prepLatinToRune(input);
-            runeText = transposeLatinToRune(runeglishText);
+            if (isReversed) {
+                const tempText = reverseWords(input);
+                runeglishText = prepLatinToRune(tempText);
+                runeText = transposeLatinToRune(runeglishText);
+            } else {
+                runeglishText = prepLatinToRune(input);
+                runeText = transposeLatinToRune(runeglishText);
+            }
         } else {
-            runeText = input;
-            runeglishText = transposeRuneToLatin(runeText);
+            if (isReversed) {
+                runeText = reverseWords(input);
+                runeglishText = transposeRuneToLatin(runeText);
+            } else {
+                runeText = input;
+                runeglishText = transposeRuneToLatin(runeText);
+            }
+
         }
 
         const gemSum = sumAllRuneValues(runeText);
@@ -804,4 +817,56 @@ function getDoubletsText(runeText) {
     }
 
     return doubletText;
+}
+
+function isSeperator(char) {
+    if (char === ' ' || char === '\n' || char === '\r' || char === '.' || char === '!' || char === '|' ||
+        char === '[' || char === ']' || char === '{' || char === '}' || char === '(' || char === ')' || char === '-' ||
+        char === '&' || char === '%' || char === '$' || char === '#' || char === '@' || char === '_' ||
+        char === '=' || char === '+' || char === '*' || char === '^' || char === '"' || char === '␍' || char === '␊' ||
+        char === '␗') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Reverses a string character by character.
+ *
+ * @param {string} text - The string to reverse
+ * @returns {string} The reversed string
+ * @private
+ */
+function reverseString(text) {
+    return [...text].reverse().join('');
+}
+
+/**
+ * Reverses each word in a text while preserving separators.
+ *
+ * @param {string} text - The text to process
+ * @returns {string} The text with reversed words
+ * @private
+ */
+function reverseWords(text) {
+    const retval = [];
+    const charArray = [...text];
+    let sb = '';
+
+    for (let i = 0; i < charArray.length; i++) {
+        if (isSeperator(charArray[i]) || isDinkus(charArray[i])) {
+            retval.push(reverseString(sb));
+            retval.push(charArray[i]);
+            sb = '';
+        } else {
+            sb += charArray[i];
+        }
+    }
+
+    if (sb.length > 0) {
+        retval.push(reverseString(sb));
+    }
+
+    return retval.join('');
 }
