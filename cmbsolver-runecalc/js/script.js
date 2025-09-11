@@ -70,9 +70,6 @@ jQuery(document).ready(function($) {
         const runeglishText = transposeRuneToLatin(runeText);
         const gemSum = sumAllRuneValues(runeText);
 
-        const wordSums = getWordSums(runeText);
-        const wordSumsText = wordSums.join(', ');
-
         const runeValues = getRuneValues(runeText);
         const runeValuesText = runeValues.join(', ');
 
@@ -83,12 +80,11 @@ jQuery(document).ready(function($) {
         $('#runes-result').text(runeText);
         $('#runeglish-result').text(runeglishText);
         updateGematriaDisplay(gemSum);
-        $('#wordsums-result').text(wordSumsText);
         $('#wordcount-result').text(getWordCount(runeText));
         $('#runevalues-result').text(runeValuesText);
         $('#distinct-runes-result').text(distinctRunesText);
         $('#doublets-result').text(doubletText);
-        updateGPView(runeglishText);
+        updateGPView(runeText);
         updateIocTexts();
     });
 
@@ -139,8 +135,6 @@ jQuery(document).ready(function($) {
         }
 
         const gemSum = sumAllRuneValues(runeText);
-        const wordSums = getWordSums(runeText);
-        const wordSumsText = wordSums.join(', ');
         const runeValues = getRuneValues(runeText);
         const runeValuesText = runeValues.join(', ');
         let distinctRunesText = getDistinctRuneText(runeText);
@@ -151,11 +145,10 @@ jQuery(document).ready(function($) {
         $('#runeglish-result').text(runeglishText);
         updateGematriaDisplay(gemSum);
         $('#wordcount-result').text(getWordCount(runeText));
-        $('#wordsums-result').text(wordSumsText);
         $('#runevalues-result').text(runeValuesText);
         $('#distinct-runes-result').text(distinctRunesText);
         $('#doublets-result').text(doubletText);
-        updateGPView(runeglishText);
+        updateGPView(runeText);
         updateIocTexts();
     });
 });
@@ -395,26 +388,6 @@ function sumAllRuneValues(text) {
 }
 
 /**
- * Sums all word values in a string.
- * @param text
- */
-function getWordSums(text) {
-    const result = [];
-    const tmpText = text.replaceAll('⊹', '•')
-    const words = tmpText.split('•');
-    for (let i = 0; i < words.length; i++) {
-        const word = words[i];
-        const wordSum = sumAllRuneValues(word);
-
-        if (wordSum > 0) {
-            result.push(wordSum);
-        }
-    }
-
-    return result;
-}
-
-/**
  * Gets the word count in a string.
  * @param text
  */
@@ -548,8 +521,8 @@ function updateGPView(inputText) {
             if (!word.trim()) return; // Skip empty words
 
             // Calculate word value
-            const runeValue = transposeLatinToRune(word);
-            const wordValue = calculateWordValue(runeValue);
+            const wordValue = calculateWordValue(word);
+            const latin = transposeRuneToLatin(word);
             lineSum += wordValue;
 
             // Determine color coding
@@ -568,7 +541,7 @@ function updateGPView(inputText) {
             // Create and append text element
             const wordText = document.createElement('div');
             wordText.className = 'gp-word-text';
-            wordText.textContent = word + ' (' + runeValue + ')';
+            wordText.textContent = latin + ' (' + word + ')';
             wordBox.appendChild(wordText);
 
             // Create and append value element
