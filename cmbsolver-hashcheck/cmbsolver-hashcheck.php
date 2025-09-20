@@ -135,9 +135,10 @@ function cmbsolver_hashcheck_shortcode() {
             <select id="hash-mode">
                 <option value="all" selected>All Algorithms</option>
                 <option value="min">Minimal Algorithms</option>
-                <option value="most" selected>Most Algorithms</option>
+                <option value="most">Most Algorithms</option>
             </select>
             <button id="check-hash-button" class="button">Check Hash</button>
+            <button id="clear-hash-button" class="button">Clear</button>
         </div>
 
         <!-- Results Area -->

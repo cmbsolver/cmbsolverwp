@@ -89,6 +89,15 @@
             }
         });
 
+        $('#clear-hash-button').on('click', function() {
+            // Clear the input area
+            $('#hash-input-area').val('');
+
+            // Clear the results container
+            $('#hash-results-list').empty();
+        });
+
+
         // Function to create a hash results table
         function createHashResultsTable(hashResults) {
             const currentMode = $hashMode.val();
