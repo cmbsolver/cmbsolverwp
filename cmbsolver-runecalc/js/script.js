@@ -82,6 +82,8 @@ jQuery(document).ready(function($) {
         updateGematriaDisplay(gemSum);
         $('#wordcount-result').text(getWordCount(runeText));
         $('#runevalues-result').text(runeValuesText);
+        $('#runecount-result').text(runeValues.length);
+        $('#totalcount-result').text(runeText.length);
         $('#distinct-runes-result').text(distinctRunesText);
         $('#doublets-result').text(doubletText);
         updateGPView(runeText);
@@ -146,6 +148,8 @@ jQuery(document).ready(function($) {
         updateGematriaDisplay(gemSum);
         $('#wordcount-result').text(getWordCount(runeText));
         $('#runevalues-result').text(runeValuesText);
+        $('#runecount-result').text(runeValues.length);
+        $('#totalcount-result').text(runeText.length);
         $('#distinct-runes-result').text(distinctRunesText);
         $('#doublets-result').text(doubletText);
         updateGPView(runeText);
