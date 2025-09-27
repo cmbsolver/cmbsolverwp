@@ -158,9 +158,42 @@ jQuery(document).ready(function($) {
 });
 
 function clearAll() {
+    // Clear the input textarea
     jQuery('#input-area').val('');
+    
+    // Clear all result content elements
     jQuery('.result-content').text('');
+    jQuery('.rune-result-content').text('');
+    jQuery('#runes-result').html('');
+    jQuery('#runeglish-result').html('');
+    jQuery('#gematria-result').html('');
+    jQuery('#wordcount-result').text('');
+    jQuery('#runecount-result').text('');
+    jQuery('#totalcount-result').text('');
+    jQuery('#runevalues-result').text('');
+    jQuery('#distinct-runes-result').text('');
+    jQuery('#doublets-result').text('');
+    
+    // Reset checkbox if exists
+    if (jQuery('#reverse-checkbox').length) {
+        jQuery('#reverse-checkbox').prop('checked', false);
+    }
+    
+    // Reset conversion type dropdown if exists
+    if (jQuery('#conversion-type').length) {
+        jQuery('#conversion-type').val('from-latin');
+    }
+    
+    // Clear the GP visualization
     updateGPView('');
+    
+    // Add a small notification that everything was cleared
+    const snackbar = jQuery('#snackbar');
+    if (snackbar.length) {
+        snackbar.text('All content cleared');
+        snackbar.addClass('show');
+        setTimeout(function(){ snackbar.removeClass('show'); }, 3000);
+    }
 }
 
 const runeToValue = {
@@ -481,6 +514,22 @@ function isEmirp(num) {
     return reversedNum !== num && isPrime(reversedNum);
 }
 
+function isCircularPrime(num) {
+    if (!isPrime(num)) return false;
+
+    const numStr = num.toString();
+    const len = numStr.length;
+
+    // Check all rotations
+    for (let i = 0; i < len; i++) {
+        // Create rotation by moving first digit to end
+        const rotation = parseInt(numStr.slice(i) + numStr.slice(0, i));
+        if (!isPrime(rotation)) return false;
+    }
+
+    return true;
+}
+
 /**
  * Calculate word value
  * @param word
@@ -537,6 +586,10 @@ function updateGPView(inputText) {
                 boxClass = 'gp-word-prime';
             }
 
+            if (isCircularPrime(wordValue)) {
+                boxClass = 'gp-word-circular-prime';
+            }
+
             // Create the word box
             const wordBox = document.createElement('div');
             wordBox.className = `gp-word-box ${boxClass}`;
@@ -569,6 +622,10 @@ function updateGPView(inputText) {
             lineSumElement.className = 'gp-line-sum-emirp';
         }
 
+        if (isCircularPrime(lineSum)) {
+            lineSumElement.className = 'gp-line-sum-circular-prime';
+        }
+
         lineSumElement.textContent = `Line Sum: ${lineSum}`;
         lineDiv.appendChild(lineSumElement);
 
@@ -590,6 +647,10 @@ function updateGematriaDisplay(sum) {
 
     if (isEmirp(sum)) {
         displayText += ' <span class="number-indicator emirp" title="Emirp">✓ Emirp</span>';
+    }
+
+    if (isCircularPrime(sum)) {
+        displayText += ' <span class="number-indicator circular" title="Circular Prime">✓ Circular</span>';
     }
 
     gematriaDiv.innerHTML = displayText;

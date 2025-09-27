@@ -2,7 +2,7 @@
 /*
 Plugin Name: CMB Solver Rune Calculator
 Description: A rune calculation tool with conversion capabilities
-Version: 1.9
+Version: 1.10
 Author: CMBSOLVER
 */
 
@@ -159,6 +159,7 @@ function cmbsolver_runecalc_shortcode() {
                     <div>
                         <b>Legend:</b>
                         <div class="gp-line-sum-nonprime">Non-Prime</div>
+                        <div class="gp-line-sum-circular-prime">Circular Prime</div>
                         <div class="gp-line-sum-prime">Prime</div>
                         <div class="gp-line-sum-emirp">Emirp</div>
                     </div>

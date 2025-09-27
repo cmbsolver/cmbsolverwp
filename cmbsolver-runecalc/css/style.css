@@ -120,7 +120,7 @@
     visibility: hidden; /* Hidden by default. Visible on click */
     min-width: 250px; /* Set a default minimum width */
     margin-left: -125px; /* Divide value of min-width by 2 */
-    background-color: #4CAF50; /* green background color */
+    background-color: #213350; /* green background color */
     color: #fff; /* White text color */
     text-align: center; /* Centered text */
     border-radius: 2px; /* Rounded borders */
@@ -173,13 +173,18 @@
 }
 
 .number-indicator.prime {
-    color: #ffffff;
-    background-color: #2196F3;
+    color: #fff;
+    background-color: #337337;
 }
 
 .number-indicator.emirp {
-    color: #ffffff;
-    background-color: #4CAF50;
+    color: #fff;
+    background-color: #935b33;
+}
+
+.number-indicator.circular {
+    color: #fff;
+    background-color: #005278;
 }
 
 .ioc-text {
@@ -279,6 +284,11 @@
     background-color: #ff995a; /* Orange */
 }
 
+.gp-word-circular-prime {
+    color: #000;
+    background-color: #008fd8; /* Green */
+}
+
 .gp-line-sum-nonprime {
     color: #000;
     margin-left: auto;
@@ -303,5 +313,14 @@
     font-weight: bold;
     padding: 8px 15px;
     background-color: #ff995a;
+    border-radius: 4px;
+}
+
+.gp-line-sum-circular-prime {
+    color: #000;
+    margin-left: auto;
+    font-weight: bold;
+    padding: 8px 15px;
+    background-color: #008fd8;
     border-radius: 4px;
 }
