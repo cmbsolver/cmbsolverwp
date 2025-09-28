@@ -187,6 +187,16 @@
     background-color: #005278;
 }
 
+.number-indicator.fibonacci {
+    color: #fff;
+    background-color: #57151e;
+}
+
+.number-indicator.lucas {
+    color: #fff;
+    background-color: #091347;
+}
+
 .ioc-text {
     display: inline-block;
     font-size: 12px;

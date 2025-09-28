@@ -978,6 +978,14 @@ function updateGematriaDisplay(sum) {
         displayText += ' <span class="number-indicator circular" title="Circular Prime">✓ Circular</span>';
     }
 
+    if (isFibonacciNumer(sum)) {
+        displayText += ' <span class="number-indicator fibonacci" title="Fibonacci">✓ Fibonacci</span>';
+    }
+
+    if (isLucasNumber(sum)) {
+        displayText += ' <span class="number-indicator lucas" title="Lucas">✓ Lucas</span>';
+    }
+
     gematriaDiv.innerHTML = displayText;
 }
 
