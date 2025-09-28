@@ -87,6 +87,9 @@ jQuery(document).ready(function($) {
         $('#distinct-runes-result').text(distinctRunesText);
         $('#doublets-result').text(doubletText);
         updateGPView(runeText);
+        updateLucasView(runeText);
+        updateFibView(runeText);
+        updateTotientView(runeText, gemSum);
         updateIocTexts();
     });
 
@@ -153,6 +156,9 @@ jQuery(document).ready(function($) {
         $('#distinct-runes-result').text(distinctRunesText);
         $('#doublets-result').text(doubletText);
         updateGPView(runeText);
+        updateLucasView(runeText);
+        updateFibView(runeText);
+        updateTotientView(runeText, gemSum);
         updateIocTexts();
     });
 });
@@ -186,6 +192,9 @@ function clearAll() {
     
     // Clear the GP visualization
     updateGPView('');
+    updateLucasView('');
+    updateFibView('');
+    updateTotientView('', 0);
     
     // Add a small notification that everything was cleared
     const snackbar = jQuery('#snackbar');
@@ -514,6 +523,11 @@ function isEmirp(num) {
     return reversedNum !== num && isPrime(reversedNum);
 }
 
+/**
+ * Checks if a number is fibonacci
+ * @param num
+ * @returns {boolean}
+ */
 function isCircularPrime(num) {
     if (!isPrime(num)) return false;
 
@@ -631,6 +645,317 @@ function updateGPView(inputText) {
 
         gpContainer.appendChild(lineDiv);
     });
+}
+
+/**
+ * Function to update the Fibonacci View
+ */
+function updateFibView(inputText) {
+    const gpContainer = document.getElementById('fib-visualization');
+    // Clear the container
+    gpContainer.innerHTML = '';
+
+    if (!inputText.trim()) return;
+
+    // Split into lines by newline ⊹, or . character
+    const lines = inputText.split(/[\n\.\⊹\␍\␗\␊]/);
+
+    lines.forEach(line => {
+        if (!line.trim()) return; // Skip empty lines
+
+        // Create a line container
+        const lineDiv = document.createElement('div');
+        lineDiv.className = 'gp-line';
+
+        // Split the line into words
+        const words = line.trim().split(/[\s•]+/);
+
+        let lineSum = 0;
+
+        // Process each word
+        words.forEach(word => {
+            if (!word.trim()) return; // Skip empty words
+
+            // Calculate word value
+            const wordValue = calculateWordValue(word);
+            const latin = transposeRuneToLatin(word);
+            lineSum += wordValue;
+
+            // Determine color coding
+            let boxClass = 'gp-word-nonprime';
+            if (isFibonacciNumer(wordValue)) {
+                boxClass = 'gp-word-circular-prime';
+            }
+
+            // Create the word box
+            const wordBox = document.createElement('div');
+            wordBox.className = `gp-word-box ${boxClass}`;
+            wordBox.title = `Value: ${wordValue}`;
+
+            // Create and append text element
+            const wordText = document.createElement('div');
+            wordText.className = 'gp-word-text';
+            wordText.textContent = latin + ' (' + word + ')';
+            wordBox.appendChild(wordText);
+
+            // Create and append value element
+            const wordValueElement = document.createElement('div');
+            wordValueElement.className = 'gp-word-value';
+            wordValueElement.textContent = wordValue;
+            wordBox.appendChild(wordValueElement);
+
+            lineDiv.appendChild(wordBox);
+        });
+
+        // Add the line sum at the end
+        const lineSumElement = document.createElement('div');
+        lineSumElement.className = 'gp-line-sum-nonprime';
+
+        if (isFibonacciNumer(lineSum)) {
+            lineSumElement.className = 'gp-line-sum-circular-prime';
+        }
+
+        lineSumElement.textContent = `Line Sum: ${lineSum}`;
+        lineDiv.appendChild(lineSumElement);
+
+        gpContainer.appendChild(lineDiv);
+    });
+}
+
+/**
+ * Function to update the Lucas View
+ */
+function updateLucasView(inputText) {
+    const gpContainer = document.getElementById('lucas-visualization');
+    // Clear the container
+    gpContainer.innerHTML = '';
+
+    if (!inputText.trim()) return;
+
+    // Split into lines by newline ⊹, or . character
+    const lines = inputText.split(/[\n\.\⊹\␍\␗\␊]/);
+
+    lines.forEach(line => {
+        if (!line.trim()) return; // Skip empty lines
+
+        // Create a line container
+        const lineDiv = document.createElement('div');
+        lineDiv.className = 'gp-line';
+
+        // Split the line into words
+        const words = line.trim().split(/[\s•]+/);
+
+        let lineSum = 0;
+
+        // Process each word
+        words.forEach(word => {
+            if (!word.trim()) return; // Skip empty words
+
+            // Calculate word value
+            const wordValue = calculateWordValue(word);
+            const latin = transposeRuneToLatin(word);
+            lineSum += wordValue;
+
+            // Determine color coding
+            let boxClass = 'gp-word-nonprime';
+            if (isLucasNumber(wordValue)) {
+                boxClass = 'gp-word-circular-prime';
+            }
+
+            // Create the word box
+            const wordBox = document.createElement('div');
+            wordBox.className = `gp-word-box ${boxClass}`;
+            wordBox.title = `Value: ${wordValue}`;
+
+            // Create and append text element
+            const wordText = document.createElement('div');
+            wordText.className = 'gp-word-text';
+            wordText.textContent = latin + ' (' + word + ')';
+            wordBox.appendChild(wordText);
+
+            // Create and append value element
+            const wordValueElement = document.createElement('div');
+            wordValueElement.className = 'gp-word-value';
+            wordValueElement.textContent = wordValue;
+            wordBox.appendChild(wordValueElement);
+
+            lineDiv.appendChild(wordBox);
+        });
+
+        // Add the line sum at the end
+        const lineSumElement = document.createElement('div');
+        lineSumElement.className = 'gp-line-sum-nonprime';
+
+        if (isLucasNumber(lineSum)) {
+            lineSumElement.className = 'gp-line-sum-circular-prime';
+        }
+
+        lineSumElement.textContent = `Line Sum: ${lineSum}`;
+        lineDiv.appendChild(lineSumElement);
+
+        gpContainer.appendChild(lineDiv);
+    });
+}
+
+/**
+ * Function to update the Totient View
+ */
+function updateTotientView(inputText, gemSum) {
+    const sigma = calculateTotientValue(gemSum);
+
+    const sigmaContainer = document.getElementById('totient-sigma');
+    sigmaContainer.innerHTML = `φ(${gemSum}) = ${sigma.count}`;
+
+    const sigmaCoprimes = document.getElementById('totient-coprimes');
+    sigmaCoprimes.innerHTML = `Coprimes: ${sigma.coprimes.join(', ')}`;
+
+    const gpContainer = document.getElementById('totient-visualization');
+    // Clear the container
+    gpContainer.innerHTML = '';
+
+    if (!inputText.trim()) return;
+
+    // Split into lines by newline ⊹, or . character
+    const lines = inputText.split(/[\n\.\⊹\␍\␗\␊]/);
+
+    lines.forEach(line => {
+        if (!line.trim()) return; // Skip empty lines
+
+        // Create a line container
+        const lineDiv = document.createElement('div');
+        lineDiv.className = 'gp-line';
+
+        // Split the line into words
+        const words = line.trim().split(/[\s•]+/);
+
+        let lineSum = 0;
+
+        // Process each word
+        words.forEach(word => {
+            if (!word.trim()) return; // Skip empty words
+
+            // Calculate word value
+            const wordValue = calculateWordValue(word);
+            const latin = transposeRuneToLatin(word);
+            lineSum += wordValue;
+
+            // Determine color coding
+            let boxClass = 'gp-word-nonprime';
+            if (sigma.coprimes.includes(wordValue)) {
+                boxClass = 'gp-word-circular-prime';
+            }
+
+            // Create the word box
+            const wordBox = document.createElement('div');
+            wordBox.className = `gp-word-box ${boxClass}`;
+            wordBox.title = `Value: ${wordValue}`;
+
+            // Create and append text element
+            const wordText = document.createElement('div');
+            wordText.className = 'gp-word-text';
+            wordText.textContent = latin + ' (' + word + ')';
+            wordBox.appendChild(wordText);
+
+            // Create and append value element
+            const wordValueElement = document.createElement('div');
+            wordValueElement.className = 'gp-word-value';
+            wordValueElement.textContent = wordValue;
+            wordBox.appendChild(wordValueElement);
+
+            lineDiv.appendChild(wordBox);
+        });
+
+        // Add the line sum at the end
+        const lineSumElement = document.createElement('div');
+        lineSumElement.className = 'gp-line-sum-nonprime';
+
+        if (sigma.coprimes.includes(lineSum)) {
+            lineSumElement.className = 'gp-line-sum-circular-prime';
+        }
+
+        lineSumElement.textContent = `Line Sum: ${lineSum}`;
+        lineDiv.appendChild(lineSumElement);
+
+        gpContainer.appendChild(lineDiv);
+    });
+}
+
+// Function to calculate GCD (Greatest Common Divisor)
+function gcd(a, b) {
+    while (b !== 0) {
+        let t = b;
+        b = a % b;
+        a = t;
+    }
+    return a;
+}
+
+// Function to calculate totient value
+function calculateTotientValue(n) {
+    if (n === 0) return { count: 0, coprimes: [] };
+    if (n === 1) return { count: 1, coprimes: [] };
+
+    let count = 1; // 1 is always coprime
+    let coprimes = [1];
+
+    for (let i = 2; i < n; i++) {
+        if (gcd(i, n) === 1) {
+            count++;
+            coprimes.push(i);
+        }
+    }
+
+    return {
+        count: count,
+        coprimes: coprimes
+    };
+}
+
+/**
+ * Function to detect if a number is Fibonacci
+ * @param value
+ * @returns {boolean}
+ */
+function isFibonacciNumer(value) {
+    // Handle edge cases
+    if (value < 0) return false;
+    if (value === 0 || value === 1) return true;
+
+    // A number is Fibonacci if and only if one of (5n^2 + 4) or (5n^2 - 4) is a perfect square
+    const test1 = 5 * value * value + 4;
+    const test2 = 5 * value * value - 4;
+
+    const perfectSquare1 = Math.sqrt(test1);
+    const perfectSquare2 = Math.sqrt(test2);
+
+    return Number.isInteger(perfectSquare1) || Number.isInteger(perfectSquare2);
+}
+
+/**
+ * Function to detect if a number is Lucas
+ * @param value
+ * @returns {boolean}
+ */
+function isLucasNumber(value) {
+    // Handle edge cases
+    if (value < 0) return false;
+    if (value === 2 || value === 1) return true;
+
+    // Initialize first two numbers of Lucas sequence
+    let a = 2;  // L(0) = 2
+    let b = 1;  // L(1) = 1
+
+    // Generate Lucas numbers until we reach or exceed the target value
+    while (b <= value) {
+        if (b === value) return true;
+
+        // Calculate next Lucas number
+        const temp = a + b;
+        a = b;
+        b = temp;
+    }
+
+    return false;
 }
 
 /**
@@ -857,6 +1182,11 @@ function getDoubletsText(runeText) {
     return doubletText;
 }
 
+/**
+ * Return if it a separator.
+ * @param char
+ * @returns {boolean}
+ */
 function isSeperator(char) {
     if (char === ' ' || char === '\n' || char === '\r' || char === '.' || char === '!' || char === '|' ||
         char === '[' || char === ']' || char === '{' || char === '}' || char === '(' || char === ')' || char === '-' ||
@@ -887,6 +1217,27 @@ function reverseString(text) {
  * @returns {string} The text with reversed words
  * @private
  */
+
+// Initialize expandable sections
+document.addEventListener('DOMContentLoaded', function() {
+    const expandableHeaders = document.querySelectorAll('.expandable-header');
+    
+    expandableHeaders.forEach(header => {
+        header.addEventListener('click', function() {
+            const content = this.nextElementSibling;
+            const button = this.querySelector('.expand-button');
+            
+            content.classList.toggle('collapsed');
+            
+            if (content.classList.contains('collapsed')) {
+                button.textContent = '▼';
+            } else {
+                button.textContent = '▲';
+            }
+        });
+    });
+});
+
 function reverseWords(text) {
     const retval = [];
     const charArray = [...text];

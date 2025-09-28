@@ -2,7 +2,7 @@
 /*
 Plugin Name: CMB Solver Rune Calculator
 Description: A rune calculation tool with conversion capabilities
-Version: 1.10
+Version: 1.11
 Author: CMBSOLVER
 */
 
@@ -50,7 +50,10 @@ function cmbsolver_runecalc_shortcode() {
         <!-- Tabs Navigation -->
         <div class="tabs-navigation">
             <button class="tab-button active" data-tab="information-tab">Information View</button>
-            <button class="tab-button" data-tab="gp-view-tab">Line View</button>
+            <button class="tab-button" data-tab="gp-view-tab">Prime View</button>
+            <button class="tab-button" data-tab="gp-fib-tab">Fibonacci View</button>
+            <button class="tab-button" data-tab="gp-lucas-tab">Lucas View</button>
+            <button class="tab-button" data-tab="totient-view-tab">Totient View</button>
         </div>
 
         <!-- Tab Content -->
@@ -165,6 +168,52 @@ function cmbsolver_runecalc_shortcode() {
                     </div>
                 </div>
             </div>
+
+            <!-- Fibonacci View Tab (Third Tab) -->
+            <div id="gp-fib-tab" class="tab-pane">
+                <div class="gp-view-content">
+                    <div id="fib-visualization" class="gp-lines-container"></div>
+                    <div>
+                        <b>Legend:</b>
+                        <div class="gp-line-sum-nonprime">Not In Sequence</div>
+                        <div class="gp-line-sum-circular-prime">In Sequence</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lucas View Tab (Fourth Tab) -->
+            <div id="gp-lucas-tab" class="tab-pane">
+                <div class="gp-view-content">
+                    <div id="lucas-visualization" class="gp-lines-container"></div>
+                    <div>
+                        <b>Legend:</b>
+                        <div class="gp-line-sum-nonprime">Not In Sequence</div>
+                        <div class="gp-line-sum-circular-prime">In Sequence</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Totient View Tab (Fifth Tab) -->
+            <div id="totient-view-tab" class="tab-pane">
+                <div class="totient-view-content">
+                    <div id="totient-sigma"></div>
+
+                    <div id="totient-visualization" class="gp-lines-container"></div>
+                    <div>
+                        <b>Legend:</b>
+                        <div class="gp-line-sum-nonprime">Not Coprime</div>
+                        <div class="gp-line-sum-circular-prime">Coprime</div>
+                    </div>
+                    <div class="expandable-section">
+                        <div class="expandable-header">
+                            <span>Coprimes (Click to expand)</span>
+                            <button class="expand-button">▼</button>
+                        </div>
+                        <div id="totient-coprimes" class="expandable-content collapsed"></div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     <div id="snackbar">Copied text</div>
