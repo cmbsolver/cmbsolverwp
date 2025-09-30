@@ -298,6 +298,13 @@ function cmbsolver_runecalc_shortcode() {
             <div id="first-last-tab" class="tab-pane">
                 <div class="gp-view-content">
                     <div id="first-last-visualization" class="gp-lines-container"></div>
+                    <div>
+                        <b>Legend:</b>
+                        <div class="gp-line-sum-nonprime">Non-Prime</div>
+                        <div class="gp-line-sum-circular-prime">Circular Prime</div>
+                        <div class="gp-line-sum-prime">Prime</div>
+                        <div class="gp-line-sum-emirp">Emirp</div>
+                    </div>
                 </div>
             </div>
 
