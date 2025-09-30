@@ -15,6 +15,9 @@ if (!defined('ABSPATH')) {
 function cmbsolver_runecalc_scripts() {
     wp_enqueue_style('cmbsolver-runecalc-style', plugins_url('css/style.css', __FILE__));
     wp_enqueue_script('cmbsolver-runecalc-js', plugins_url('js/script.js', __FILE__), array('jquery'), '1.0', true);
+    
+    // Pass the plugin URL to JavaScript so we can construct file paths
+    wp_localize_script('cmbsolver-runecalc-js', 'pluginUrl', plugins_url('', __FILE__) . '/');
 }
 add_action('wp_enqueue_scripts', 'cmbsolver_runecalc_scripts');
 
@@ -36,6 +39,82 @@ function cmbsolver_runecalc_shortcode() {
             <button id="load-button" class="button">Load</button>
         </div>
 
+        <div class="conversion-row">
+            <label for="lpviewer-page-select" class="text-label">Select Page or Section: </label>
+            <select id="lpviewer-section-select">
+                <option value="0-2.txt">Section 0-2</option>
+                <option value="3-7.txt">Section 3-7</option>
+                <option value="8-14.txt">Section 8-14</option>
+                <option value="15-22.txt">Section 15-22</option>
+                <option value="23-26.txt">Section 23-26</option>
+                <option value="27-32.txt">Section 27-32</option>
+                <option value="33-39.txt">Section 33-39</option>
+                <option value="40-53.txt">Section 40-53</option>
+                <option value="54-55.txt">Section 54-55</option>
+                <option value="56-56.txt">Section 56</option>
+                <option value="57-57.txt">Section 57</option>
+                <option value="0.txt">Page 0</option>
+                <option value="1.txt">Page 1</option>
+                <option value="2.txt">Page 2</option>
+                <option value="3.txt">Page 3</option>
+                <option value="4.txt">Page 4</option>
+                <option value="5.txt">Page 5</option>
+                <option value="6.txt">Page 6</option>
+                <option value="7.txt">Page 7</option>
+                <option value="8.txt">Page 8</option>
+                <option value="9.txt">Page 9</option>
+                <option value="10.txt">Page 10</option>
+                <option value="11.txt">Page 11</option>
+                <option value="12.txt">Page 12</option>
+                <option value="13.txt">Page 13</option>
+                <option value="14.txt">Page 14</option>
+                <option value="15.txt">Page 15</option>
+                <option value="16.txt">Page 16</option>
+                <option value="17.txt">Page 17</option>
+                <option value="18.txt">Page 18</option>
+                <option value="19.txt">Page 19</option>
+                <option value="20.txt">Page 20</option>
+                <option value="21.txt">Page 21</option>
+                <option value="22.txt">Page 22</option>
+                <option value="23.txt">Page 23</option>
+                <option value="24.txt">Page 24</option>
+                <option value="25.txt">Page 25</option>
+                <option value="26.txt">Page 26</option>
+                <option value="27.txt">Page 27</option>
+                <option value="28.txt">Page 28</option>
+                <option value="29.txt">Page 29</option>
+                <option value="30.txt">Page 30</option>
+                <option value="31.txt">Page 31</option>
+                <option value="32.txt">Page 32</option>
+                <option value="33.txt">Page 33</option>
+                <option value="34.txt">Page 34</option>
+                <option value="35.txt">Page 35</option>
+                <option value="36.txt">Page 36</option>
+                <option value="37.txt">Page 37</option>
+                <option value="38.txt">Page 38</option>
+                <option value="39.txt">Page 39</option>
+                <option value="40.txt">Page 40</option>
+                <option value="41.txt">Page 41</option>
+                <option value="42.txt">Page 42</option>
+                <option value="43.txt">Page 43</option>
+                <option value="44.txt">Page 44</option>
+                <option value="45.txt">Page 45</option>
+                <option value="46.txt">Page 46</option>
+                <option value="47.txt">Page 47</option>
+                <option value="48.txt">Page 48</option>
+                <option value="49.txt">Page 49</option>
+                <option value="50.txt">Page 50</option>
+                <option value="51.txt">Page 51</option>
+                <option value="52.txt">Page 52</option>
+                <option value="53.txt">Page 53</option>
+                <option value="54.txt">Page 54</option>
+                <option value="55.txt">Page 55</option>
+                <option value="56.txt">Page 56</option>
+                <option value="57.txt">Page 57</option>
+            </select>
+            <button id="sload-button" class="button">Load</button>
+        </div>
+
         <div>
             <input type="checkbox" id="reverse-checkbox" />
             <label for="reverse-checkbox">Reverse Words</label>
@@ -54,6 +133,7 @@ function cmbsolver_runecalc_shortcode() {
             <button class="tab-button" data-tab="gp-fib-tab">Fibonacci View</button>
             <button class="tab-button" data-tab="gp-lucas-tab">Lucas View</button>
             <button class="tab-button" data-tab="totient-view-tab">Totient View</button>
+            <button class="tab-button" data-tab="first-last-tab">First Last View</button>
         </div>
 
         <!-- Tab Content -->
@@ -211,6 +291,13 @@ function cmbsolver_runecalc_shortcode() {
                         </div>
                         <div id="totient-coprimes" class="expandable-content collapsed"></div>
                     </div>
+                </div>
+            </div>
+
+            <!-- First Last Tab (Sixth Tab) -->
+            <div id="first-last-tab" class="tab-pane">
+                <div class="gp-view-content">
+                    <div id="first-last-visualization" class="gp-lines-container"></div>
                 </div>
             </div>
 

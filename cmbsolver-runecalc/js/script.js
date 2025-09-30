@@ -1,4 +1,29 @@
 jQuery(document).ready(function($) {
+    // Handle section load button click
+    $('#sload-button').click(function() {
+        var selectedFile = $('#lpviewer-section-select').val();
+        var filePath = pluginUrl + 'files/text/' + selectedFile;
+        
+        // Load the file content via AJAX
+        $.ajax({
+            url: filePath,
+            dataType: 'text',
+            success: function(data) {
+                // Put the content in the input area
+                $('#input-area').val(data);
+
+                // Select the "from-rune" option in the conversion-type dropdown
+                $('#conversion-type').val('from-rune');
+                
+                // Trigger the load-button click after loading content
+                $('#load-button').trigger('click');
+            },
+            error: function(xhr, status, error) {
+                alert('Error loading file: ' + error);
+            }
+        });
+    });
+
     // Tab switching functionality
     $('.tab-button').on('click', function() {
         // Remove the active class from all tabs
@@ -90,6 +115,7 @@ jQuery(document).ready(function($) {
         updateLucasView(runeText);
         updateFibView(runeText);
         updateTotientView(runeText, gemSum);
+        updateFirstLastView(runeText);
         updateIocTexts();
     });
 
@@ -159,6 +185,7 @@ jQuery(document).ready(function($) {
         updateLucasView(runeText);
         updateFibView(runeText);
         updateTotientView(runeText, gemSum);
+        updateFirstLastView(runeText);
         updateIocTexts();
     });
 });
@@ -166,7 +193,7 @@ jQuery(document).ready(function($) {
 function clearAll() {
     // Clear the input textarea
     jQuery('#input-area').val('');
-    
+
     // Clear all result content elements
     jQuery('.result-content').text('');
     jQuery('.rune-result-content').text('');
@@ -179,23 +206,24 @@ function clearAll() {
     jQuery('#runevalues-result').text('');
     jQuery('#distinct-runes-result').text('');
     jQuery('#doublets-result').text('');
-    
+
     // Reset checkbox if exists
     if (jQuery('#reverse-checkbox').length) {
         jQuery('#reverse-checkbox').prop('checked', false);
     }
-    
+
     // Reset conversion type dropdown if exists
     if (jQuery('#conversion-type').length) {
         jQuery('#conversion-type').val('from-latin');
     }
-    
+
     // Clear the GP visualization
     updateGPView('');
     updateLucasView('');
     updateFibView('');
     updateTotientView('', 0);
-    
+    updateFirstLastView('');
+
     // Add a small notification that everything was cleared
     const snackbar = jQuery('#snackbar');
     if (snackbar.length) {
@@ -880,6 +908,88 @@ function updateTotientView(inputText, gemSum) {
     });
 }
 
+/**
+ * Function to update the First Last View
+ */
+function updateFirstLastView(inputText) {
+    const gpContainer = document.getElementById('first-last-visualization');
+    // Clear the container
+    gpContainer.innerHTML = '';
+
+    if (!inputText.trim()) return;
+
+    // Split into lines by newline ⊹, or . character
+    const lines = inputText.split(/[\n\.\⊹\␍\␗\␊]/);
+
+    lines.forEach(line => {
+        if (!line.trim()) return; // Skip empty lines
+
+        // Create a line container
+        const lineDiv = document.createElement('div');
+        lineDiv.className = 'gp-line';
+
+        // Split the line into words
+        const words = line.trim().split(/[\s•]+/);
+
+        let lineSum = 0;
+
+        // Process each word
+        words.forEach(word => {
+            if (!word.trim()) return; // Skip empty words
+
+            // Calculate word value
+            const firstLast = word.substring(0, 1) + word.substring(word.length - 1);
+            const wordValue = calculateWordValue(firstLast);
+            const latin = transposeRuneToLatin(firstLast);
+            lineSum += wordValue;
+
+            // Determine color coding
+            let boxClass = 'gp-word-nonprime';
+            if (isEmirp(wordValue)) {
+                boxClass = 'gp-word-emirp';
+            } else if (isPrime(wordValue)) {
+                boxClass = 'gp-word-prime';
+            }
+
+            if (isCircularPrime(wordValue)) {
+                boxClass = 'gp-word-circular-prime';
+            }
+
+            // Create the word box
+            const wordBox = document.createElement('div');
+            wordBox.className = `gp-word-box ${boxClass}`;
+            wordBox.title = `Value: ${wordValue}`;
+
+            // Create and append text element
+            const wordText = document.createElement('div');
+            wordText.className = 'gp-word-text';
+            wordText.textContent = latin + ' (' + firstLast + ')';
+            wordBox.appendChild(wordText);
+
+            // Create and append value element
+            const wordValueElement = document.createElement('div');
+            wordValueElement.className = 'gp-word-value';
+            wordValueElement.textContent = wordValue;
+            wordBox.appendChild(wordValueElement);
+
+            lineDiv.appendChild(wordBox);
+        });
+
+        // Add the line sum at the end
+        const lineSumElement = document.createElement('div');
+        lineSumElement.className = 'gp-line-sum-nonprime';
+
+        if (isLucasNumber(lineSum)) {
+            lineSumElement.className = 'gp-line-sum-circular-prime';
+        }
+
+        lineSumElement.textContent = `Line Sum: ${lineSum}`;
+        lineDiv.appendChild(lineSumElement);
+
+        gpContainer.appendChild(lineDiv);
+    });
+}
+
 // Function to calculate GCD (Greatest Common Divisor)
 function gcd(a, b) {
     while (b !== 0) {
@@ -1229,14 +1339,14 @@ function reverseString(text) {
 // Initialize expandable sections
 document.addEventListener('DOMContentLoaded', function() {
     const expandableHeaders = document.querySelectorAll('.expandable-header');
-    
+
     expandableHeaders.forEach(header => {
         header.addEventListener('click', function() {
             const content = this.nextElementSibling;
             const button = this.querySelector('.expand-button');
-            
+
             content.classList.toggle('collapsed');
-            
+
             if (content.classList.contains('collapsed')) {
                 button.textContent = '▼';
             } else {
