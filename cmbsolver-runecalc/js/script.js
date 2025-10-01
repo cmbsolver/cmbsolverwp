@@ -115,7 +115,7 @@ jQuery(document).ready(function($) {
         updateLucasView(runeText);
         updateFibView(runeText);
         updateTotientView(runeText, gemSum);
-        updateFirstLastView(runeText);
+        updateFirstLastFields(runeText);
         updateIocTexts();
     });
 
@@ -185,7 +185,7 @@ jQuery(document).ready(function($) {
         updateLucasView(runeText);
         updateFibView(runeText);
         updateTotientView(runeText, gemSum);
-        updateFirstLastView(runeText);
+        updateFirstLastFields(runeText);
         updateIocTexts();
     });
 });
@@ -222,7 +222,7 @@ function clearAll() {
     updateLucasView('');
     updateFibView('');
     updateTotientView('', 0);
-    updateFirstLastView('');
+    updateFirstLastFields('');
 
     // Add a small notification that everything was cleared
     const snackbar = jQuery('#snackbar');
@@ -911,22 +911,24 @@ function updateTotientView(inputText, gemSum) {
 /**
  * Function to update the First Last View
  */
-function updateFirstLastView(inputText) {
-    const gpContainer = document.getElementById('first-last-visualization');
-    // Clear the container
-    gpContainer.innerHTML = '';
+function updateFirstLastFields(dirtyText) {
+    let startMap = new Map();
+    let startEndMap = new Map();
 
-    if (!inputText.trim()) return;
+    const startContainer = document.getElementById('startswith-result');
+    const startEndContainer = document.getElementById('startsendwith-result');
+
+    // Clear the container
+    startContainer.innerHTML = '';
+    startEndContainer.innerHTML = '';
+
+    if (!dirtyText.trim()) return;
 
     // Split into lines by newline ⊹, or . character
-    const lines = inputText.split(/[\n\.\⊹\␍\␗\␊]/);
+    const lines = dirtyText.split(/[\n\.\⊹\␍\␗\␊]/);
 
     lines.forEach(line => {
         if (!line.trim()) return; // Skip empty lines
-
-        // Create a line container
-        const lineDiv = document.createElement('div');
-        lineDiv.className = 'gp-line';
 
         // Split the line into words
         const words = line.trim().split(/[\s•]+/);
@@ -934,59 +936,61 @@ function updateFirstLastView(inputText) {
         let lineSum = 0;
 
         // Process each word
-        words.forEach(word => {
-            if (!word.trim()) return; // Skip empty words
+        words.forEach(dirtyWord => {
+            let cleanWord = '';
+            dirtyWord.split('').forEach(char => {
+               if (isRune(char)) {
+                   cleanWord += char;
+               }
+            });
+
+            if (!cleanWord.trim()) return; // Skip empty words
 
             // Calculate word value
-            const firstLast = word.substring(0, 1) + word.substring(word.length - 1);
-            const wordValue = calculateWordValue(firstLast);
-            const latin = transposeRuneToLatin(firstLast);
-            lineSum += wordValue;
+            const first = cleanWord.substring(0, 1);
+            const firstLast = cleanWord.substring(0, 1) + cleanWord.substring(cleanWord.length - 1);
 
-            // Determine color coding
-            let boxClass = 'gp-word-nonprime';
-            if (isEmirp(wordValue)) {
-                boxClass = 'gp-word-emirp';
-            } else if (isPrime(wordValue)) {
-                boxClass = 'gp-word-prime';
+            if (startMap.has(first)) {
+                const existingCount = startMap.get(first);
+                startMap.set(first, existingCount + 1);
+            } else {
+                startMap.set(first, 1);
             }
 
-            if (isCircularPrime(wordValue)) {
-                boxClass = 'gp-word-circular-prime';
+            if (firstLast.substring(0, 1) === firstLast.substring(1, 2)) {
+                if (startEndMap.has(firstLast)) {
+                    const existingCount = startEndMap.get(firstLast);
+                    startEndMap.set(firstLast, existingCount + 1);
+                } else {
+                    startEndMap.set(firstLast, 1);
+                }
             }
-
-            // Create the word box
-            const wordBox = document.createElement('div');
-            wordBox.className = `gp-word-box ${boxClass}`;
-            wordBox.title = `Value: ${wordValue}`;
-
-            // Create and append text element
-            const wordText = document.createElement('div');
-            wordText.className = 'gp-word-text';
-            wordText.textContent = latin + ' (' + firstLast + ')';
-            wordBox.appendChild(wordText);
-
-            // Create and append value element
-            const wordValueElement = document.createElement('div');
-            wordValueElement.className = 'gp-word-value';
-            wordValueElement.textContent = wordValue;
-            wordBox.appendChild(wordValueElement);
-
-            lineDiv.appendChild(wordBox);
         });
+    });
 
-        // Add the line sum at the end
-        const lineSumElement = document.createElement('div');
-        lineSumElement.className = 'gp-line-sum-nonprime';
+    startMap = new Map([...startMap.entries()].sort((a, b) => b[1] - a[1]));
+    startEndMap = new Map([...startEndMap.entries()].sort((a, b) => b[1] - a[1]));
 
-        if (isLucasNumber(lineSum)) {
-            lineSumElement.className = 'gp-line-sum-circular-prime';
+    let tripped = false;
+    startMap.forEach((value, key) => {
+        const startText = `${key}:(${value})`;
+        if (!tripped) {
+            tripped = true;
+            startContainer.innerHTML += startText;
+        } else {
+            startContainer.innerHTML += ', ' + startText;
         }
+    });
 
-        lineSumElement.textContent = `Line Sum: ${lineSum}`;
-        lineDiv.appendChild(lineSumElement);
-
-        gpContainer.appendChild(lineDiv);
+    tripped = false;
+    startEndMap.forEach((value, key) => {
+        const startText = `${key}:(${value})`;
+        if (!tripped) {
+            tripped = true;
+            startEndContainer.innerHTML += startText;
+        } else {
+            startEndContainer.innerHTML += ', ' + startText;
+        }
     });
 }
 

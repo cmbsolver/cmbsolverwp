@@ -36,11 +36,11 @@ function cmbsolver_runecalc_shortcode() {
                 <option value="from-latin">From Latin Characters</option>
                 <option value="from-rune">From Rune Characters</option>
             </select>
-            <button id="load-button" class="button">Load</button>
+            <button id="load-button" class="button">Transpose</button>
         </div>
 
         <div class="conversion-row">
-            <label for="lpviewer-page-select" class="text-label">Select Page or Section: </label>
+            <label class="text-label">Select Page or Section: </label>
             <select id="lpviewer-section-select">
                 <option value="0-2.txt">Section 0-2</option>
                 <option value="3-7.txt">Section 3-7</option>
@@ -133,7 +133,6 @@ function cmbsolver_runecalc_shortcode() {
             <button class="tab-button" data-tab="gp-fib-tab">Fibonacci View</button>
             <button class="tab-button" data-tab="gp-lucas-tab">Lucas View</button>
             <button class="tab-button" data-tab="totient-view-tab">Totient View</button>
-            <button class="tab-button" data-tab="first-last-tab">First Last View</button>
         </div>
 
         <!-- Tab Content -->
@@ -232,6 +231,26 @@ function cmbsolver_runecalc_shortcode() {
                         <div class="result-label">Doublets:</div>
                         <div id="doublets-result" class="result-content"></div>
                     </div>
+                    <div class="result-row">
+                        <button class="copy-button" aria-label="Copy to clipboard">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                        <div class="result-label">Starts With:</div>
+                        <div id="startswith-result" class="result-content"></div>
+                    </div>
+                    <div class="result-row">
+                        <button class="copy-button" aria-label="Copy to clipboard">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                        <div class="result-label">Starts and Ends With:</div>
+                        <div id="startsendwith-result" class="result-content"></div>
+                    </div>
                 </div>
             </div>
 
@@ -290,20 +309,6 @@ function cmbsolver_runecalc_shortcode() {
                             <button class="expand-button">▼</button>
                         </div>
                         <div id="totient-coprimes" class="expandable-content collapsed"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- First Last Tab (Sixth Tab) -->
-            <div id="first-last-tab" class="tab-pane">
-                <div class="gp-view-content">
-                    <div id="first-last-visualization" class="gp-lines-container"></div>
-                    <div>
-                        <b>Legend:</b>
-                        <div class="gp-line-sum-nonprime">Non-Prime</div>
-                        <div class="gp-line-sum-circular-prime">Circular Prime</div>
-                        <div class="gp-line-sum-prime">Prime</div>
-                        <div class="gp-line-sum-emirp">Emirp</div>
                     </div>
                 </div>
             </div>
