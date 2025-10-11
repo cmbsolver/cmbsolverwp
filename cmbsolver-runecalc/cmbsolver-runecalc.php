@@ -118,6 +118,9 @@ function cmbsolver_runecalc_shortcode() {
         <div>
             <input type="checkbox" id="reverse-checkbox" />
             <label for="reverse-checkbox">Reverse Words</label>
+
+            <input type="checkbox" id="invert-runes-checkbox" />
+            <label for="invert-runes-checkbox">Invert Runes</label>
         </div>
 
         <!-- Special Characters Row -->

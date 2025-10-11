@@ -144,22 +144,32 @@ jQuery(document).ready(function($) {
         const input = $('#input-area').val();
         const conversionType = $('#conversion-type').val();
         const isReversed = $('#reverse-checkbox').is(':checked');
+        const invertRunes = $('#invert-runes-checkbox').is(':checked');
 
         if (conversionType === 'from-latin') {
             if (isReversed) {
                 const tempText = reverseWords(input);
                 runeglishText = prepLatinToRune(tempText);
-                runeText = transposeLatinToRune(runeglishText);
+                runeText = transposeLatinToRune(runeglishText, invertRunes);
             } else {
                 runeglishText = prepLatinToRune(input);
-                runeText = transposeLatinToRune(runeglishText);
+                runeText = transposeLatinToRune(runeglishText, invertRunes);
             }
         } else {
+            runeText = input;
+
+            if (invertRunes) {
+                let tmpRuneText = '';
+                for (let i = 0; i < runeText.length; i++) {
+                    tmpRuneText += getRuneFromRune(runeText[i]);
+                }
+                runeText = tmpRuneText;
+            }
+
             if (isReversed) {
-                runeText = reverseWords(input);
+                runeText = reverseWords(runeText);
                 runeglishText = transposeRuneToLatin(runeText);
             } else {
-                runeText = input;
                 runeglishText = transposeRuneToLatin(runeText);
             }
 
@@ -309,6 +319,27 @@ function isDinkus(rune) {
     return rune === '⊹' || rune === '•';
 }
 
+const runeToRune = {
+    'ᚠ':'ᛠ', 'ᛡ': 'ᚢ', 'ᚣ': 'ᚦ', 'ᚫ': 'ᚩ', 'ᚪ': 'ᚱ', 'ᛞ': 'ᚳ', 'ᛟ': 'ᚷ', 'ᛝ': 'ᚹ',
+    'ᛚ': 'ᚻ', 'ᛗ': 'ᚾ', 'ᛖ': 'ᛁ', 'ᛒ': 'ᛄ', 'ᛏ': 'ᛇ', 'ᛋ': 'ᛈ', 'ᛉ': 'ᛉ', 'ᛈ': 'ᛋ',
+    'ᛇ': 'ᛏ', 'ᛄ': 'ᛒ', 'ᛁ': 'ᛖ', 'ᚾ': 'ᛗ', 'ᚻ': 'ᛚ', 'ᚹ': 'ᛝ', 'ᚷ': 'ᛟ', 'ᚳ': 'ᛞ',
+    'ᚱ': 'ᚪ', 'ᚩ': 'ᚫ', 'ᚦ': 'ᚣ', 'ᚢ': 'ᛡ', 'ᛠ':'ᚠ', '•': '•', '⊹': '⊹',
+}
+
+/**
+ * Converts a rune to a letter.
+ * @param {string} rune - The rune to convert
+ * @return {string} The converted rune
+ */
+function getRuneFromRune(rune) {
+    // if the rune is not in the hashmap, return the character itself
+    if (!runeToRune.hasOwnProperty(rune)) {
+        return rune;
+    } else {
+        return runeToRune[rune];
+    }
+}
+
 /**
  * Converts Latin text to a format suitable for rune conversion.
  * @param {string} text - The input text to convert
@@ -349,74 +380,140 @@ function prepLatinToRune(text) {
 /**
 * Transposes latin to rune
 * @param {string} text - The input text to convert
+* @param {boolean} invertRunes - Whether to invert the rune order
 * @return {string} The converted text
 */
-function transposeLatinToRune(text) {
+function transposeLatinToRune(text, invertRunes) {
     let result = "";
 
     for (let i = 0; i < text.length; i++) {
         const xchar = text[i];
+        let tmpRune = '';
         if (!isRune(xchar)) {
             switch (xchar) {
                 case 'A':
                     if (i + 1 < text.length && text[i + 1] === 'E') {
-                        result += getRuneFromLetter("AE");
+                        tmpRune = getRuneFromLetter("AE");
+                        if (invertRunes) {
+                            tmpRune = getRuneFromRune(tmpRune);
+                        }
+                        result += tmpRune;
                         i++
                     } else {
-                        result += getRuneFromLetter("A");
+                        tmpRune = getRuneFromLetter("A");
+                        if (invertRunes) {
+                            tmpRune = getRuneFromRune(tmpRune);
+                        }
+                        result += tmpRune;
                     }
                     break;
                 case 'E':
                     if (i + 1 < text.length && text[i + 1] === 'A') {
-                        result += getRuneFromLetter("EA");
+                        tmpRune = getRuneFromLetter("EA");
+                        if (invertRunes) {
+                            tmpRune = getRuneFromRune(tmpRune);
+                        }
+                        result += tmpRune;
                         i++
                     } else if (i + 1 < text.length && text[i + 1] === 'O') {
-                        result += getRuneFromLetter("EO");
+                        tmpRune = getRuneFromLetter("EO");
+                        if (invertRunes) {
+                            tmpRune = getRuneFromRune(tmpRune);
+                        }
+                        result += tmpRune;
                         i++
                     } else {
-                        result += getRuneFromLetter("E");
+                        tmpRune = getRuneFromLetter("E");
+                        if (invertRunes) {
+                            tmpRune = getRuneFromRune(tmpRune);
+                        }
+                        result += tmpRune;
                     }
                     break;
                 case 'O':
                     if (i + 1 < text.length && text[i + 1] === 'E') {
-                        result += getRuneFromLetter("OE");
+                        tmpRune = getRuneFromLetter("OE");
+                        if (invertRunes) {
+                            tmpRune = getRuneFromRune(tmpRune);
+                        }
+                        result += tmpRune;
                         i++
                     } else {
-                        result += getRuneFromLetter("O");
+                        tmpRune = getRuneFromLetter("O");
+                        if (invertRunes) {
+                            tmpRune = getRuneFromRune(tmpRune);
+                        }
+                        result += tmpRune;
                     }
                     break;
                 case 'T':
                     if (i + 1 < text.length && text[i + 1] === 'H') {
-                        result += getRuneFromLetter("TH");
+                        tmpRune = getRuneFromLetter("TH");
+                        if (invertRunes) {
+                            tmpRune = getRuneFromRune(tmpRune);
+                        }
+                        result += tmpRune;
                         i++
                     } else {
-                        result += getRuneFromLetter("T");
+                        tmpRune = getRuneFromLetter("T");
+                        if (invertRunes) {
+                            tmpRune = getRuneFromRune(tmpRune);
+                        }
+                        result += tmpRune;
                     }
                     break;
                 case 'I':
                     if (i + 1 < text.length && text[i + 1] === 'O') {
-                        result += getRuneFromLetter("IO");
+                        tmpRune = getRuneFromLetter("IO");
+                        if (invertRunes) {
+                            tmpRune = getRuneFromRune(tmpRune);
+                        }
+                        result += tmpRune;
                         i++
                     } else if (i + 2 < text.length && text[i + 1] === 'N' && text[i + 2] === 'G') {
-                        result += getRuneFromLetter("ING");
+                        tmpRune = getRuneFromLetter("ING");
+                        if (invertRunes) {
+                            tmpRune = getRuneFromRune(tmpRune);
+                        }
+                        result += tmpRune;
                         i += 2
                     } else if (i + 1 < text.length && text[i + 1] === 'A') {
-                        result += getRuneFromLetter("IA");
+                        tmpRune = getRuneFromLetter("IA");
+                        if (invertRunes) {
+                            tmpRune = getRuneFromRune(tmpRune);
+                        }
+                        result += tmpRune;
                         i++
                     } else {
-                        result += getRuneFromLetter("I");
+                        tmpRune = getRuneFromLetter("I");
+                        if (invertRunes) {
+                            tmpRune = getRuneFromRune(tmpRune);
+                        }
+                        result += tmpRune;
                     }
                     break;
                 case 'N':
                     if (i + 1 < text.length && text[i + 1] === 'G') {
-                        result += getRuneFromLetter("NG");
+                        tmpRune = getRuneFromLetter("NG");
+                        if (invertRunes) {
+                            tmpRune = getRuneFromRune(tmpRune);
+                        }
+                        result += tmpRune;
                         i++
                     } else {
-                        result += getRuneFromLetter("N");
+                        tmpRune = getRuneFromLetter("N");
+                        if (invertRunes) {
+                            tmpRune = getRuneFromRune(tmpRune);
+                        }
+                        result += tmpRune;
                     }
                     break;
                 default:
-                    result += getRuneFromLetter(xchar);
+                    tmpRune = getRuneFromLetter(xchar);
+                    if (invertRunes) {
+                        tmpRune = getRuneFromRune(tmpRune);
+                    }
+                    result += tmpRune;
                     break;
             }
         } else {
