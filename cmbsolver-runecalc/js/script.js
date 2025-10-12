@@ -144,24 +144,24 @@ jQuery(document).ready(function($) {
         const input = $('#input-area').val();
         const conversionType = $('#conversion-type').val();
         const isReversed = $('#reverse-checkbox').is(':checked');
-        const invertRunes = $('#invert-runes-checkbox').is(':checked');
+        const transformType = $('#transform-type').val();
 
         if (conversionType === 'from-latin') {
             if (isReversed) {
                 const tempText = reverseWords(input);
                 runeglishText = prepLatinToRune(tempText);
-                runeText = transposeLatinToRune(runeglishText, invertRunes);
+                runeText = transposeLatinToRune(runeglishText, transformType);
             } else {
                 runeglishText = prepLatinToRune(input);
-                runeText = transposeLatinToRune(runeglishText, invertRunes);
+                runeText = transposeLatinToRune(runeglishText, transformType);
             }
         } else {
             runeText = input;
 
-            if (invertRunes) {
+            if (transformType !== 'none') {
                 let tmpRuneText = '';
                 for (let i = 0; i < runeText.length; i++) {
-                    tmpRuneText += getRuneFromRune(runeText[i]);
+                    tmpRuneText += getRuneFromRune(runeText[i], transformType);
                 }
                 runeText = tmpRuneText;
             }
@@ -319,25 +319,65 @@ function isDinkus(rune) {
     return rune === '⊹' || rune === '•';
 }
 
-const runeToRune = {
+const atbashRune = {
     'ᚠ':'ᛠ', 'ᛡ': 'ᚢ', 'ᚣ': 'ᚦ', 'ᚫ': 'ᚩ', 'ᚪ': 'ᚱ', 'ᛞ': 'ᚳ', 'ᛟ': 'ᚷ', 'ᛝ': 'ᚹ',
     'ᛚ': 'ᚻ', 'ᛗ': 'ᚾ', 'ᛖ': 'ᛁ', 'ᛒ': 'ᛄ', 'ᛏ': 'ᛇ', 'ᛋ': 'ᛈ', 'ᛉ': 'ᛉ', 'ᛈ': 'ᛋ',
     'ᛇ': 'ᛏ', 'ᛄ': 'ᛒ', 'ᛁ': 'ᛖ', 'ᚾ': 'ᛗ', 'ᚻ': 'ᛚ', 'ᚹ': 'ᛝ', 'ᚷ': 'ᛟ', 'ᚳ': 'ᛞ',
     'ᚱ': 'ᚪ', 'ᚩ': 'ᚫ', 'ᚦ': 'ᚣ', 'ᚢ': 'ᛡ', 'ᛠ':'ᚠ', '•': '•', '⊹': '⊹',
 }
 
+const albamRune = {
+    'ᛋ': 'ᚠ', 'ᛏ': 'ᚢ', 'ᛒ': 'ᚦ', 'ᛖ': 'ᚩ', 'ᛗ': 'ᚱ', 'ᛚ': 'ᚳ', 'ᛝ': 'ᚷ', 'ᛟ': 'ᚹ',
+    'ᛞ': 'ᚻ', 'ᚪ': 'ᚾ', 'ᚫ': 'ᛁ', 'ᚣ': 'ᛄ', 'ᛡ': 'ᛇ', 'ᛠ': 'ᛈ', 'ᛉ': 'ᛉ', 'ᚠ': 'ᛋ',
+    'ᚢ': 'ᛏ', 'ᚦ': 'ᛒ', 'ᚩ': 'ᛖ', 'ᚱ': 'ᛗ', 'ᚳ': 'ᛚ', 'ᚷ': 'ᛝ', 'ᚹ': 'ᛟ', 'ᚻ': 'ᛞ',
+    'ᚾ': 'ᚪ', 'ᛁ': 'ᚫ', 'ᛄ': 'ᚣ', 'ᛇ': 'ᛡ', 'ᛈ': 'ᛠ',
+}
+
+const achbiRune = {
+    'ᛉ': 'ᚠ', 'ᛈ': 'ᚢ', 'ᛇ': 'ᚦ', 'ᛄ': 'ᚩ', 'ᛁ': 'ᚱ', 'ᚾ': 'ᚳ', 'ᚻ': 'ᚷ', 'ᚹ': 'ᚹ',
+    'ᚷ': 'ᚻ', 'ᚳ': 'ᚾ', 'ᚱ': 'ᛁ', 'ᚩ': 'ᛄ', 'ᚦ': 'ᛇ', 'ᚢ': 'ᛈ', 'ᚠ': 'ᛉ', 'ᛠ': 'ᛋ',
+    'ᛡ': 'ᛏ', 'ᚣ': 'ᛒ', 'ᚫ': 'ᛖ', 'ᚪ': 'ᛗ', 'ᛞ': 'ᛚ', 'ᛟ': 'ᛝ', 'ᛝ': 'ᛟ', 'ᛚ': 'ᛞ',
+    'ᛗ': 'ᚪ', 'ᛖ': 'ᚫ', 'ᛒ': 'ᚣ', 'ᛏ': 'ᛡ', 'ᛋ': 'ᛠ',
+}
+
 /**
  * Converts a rune to a letter.
  * @param {string} rune - The rune to convert
+ * @param {string} transformType - The type of transformation to apply
  * @return {string} The converted rune
  */
-function getRuneFromRune(rune) {
+function getRuneFromRune(rune, transformType) {
+    let retval = '';
+
     // if the rune is not in the hashmap, return the character itself
-    if (!runeToRune.hasOwnProperty(rune)) {
-        return rune;
-    } else {
-        return runeToRune[rune];
+    switch (transformType) {
+        case 'atbash':
+            if (!atbashRune.hasOwnProperty(rune)) {
+                retval = rune;
+            } else {
+                retval = atbashRune[rune];
+            }
+            break;
+        case 'albam':
+            if (!albamRune.hasOwnProperty(rune)) {
+                retval = rune;
+            } else {
+                retval = albamRune[rune];
+            }
+            break;
+        case 'achbi':
+            if (!achbiRune.hasOwnProperty(rune)) {
+                retval = rune;
+            } else {
+                retval = achbiRune[rune];
+            }
+            break;
+        default:
+            retval = rune;
+            break;
     }
+
+    return retval;
 }
 
 /**
@@ -380,10 +420,10 @@ function prepLatinToRune(text) {
 /**
 * Transposes latin to rune
 * @param {string} text - The input text to convert
-* @param {boolean} invertRunes - Whether to invert the rune order
+* @param {string} transformType - How to transform the runes.
 * @return {string} The converted text
 */
-function transposeLatinToRune(text, invertRunes) {
+function transposeLatinToRune(text, transformType) {
     let result = "";
 
     for (let i = 0; i < text.length; i++) {
@@ -394,15 +434,15 @@ function transposeLatinToRune(text, invertRunes) {
                 case 'A':
                     if (i + 1 < text.length && text[i + 1] === 'E') {
                         tmpRune = getRuneFromLetter("AE");
-                        if (invertRunes) {
-                            tmpRune = getRuneFromRune(tmpRune);
+                        if (transformType !== 'none') {
+                            tmpRune = getRuneFromRune(tmpRune, transformType);
                         }
                         result += tmpRune;
                         i++
                     } else {
                         tmpRune = getRuneFromLetter("A");
-                        if (invertRunes) {
-                            tmpRune = getRuneFromRune(tmpRune);
+                        if (transformType !== 'none') {
+                            tmpRune = getRuneFromRune(tmpRune, transformType);
                         }
                         result += tmpRune;
                     }
@@ -410,22 +450,22 @@ function transposeLatinToRune(text, invertRunes) {
                 case 'E':
                     if (i + 1 < text.length && text[i + 1] === 'A') {
                         tmpRune = getRuneFromLetter("EA");
-                        if (invertRunes) {
-                            tmpRune = getRuneFromRune(tmpRune);
+                        if (transformType !== 'none') {
+                            tmpRune = getRuneFromRune(tmpRune, transformType);
                         }
                         result += tmpRune;
                         i++
                     } else if (i + 1 < text.length && text[i + 1] === 'O') {
                         tmpRune = getRuneFromLetter("EO");
-                        if (invertRunes) {
-                            tmpRune = getRuneFromRune(tmpRune);
+                        if (transformType !== 'none') {
+                            tmpRune = getRuneFromRune(tmpRune, transformType);
                         }
                         result += tmpRune;
                         i++
                     } else {
                         tmpRune = getRuneFromLetter("E");
-                        if (invertRunes) {
-                            tmpRune = getRuneFromRune(tmpRune);
+                        if (transformType !== 'none') {
+                            tmpRune = getRuneFromRune(tmpRune, transformType);
                         }
                         result += tmpRune;
                     }
@@ -433,15 +473,15 @@ function transposeLatinToRune(text, invertRunes) {
                 case 'O':
                     if (i + 1 < text.length && text[i + 1] === 'E') {
                         tmpRune = getRuneFromLetter("OE");
-                        if (invertRunes) {
-                            tmpRune = getRuneFromRune(tmpRune);
+                        if (transformType !== 'none') {
+                            tmpRune = getRuneFromRune(tmpRune, transformType);
                         }
                         result += tmpRune;
                         i++
                     } else {
                         tmpRune = getRuneFromLetter("O");
-                        if (invertRunes) {
-                            tmpRune = getRuneFromRune(tmpRune);
+                        if (transformType !== 'none') {
+                            tmpRune = getRuneFromRune(tmpRune, transformType);
                         }
                         result += tmpRune;
                     }
@@ -449,15 +489,15 @@ function transposeLatinToRune(text, invertRunes) {
                 case 'T':
                     if (i + 1 < text.length && text[i + 1] === 'H') {
                         tmpRune = getRuneFromLetter("TH");
-                        if (invertRunes) {
-                            tmpRune = getRuneFromRune(tmpRune);
+                        if (transformType !== 'none') {
+                            tmpRune = getRuneFromRune(tmpRune, transformType);
                         }
                         result += tmpRune;
                         i++
                     } else {
                         tmpRune = getRuneFromLetter("T");
-                        if (invertRunes) {
-                            tmpRune = getRuneFromRune(tmpRune);
+                        if (transformType !== 'none') {
+                            tmpRune = getRuneFromRune(tmpRune, transformType);
                         }
                         result += tmpRune;
                     }
@@ -465,29 +505,29 @@ function transposeLatinToRune(text, invertRunes) {
                 case 'I':
                     if (i + 1 < text.length && text[i + 1] === 'O') {
                         tmpRune = getRuneFromLetter("IO");
-                        if (invertRunes) {
-                            tmpRune = getRuneFromRune(tmpRune);
+                        if (transformType !== 'none') {
+                            tmpRune = getRuneFromRune(tmpRune, transformType);
                         }
                         result += tmpRune;
                         i++
                     } else if (i + 2 < text.length && text[i + 1] === 'N' && text[i + 2] === 'G') {
                         tmpRune = getRuneFromLetter("ING");
-                        if (invertRunes) {
-                            tmpRune = getRuneFromRune(tmpRune);
+                        if (transformType !== 'none') {
+                            tmpRune = getRuneFromRune(tmpRune, transformType);
                         }
                         result += tmpRune;
                         i += 2
                     } else if (i + 1 < text.length && text[i + 1] === 'A') {
                         tmpRune = getRuneFromLetter("IA");
-                        if (invertRunes) {
-                            tmpRune = getRuneFromRune(tmpRune);
+                        if (transformType !== 'none') {
+                            tmpRune = getRuneFromRune(tmpRune, transformType);
                         }
                         result += tmpRune;
                         i++
                     } else {
                         tmpRune = getRuneFromLetter("I");
-                        if (invertRunes) {
-                            tmpRune = getRuneFromRune(tmpRune);
+                        if (transformType !== 'none') {
+                            tmpRune = getRuneFromRune(tmpRune, transformType);
                         }
                         result += tmpRune;
                     }
@@ -495,23 +535,23 @@ function transposeLatinToRune(text, invertRunes) {
                 case 'N':
                     if (i + 1 < text.length && text[i + 1] === 'G') {
                         tmpRune = getRuneFromLetter("NG");
-                        if (invertRunes) {
-                            tmpRune = getRuneFromRune(tmpRune);
+                        if (transformType !== 'none') {
+                            tmpRune = getRuneFromRune(tmpRune, transformType);
                         }
                         result += tmpRune;
                         i++
                     } else {
                         tmpRune = getRuneFromLetter("N");
-                        if (invertRunes) {
-                            tmpRune = getRuneFromRune(tmpRune);
+                        if (transformType !== 'none') {
+                            tmpRune = getRuneFromRune(tmpRune, transformType);
                         }
                         result += tmpRune;
                     }
                     break;
                 default:
                     tmpRune = getRuneFromLetter(xchar);
-                    if (invertRunes) {
-                        tmpRune = getRuneFromRune(tmpRune);
+                    if (transformType !== 'none') {
+                        tmpRune = getRuneFromRune(tmpRune, transformType);
                     }
                     result += tmpRune;
                     break;

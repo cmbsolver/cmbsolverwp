@@ -30,6 +30,22 @@ function cmbsolver_runecalc_shortcode() {
         <div class="text-label">Text To Calculate</div>
         <textarea id="input-area" rows="4" class="wide-input"></textarea>
 
+        <!-- Transform Type -->
+        <div class="conversion-row">
+            <label class="text-label">Rune Transform: </label>
+            <select id="transform-type">
+                <option value="none" selected>No Transform</option>
+                <option value="atbash">Atbash (Invert)</option>
+                <option value="albam">Albam (Cross Column)</option>
+                <option value="achbi">Achbi (Atbash Columns)</option>
+            </select>
+        </div>
+
+        <div>
+            <input type="checkbox" id="reverse-checkbox" />
+            <label for="reverse-checkbox">Reverse Words</label>
+        </div>
+
         <!-- Conversion Type -->
         <div class="conversion-row">
             <select id="conversion-type">
@@ -113,14 +129,6 @@ function cmbsolver_runecalc_shortcode() {
                 <option value="57.txt">Page 57</option>
             </select>
             <button id="sload-button" class="button">Load</button>
-        </div>
-
-        <div>
-            <input type="checkbox" id="reverse-checkbox" />
-            <label for="reverse-checkbox">Reverse Words</label>
-
-            <input type="checkbox" id="invert-runes-checkbox" />
-            <label for="invert-runes-checkbox">Invert Runes</label>
         </div>
 
         <!-- Special Characters Row -->
