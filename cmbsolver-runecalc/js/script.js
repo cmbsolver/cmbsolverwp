@@ -340,6 +340,13 @@ const achbiRune = {
     'ᛗ': 'ᚪ', 'ᛖ': 'ᚫ', 'ᛒ': 'ᚣ', 'ᛏ': 'ᛡ', 'ᛋ': 'ᛠ',
 }
 
+const avgadRune = {
+    'ᚠ': 'ᚢ', 'ᚢ': 'ᚦ', 'ᚦ': 'ᚩ', 'ᚩ': 'ᚱ', 'ᚱ': 'ᚳ', 'ᚳ': 'ᚷ', 'ᚷ': 'ᚹ', 'ᚹ': 'ᚻ',
+    'ᚻ': 'ᚾ', 'ᚾ': 'ᛁ', 'ᛁ': 'ᛄ', 'ᛄ': 'ᛇ', 'ᛇ': 'ᛈ', 'ᛈ': 'ᛉ', 'ᛉ': 'ᛋ', 'ᛋ': 'ᛏ',
+    'ᛏ': 'ᛒ', 'ᛒ': 'ᛖ', 'ᛖ': 'ᛗ', 'ᛗ': 'ᛚ', 'ᛚ': 'ᛝ', 'ᛝ': 'ᛟ', 'ᛟ': 'ᛞ', 'ᛞ': 'ᚪ',
+    'ᚪ': 'ᚫ', 'ᚫ': 'ᚣ', 'ᚣ': 'ᛡ', 'ᛡ': 'ᛠ', 'ᛠ': 'ᚠ',
+}
+
 /**
  * Converts a rune to a letter.
  * @param {string} rune - The rune to convert
@@ -370,6 +377,13 @@ function getRuneFromRune(rune, transformType) {
                 retval = rune;
             } else {
                 retval = achbiRune[rune];
+            }
+            break;
+        case 'avgad':
+            if (!avgadRune.hasOwnProperty(rune)) {
+                retval = rune;
+            } else {
+                retval = avgadRune[rune];
             }
             break;
         default:
