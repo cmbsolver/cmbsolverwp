@@ -2,7 +2,7 @@
 /*
 Plugin Name: CMB Solver Rune Calculator
 Description: A rune calculation tool with conversion capabilities
-Version: 1.13
+Version: 1.14
 Author: CMBSOLVER
 */
 
@@ -37,8 +37,13 @@ function cmbsolver_runecalc_shortcode() {
                 <option value="none" selected>No Transform</option>
                 <option value="atbash">Atbash</option>
                 <option value="albam">Albam</option>
+                <option value="albam-one">Albam (Var 1)</option>
                 <option value="achbi">Achbi</option>
+                <option value="achbi-one">Achbi (Var 1)</option>
                 <option value="avgad">Avgad</option>
+                <option value="avgad-reverse">Avgad (Reverse)</option>
+                <option value="ofanim">Ofanim</option>
+                <option value="ofanim-reverse">Ofanim (Reverse)</option>
             </select>
         </div>
 

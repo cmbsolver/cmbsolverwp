@@ -333,6 +333,13 @@ const albamRune = {
     'ᚾ': 'ᚪ', 'ᛁ': 'ᚫ', 'ᛄ': 'ᚣ', 'ᛇ': 'ᛡ', 'ᛈ': 'ᛠ',
 }
 
+const albamRuneVarOne = {
+    'ᛉ': 'ᚠ', 'ᛋ': 'ᚢ', 'ᛏ': 'ᚦ', 'ᛒ': 'ᚩ', 'ᛖ': 'ᚱ', 'ᛗ': 'ᚳ', 'ᛚ': 'ᚷ', 'ᛝ': 'ᚹ',
+    'ᛟ': 'ᚻ', 'ᛞ': 'ᚾ', 'ᚪ': 'ᛁ', 'ᚫ': 'ᛄ', 'ᚣ': 'ᛇ', 'ᛡ': 'ᛈ', 'ᚠ': 'ᛉ', 'ᚢ': 'ᛋ',
+    'ᚦ': 'ᛏ', 'ᚩ': 'ᛒ', 'ᚱ': 'ᛖ', 'ᚳ': 'ᛗ', 'ᚷ': 'ᛚ', 'ᚹ': 'ᛝ', 'ᚻ': 'ᛟ', 'ᚾ': 'ᛞ',
+    'ᛁ': 'ᚪ', 'ᛄ': 'ᚫ', 'ᛇ': 'ᚣ', 'ᛈ': 'ᛡ', 'ᛠ': 'ᛠ',
+}
+
 const achbiRune = {
     'ᛉ': 'ᚠ', 'ᛈ': 'ᚢ', 'ᛇ': 'ᚦ', 'ᛄ': 'ᚩ', 'ᛁ': 'ᚱ', 'ᚾ': 'ᚳ', 'ᚻ': 'ᚷ', 'ᚹ': 'ᚹ',
     'ᚷ': 'ᚻ', 'ᚳ': 'ᚾ', 'ᚱ': 'ᛁ', 'ᚩ': 'ᛄ', 'ᚦ': 'ᛇ', 'ᚢ': 'ᛈ', 'ᚠ': 'ᛉ', 'ᛠ': 'ᛋ',
@@ -340,11 +347,42 @@ const achbiRune = {
     'ᛗ': 'ᚪ', 'ᛖ': 'ᚫ', 'ᛒ': 'ᚣ', 'ᛏ': 'ᛡ', 'ᛋ': 'ᛠ',
 }
 
+const achbiRuneVarOne = {
+    'ᛈ': 'ᚠ', 'ᛇ': 'ᚢ', 'ᛄ': 'ᚦ', 'ᛁ': 'ᚩ', 'ᚾ': 'ᚱ', 'ᚻ': 'ᚳ', 'ᚹ': 'ᚷ',
+    'ᚷ': 'ᚹ', 'ᚳ': 'ᚻ', 'ᚱ': 'ᚾ', 'ᚩ': 'ᛁ', 'ᚦ': 'ᛄ', 'ᚢ': 'ᛇ', 'ᚠ': 'ᛈ',
+    'ᛠ': 'ᛉ', 'ᛡ': 'ᛋ', 'ᚣ': 'ᛏ', 'ᚫ': 'ᛒ', 'ᚪ': 'ᛖ', 'ᛞ': 'ᛗ', 'ᛟ': 'ᛚ',
+    'ᛝ': 'ᛝ', 'ᛚ': 'ᛟ', 'ᛗ': 'ᛞ', 'ᛖ': 'ᚪ', 'ᛒ': 'ᚫ', 'ᛏ': 'ᚣ', 'ᛋ': 'ᛡ',
+    'ᛉ': 'ᛠ',
+}
+
 const avgadRune = {
     'ᚠ': 'ᚢ', 'ᚢ': 'ᚦ', 'ᚦ': 'ᚩ', 'ᚩ': 'ᚱ', 'ᚱ': 'ᚳ', 'ᚳ': 'ᚷ', 'ᚷ': 'ᚹ', 'ᚹ': 'ᚻ',
     'ᚻ': 'ᚾ', 'ᚾ': 'ᛁ', 'ᛁ': 'ᛄ', 'ᛄ': 'ᛇ', 'ᛇ': 'ᛈ', 'ᛈ': 'ᛉ', 'ᛉ': 'ᛋ', 'ᛋ': 'ᛏ',
     'ᛏ': 'ᛒ', 'ᛒ': 'ᛖ', 'ᛖ': 'ᛗ', 'ᛗ': 'ᛚ', 'ᛚ': 'ᛝ', 'ᛝ': 'ᛟ', 'ᛟ': 'ᛞ', 'ᛞ': 'ᚪ',
     'ᚪ': 'ᚫ', 'ᚫ': 'ᚣ', 'ᚣ': 'ᛡ', 'ᛡ': 'ᛠ', 'ᛠ': 'ᚠ',
+}
+
+const avgadReverseRune = {
+    'ᚠ': 'ᛠ', 'ᚢ': 'ᚠ', 'ᚦ': 'ᚢ', 'ᚩ': 'ᚦ', 'ᚱ': 'ᚩ', 'ᚳ': 'ᚱ', 'ᚷ': 'ᚳ', 'ᚹ': 'ᚷ',
+    'ᚻ': 'ᚹ', 'ᚾ': 'ᚻ', 'ᛁ': 'ᚾ', 'ᛄ': 'ᛁ', 'ᛇ': 'ᛄ', 'ᛈ': 'ᛇ', 'ᛉ': 'ᛈ', 'ᛋ': 'ᛉ',
+    'ᛏ': 'ᛋ', 'ᛒ': 'ᛏ', 'ᛖ': 'ᛒ', 'ᛗ': 'ᛖ', 'ᛚ': 'ᛗ', 'ᛝ': 'ᛚ', 'ᛟ': 'ᛝ', 'ᛞ': 'ᛟ',
+    'ᚪ': 'ᛞ', 'ᚫ': 'ᚪ', 'ᚣ': 'ᚫ', 'ᛡ': 'ᚣ', 'ᛠ': 'ᛡ',
+}
+
+const ofanimRune = {
+    'ᚠ': 'ᚹ', 'ᚢ': 'ᚻ', 'ᚦ': 'ᚾ', 'ᚩ': 'ᛁ', 'ᚱ': 'ᛄ', 'ᚳ': 'ᛇ', 'ᚷ': 'ᛈ',
+    'ᚹ': 'ᛉ', 'ᚻ': 'ᛋ', 'ᚾ': 'ᛏ', 'ᛁ': 'ᛒ', 'ᛄ': 'ᛖ', 'ᛇ': 'ᛗ', 'ᛈ': 'ᛚ',
+    'ᛉ': 'ᛝ', 'ᛋ': 'ᛟ', 'ᛏ': 'ᛞ', 'ᛒ': 'ᚪ', 'ᛖ': 'ᚫ', 'ᛗ': 'ᚣ', 'ᛚ': 'ᛡ',
+    'ᛝ': 'ᚠ', 'ᛟ': 'ᚢ', 'ᛞ': 'ᚦ', 'ᚪ': 'ᚩ', 'ᚫ': 'ᚱ', 'ᚣ': 'ᚳ', 'ᛡ': 'ᚷ',
+    'ᛠ': 'ᛠ',
+}
+
+const ofanimReverseRune = {
+    'ᚠ': 'ᛝ', 'ᚢ': 'ᛟ', 'ᚦ': 'ᛞ', 'ᚩ': 'ᚪ', 'ᚱ': 'ᚫ', 'ᚳ': 'ᚣ', 'ᚷ': 'ᛡ',
+    'ᚹ': 'ᚠ', 'ᚻ': 'ᚢ', 'ᚾ': 'ᚦ', 'ᛁ': 'ᚩ', 'ᛄ': 'ᚱ', 'ᛇ': 'ᚳ', 'ᛈ': 'ᚷ',
+    'ᛉ': 'ᚹ', 'ᛋ': 'ᚻ', 'ᛏ': 'ᚾ', 'ᛒ': 'ᛁ', 'ᛖ': 'ᛄ', 'ᛗ': 'ᛇ', 'ᛚ': 'ᛈ',
+    'ᛝ': 'ᛉ', 'ᛟ': 'ᛋ', 'ᛞ': 'ᛏ', 'ᚪ': 'ᛒ', 'ᚫ': 'ᛖ', 'ᚣ': 'ᛗ', 'ᛡ': 'ᛚ',
+    'ᛠ': 'ᛠ',
 }
 
 /**
@@ -372,6 +410,13 @@ function getRuneFromRune(rune, transformType) {
                 retval = albamRune[rune];
             }
             break;
+        case 'albam-one':
+            if (!albamRuneVarOne.hasOwnProperty(rune)) {
+                retval = rune;
+            } else {
+                retval = albamRuneVarOne[rune];
+            }
+            break;
         case 'achbi':
             if (!achbiRune.hasOwnProperty(rune)) {
                 retval = rune;
@@ -379,11 +424,39 @@ function getRuneFromRune(rune, transformType) {
                 retval = achbiRune[rune];
             }
             break;
+        case 'achbi-one':
+            if (!achbiRuneVarOne.hasOwnProperty(rune)) {
+                retval = rune;
+            } else {
+                retval = achbiRuneVarOne[rune];
+            }
+            break;
         case 'avgad':
             if (!avgadRune.hasOwnProperty(rune)) {
                 retval = rune;
             } else {
                 retval = avgadRune[rune];
+            }
+            break;
+        case 'avgad-reverse':
+            if (!avgadReverseRune.hasOwnProperty(rune)) {
+                retval = rune;
+            } else {
+                retval = avgadReverseRune[rune];
+            }
+            break;
+        case 'ofanim':
+            if (!ofanimRune.hasOwnProperty(rune)) {
+                retval = rune;
+            } else {
+                retval = ofanimRune[rune];
+            }
+            break;
+        case 'ofanim-reverse':
+            if (!ofanimReverseRune.hasOwnProperty(rune)) {
+                retval = rune;
+            } else {
+                retval = ofanimReverseRune[rune];
             }
             break;
         default:
