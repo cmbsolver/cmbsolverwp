@@ -101,6 +101,8 @@ jQuery(document).ready(function($) {
         let distinctRunesText = getDistinctRuneText(runeText);
         let doubletText = getDoubletsText(runeText);
 
+        const isReversable = isRuneReversable(runeText);
+
         // Update results (this is just a placeholder)
         $('#runes-result').text(runeText);
         $('#runeglish-result').text(runeglishText);
@@ -116,7 +118,7 @@ jQuery(document).ready(function($) {
         updateFibView(runeText);
         updateTotientView(runeText, gemSum);
         updateFirstLastFields(runeText);
-        updateIocTexts();
+        updateIocTexts(isReversable);
     });
 
     // Handle special character buttons
@@ -180,6 +182,7 @@ jQuery(document).ready(function($) {
         const runeValuesText = runeValues.join(', ');
         let distinctRunesText = getDistinctRuneText(runeText);
         let doubletText = getDoubletsText(runeText);
+        const isReversable = isRuneReversable(runeText);
 
         // Update results (this is just a placeholder)
         $('#runes-result').text(runeText);
@@ -196,7 +199,7 @@ jQuery(document).ready(function($) {
         updateFibView(runeText);
         updateTotientView(runeText, gemSum);
         updateFirstLastFields(runeText);
-        updateIocTexts();
+        updateIocTexts(isReversable);
     });
 });
 
@@ -383,6 +386,13 @@ const ofanimReverseRune = {
     'ᛉ': 'ᚹ', 'ᛋ': 'ᚻ', 'ᛏ': 'ᚾ', 'ᛒ': 'ᛁ', 'ᛖ': 'ᛄ', 'ᛗ': 'ᛇ', 'ᛚ': 'ᛈ',
     'ᛝ': 'ᛉ', 'ᛟ': 'ᛋ', 'ᛞ': 'ᛏ', 'ᚪ': 'ᛒ', 'ᚫ': 'ᛖ', 'ᚣ': 'ᛗ', 'ᛡ': 'ᛚ',
     'ᛠ': 'ᛠ',
+}
+
+function isRuneReversable(rune) {
+    const initLength = rune.length;
+    let reversed = transposeRuneToLatin(rune);
+    reversed = transposeLatinToRune(reversed, 'none');
+    return reversed.length === initLength;
 }
 
 /**
@@ -1329,11 +1339,15 @@ function updateGematriaDisplay(sum) {
 
 /**
  * Updates the gematria sum for the given text.
+ @param isReversable {boolean}
  */
-function updateIocTexts() {
+function updateIocTexts(isReversable) {
     const resultDiv = document.getElementById('runes-result');
     const resultIoC = calcIOC(resultDiv.textContent, AlphabetType.Rune);
-    const displayResultText = resultDiv.textContent + ' <span class="ioc-text ioc" title="IOC">IOC: ' + resultIoC.toFixed(6) + '</span>';
+    let displayResultText = resultDiv.textContent + ' <span class="ioc-text ioc" title="IOC">IOC: ' + resultIoC.toFixed(6) + '</span>';
+    if (isReversable) {
+        displayResultText += ' <span class="number-indicator reversable" title="Reversable">✓ Reversable</span>';
+    }
     document.getElementById('runes-result').innerHTML = displayResultText;
 
     const runeglishDiv = document.getElementById('runeglish-result');

@@ -197,6 +197,11 @@
     background-color: #091347;
 }
 
+.number-indicator.reversable {
+    color: #fff;
+    background-color: #3f0060;
+}
+
 .ioc-text {
     display: inline-block;
     font-size: 12px;
