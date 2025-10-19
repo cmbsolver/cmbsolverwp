@@ -208,6 +208,14 @@
     color: #d43a3a;
 }
 
+.reverse-options {
+    margin-bottom: 10px;
+}
+
+.reverse-options label {
+    margin-right: 15px;
+}
+
 /* Tab Navigation */
 .tabs-navigation {
     display: flex;

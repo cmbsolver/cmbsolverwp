@@ -145,12 +145,17 @@ jQuery(document).ready(function($) {
         let runeglishText = '';
         const input = $('#input-area').val();
         const conversionType = $('#conversion-type').val();
-        const isReversed = $('#reverse-checkbox').is(':checked');
+        const reverseOption = $('input[name="reverse-option"]:checked').val();
         const transformType = $('#transform-type').val();
 
         if (conversionType === 'from-latin') {
-            if (isReversed) {
-                const tempText = reverseWords(input);
+            if (reverseOption !== 'none') {
+                let tempText = input;
+                if (reverseOption === 'words') {
+                    tempText = reverseWords(input);
+                } else if (reverseOption === 'text') {
+                    tempText = reverseText(input);
+                }
                 runeglishText = prepLatinToRune(tempText);
                 runeText = transposeLatinToRune(runeglishText, transformType);
             } else {
@@ -168,8 +173,12 @@ jQuery(document).ready(function($) {
                 runeText = tmpRuneText;
             }
 
-            if (isReversed) {
-                runeText = reverseWords(runeText);
+            if (reverseOption !== 'none') {
+                if (reverseOption === 'words') {
+                    runeText = reverseWords(runeText);
+                } else if (reverseOption === 'text') {
+                    runeText = reverseText(runeText);
+                }
                 runeglishText = transposeRuneToLatin(runeText);
             } else {
                 runeglishText = transposeRuneToLatin(runeText);
@@ -219,11 +228,6 @@ function clearAll() {
     jQuery('#runevalues-result').text('');
     jQuery('#distinct-runes-result').text('');
     jQuery('#doublets-result').text('');
-
-    // Reset checkbox if exists
-    if (jQuery('#reverse-checkbox').length) {
-        jQuery('#reverse-checkbox').prop('checked', false);
-    }
 
     // Reset conversion type dropdown if exists
     if (jQuery('#conversion-type').length) {
@@ -1618,4 +1622,8 @@ function reverseWords(text) {
     }
 
     return retval.join('');
+}
+
+function reverseText(text) {
+    return reverseString(text);
 }

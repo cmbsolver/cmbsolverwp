@@ -2,7 +2,7 @@
 /*
 Plugin Name: CMB Solver Rune Calculator
 Description: A rune calculation tool with conversion capabilities
-Version: 1.14
+Version: 1.15
 Author: CMBSOLVER
 */
 
@@ -47,9 +47,10 @@ function cmbsolver_runecalc_shortcode() {
             </select>
         </div>
 
-        <div>
-            <input type="checkbox" id="reverse-checkbox" />
-            <label for="reverse-checkbox">Reverse Words</label>
+        <div class="reverse-options">
+            <label><input type="radio" name="reverse-option" id="reverse-none" value="none" checked /> Don't Reverse</label>
+            <label><input type="radio" name="reverse-option" id="reverse-words" value="words" /> Reverse Words</label>
+            <label><input type="radio" name="reverse-option" id="reverse-text" value="text" /> Reverse Text</label>
         </div>
 
         <!-- Conversion Type -->
