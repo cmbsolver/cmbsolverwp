@@ -32,7 +32,7 @@ function cmbsolver_runecalc_shortcode() {
 
         <!-- Transform Type -->
         <div class="conversion-row">
-            <label class="text-label">Rune Transform: </label>
+            <label class="text-label">Pass One Rune Encryption/Decryption: </label>
             <select id="transform-type">
                 <option value="none" selected>No Transform</option>
                 <option value="atbash">Atbash</option>
@@ -41,9 +41,9 @@ function cmbsolver_runecalc_shortcode() {
                 <option value="achbi">Achbi</option>
                 <option value="achbi-one">Achbi (Var 1)</option>
                 <option value="avgad">Avgad</option>
-                <option value="avgad-reverse">Avgad (Reverse)</option>
-                <option value="ofanim">Ofanim</option>
-                <option value="ofanim-reverse">Ofanim (Reverse)</option>
+                <option value="avgad-reverse">Avgad Decrypt</option>
+                <option value="akhas">Akhas Beta</option>
+                <option value="akhas-reverse">Akhas Beta Decrypt</option>
             </select>
         </div>
 

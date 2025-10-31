@@ -376,7 +376,7 @@ const avgadReverseRune = {
     'ᚪ': 'ᛞ', 'ᚫ': 'ᚪ', 'ᚣ': 'ᚫ', 'ᛡ': 'ᚣ', 'ᛠ': 'ᛡ',
 }
 
-const ofanimRune = {
+const akhasRune = {
     'ᚠ': 'ᚹ', 'ᚢ': 'ᚻ', 'ᚦ': 'ᚾ', 'ᚩ': 'ᛁ', 'ᚱ': 'ᛄ', 'ᚳ': 'ᛇ', 'ᚷ': 'ᛈ',
     'ᚹ': 'ᛉ', 'ᚻ': 'ᛋ', 'ᚾ': 'ᛏ', 'ᛁ': 'ᛒ', 'ᛄ': 'ᛖ', 'ᛇ': 'ᛗ', 'ᛈ': 'ᛚ',
     'ᛉ': 'ᛝ', 'ᛋ': 'ᛟ', 'ᛏ': 'ᛞ', 'ᛒ': 'ᚪ', 'ᛖ': 'ᚫ', 'ᛗ': 'ᚣ', 'ᛚ': 'ᛡ',
@@ -384,7 +384,7 @@ const ofanimRune = {
     'ᛠ': 'ᛠ',
 }
 
-const ofanimReverseRune = {
+const akhasReverseRune = {
     'ᚠ': 'ᛝ', 'ᚢ': 'ᛟ', 'ᚦ': 'ᛞ', 'ᚩ': 'ᚪ', 'ᚱ': 'ᚫ', 'ᚳ': 'ᚣ', 'ᚷ': 'ᛡ',
     'ᚹ': 'ᚠ', 'ᚻ': 'ᚢ', 'ᚾ': 'ᚦ', 'ᛁ': 'ᚩ', 'ᛄ': 'ᚱ', 'ᛇ': 'ᚳ', 'ᛈ': 'ᚷ',
     'ᛉ': 'ᚹ', 'ᛋ': 'ᚻ', 'ᛏ': 'ᚾ', 'ᛒ': 'ᛁ', 'ᛖ': 'ᛄ', 'ᛗ': 'ᛇ', 'ᛚ': 'ᛈ',
@@ -459,18 +459,18 @@ function getRuneFromRune(rune, transformType) {
                 retval = avgadReverseRune[rune];
             }
             break;
-        case 'ofanim':
-            if (!ofanimRune.hasOwnProperty(rune)) {
+        case 'akhas':
+            if (!akhasRune.hasOwnProperty(rune)) {
                 retval = rune;
             } else {
-                retval = ofanimRune[rune];
+                retval = akhasRune[rune];
             }
             break;
-        case 'ofanim-reverse':
-            if (!ofanimReverseRune.hasOwnProperty(rune)) {
+        case 'akhas-reverse':
+            if (!akhasReverseRune.hasOwnProperty(rune)) {
                 retval = rune;
             } else {
-                retval = ofanimReverseRune[rune];
+                retval = akhasReverseRune[rune];
             }
             break;
         default:
