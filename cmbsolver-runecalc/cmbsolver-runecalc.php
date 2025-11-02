@@ -2,7 +2,7 @@
 /*
 Plugin Name: CMB Solver Rune Calculator
 Description: A rune calculation tool with conversion capabilities
-Version: 1.17
+Version: 1.18
 Author: CMBSOLVER
 */
 
@@ -214,8 +214,8 @@ function cmbsolver_runecalc_shortcode() {
                                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                             </svg>
                         </button>
-                        <div class="result-label">Character Count:</div>
-                        <div id="totalcount-result" class="result-content"></div>
+                        <div class="result-label">Runeglish Count:</div>
+                        <div id="runeglishcount-result" class="result-content"></div>
                     </div>
                     <div class="result-row">
                         <button class="copy-button" aria-label="Copy to clipboard">

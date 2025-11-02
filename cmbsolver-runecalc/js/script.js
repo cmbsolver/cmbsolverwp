@@ -97,6 +97,7 @@ jQuery(document).ready(function($) {
 
         const runeValues = getRuneValues(runeText);
         const runeValuesText = runeValues.join(', ');
+        const runeglishValues = getRuneglishValues(runeglishText);
 
         let distinctRunesText = getDistinctRuneText(runeText);
         let doubletText = getDoubletsText(runeText);
@@ -110,7 +111,7 @@ jQuery(document).ready(function($) {
         $('#wordcount-result').text(getWordCount(runeText));
         $('#runevalues-result').text(runeValuesText);
         $('#runecount-result').text(runeValues.length);
-        $('#totalcount-result').text(runeText.length);
+        $('#runeglishcount-result').text(runeglishValues.length);
         $('#distinct-runes-result').text(distinctRunesText);
         $('#doublets-result').text(doubletText);
         updateGPView(runeText);
@@ -187,6 +188,7 @@ jQuery(document).ready(function($) {
         const gemSum = sumAllRuneValues(runeText);
         const runeValues = getRuneValues(runeText);
         const runeValuesText = runeValues.join(', ');
+        const runeglishValues = getRuneglishValues(runeglishText);
         let distinctRunesText = getDistinctRuneText(runeText);
         let doubletText = getDoubletsText(runeText);
         const isReversable = isRuneReversable(runeText);
@@ -198,7 +200,7 @@ jQuery(document).ready(function($) {
         $('#wordcount-result').text(getWordCount(runeText));
         $('#runevalues-result').text(runeValuesText);
         $('#runecount-result').text(runeValues.length);
-        $('#totalcount-result').text(runeText.length);
+        $('#runeglishcount-result').text(runeglishValues.length);
         $('#distinct-runes-result').text(distinctRunesText);
         $('#doublets-result').text(doubletText);
         updateGPView(runeText);
@@ -220,7 +222,7 @@ function clearAll() {
     jQuery('#gematria-result').html('');
     jQuery('#wordcount-result').text('');
     jQuery('#runecount-result').text('');
-    jQuery('#totalcount-result').text('');
+    jQuery('#runeglishcount-result').text('');
     jQuery('#runevalues-result').text('');
     jQuery('#distinct-runes-result').text('');
     jQuery('#doublets-result').text('');
@@ -232,8 +234,6 @@ function clearAll() {
 
     // Clear the GP visualization
     updateGPView('');
-    updateLucasView('');
-    updateFibView('');
     updateTotientView('', 0);
     updateFirstLastFields('');
 
@@ -316,6 +316,33 @@ function getLetterFromRune(rune) {
  */
 function isRune(rune) {
     return runeToLetter.hasOwnProperty(rune);
+}
+
+function getRuneglishValues(text) {
+    const runeglishArray = [];
+    for (let i = 0; i < text.length; i++) {
+        const runeglish = text[i];
+        if (isRuneglish(runeglish)) {
+            runeglishArray.push(runeglish);
+        }
+    }
+    return runeglishArray;
+}
+
+// Function to check if a string is runeglish
+function isRuneglish(text) {
+    const runeglishArray = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+        'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
+        'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
+    for (let i = 0; i < text.length; i++) {
+        const letter = text[i];
+        if (!runeglishArray.includes(letter)) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 function isDinkus(rune) {
