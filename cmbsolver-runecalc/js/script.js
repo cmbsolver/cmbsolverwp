@@ -114,8 +114,6 @@ jQuery(document).ready(function($) {
         $('#distinct-runes-result').text(distinctRunesText);
         $('#doublets-result').text(doubletText);
         updateGPView(runeText);
-        updateLucasView(runeText);
-        updateFibView(runeText);
         updateTotientView(runeText, gemSum);
         updateFirstLastFields(runeText);
         updateIocTexts(isReversable);
@@ -204,8 +202,6 @@ jQuery(document).ready(function($) {
         $('#distinct-runes-result').text(distinctRunesText);
         $('#doublets-result').text(doubletText);
         updateGPView(runeText);
-        updateLucasView(runeText);
-        updateFibView(runeText);
         updateTotientView(runeText, gemSum);
         updateFirstLastFields(runeText);
         updateIocTexts(isReversable);
@@ -811,6 +807,34 @@ function isCircularPrime(num) {
 }
 
 /**
+ * Checks if a number is a semi-prime (product of exactly two prime numbers)
+ * @param {number} num - The number to check
+ * @returns {boolean}
+ */
+function isSemiPrime(num) {
+    // A semi-prime must be greater than 1
+    if (num <= 1) return false;
+
+    // Find the first prime factor
+    let firstFactor = null;
+    for (let i = 2; i <= Math.sqrt(num); i++) {
+        if (num % i === 0 && isPrime(i)) {
+            firstFactor = i;
+            break;
+        }
+    }
+
+    // If we found a prime factor, check if the other factor is also prime
+    if (firstFactor) {
+        const secondFactor = num / firstFactor;
+        return isPrime(secondFactor);
+    }
+
+    // If we didn't find any factors, it's not a semi-prime
+    return false;
+}
+
+/**
  * Calculate word value
  * @param word
  * @returns {number}
@@ -869,6 +893,12 @@ function updateGPView(inputText) {
             if (isCircularPrime(wordValue)) {
                 boxClass = 'gp-word-circular-prime';
             }
+            
+            if (!isPrime(wordValue) && !isEmirp(wordValue)) {
+                if (isSemiPrime(wordValue)) {
+                    boxClass = 'gp-word-semi-prime';
+                }
+            }
 
             // Create the word box
             const wordBox = document.createElement('div');
@@ -906,154 +936,10 @@ function updateGPView(inputText) {
             lineSumElement.className = 'gp-line-sum-circular-prime';
         }
 
-        lineSumElement.textContent = `Line Sum: ${lineSum}`;
-        lineDiv.appendChild(lineSumElement);
-
-        gpContainer.appendChild(lineDiv);
-    });
-}
-
-/**
- * Function to update the Fibonacci View
- */
-function updateFibView(inputText) {
-    const gpContainer = document.getElementById('fib-visualization');
-    // Clear the container
-    gpContainer.innerHTML = '';
-
-    if (!inputText.trim()) return;
-
-    // Split into lines by newline ⊹, or . character
-    const lines = inputText.split(/[\n\.\⊹\␍\␗\␊]/);
-
-    lines.forEach(line => {
-        if (!line.trim()) return; // Skip empty lines
-
-        // Create a line container
-        const lineDiv = document.createElement('div');
-        lineDiv.className = 'gp-line';
-
-        // Split the line into words
-        const words = line.trim().split(/[\s•]+/);
-
-        let lineSum = 0;
-
-        // Process each word
-        words.forEach(word => {
-            if (!word.trim()) return; // Skip empty words
-
-            // Calculate word value
-            const wordValue = calculateWordValue(word);
-            const latin = transposeRuneToLatin(word);
-            lineSum += wordValue;
-
-            // Determine color coding
-            let boxClass = 'gp-word-nonprime';
-            if (isFibonacciNumer(wordValue)) {
-                boxClass = 'gp-word-circular-prime';
+        if (!isPrime(lineSum) && !isEmirp(lineSum)) {
+            if (isSemiPrime(lineSum)) {
+                lineSumElement.className = 'gp-line-sum-semi-prime';
             }
-
-            // Create the word box
-            const wordBox = document.createElement('div');
-            wordBox.className = `gp-word-box ${boxClass}`;
-            wordBox.title = `Value: ${wordValue}`;
-
-            // Create and append text element
-            const wordText = document.createElement('div');
-            wordText.className = 'gp-word-text';
-            wordText.textContent = latin + ' (' + word + ')';
-            wordBox.appendChild(wordText);
-
-            // Create and append value element
-            const wordValueElement = document.createElement('div');
-            wordValueElement.className = 'gp-word-value';
-            wordValueElement.textContent = wordValue;
-            wordBox.appendChild(wordValueElement);
-
-            lineDiv.appendChild(wordBox);
-        });
-
-        // Add the line sum at the end
-        const lineSumElement = document.createElement('div');
-        lineSumElement.className = 'gp-line-sum-nonprime';
-
-        if (isFibonacciNumer(lineSum)) {
-            lineSumElement.className = 'gp-line-sum-circular-prime';
-        }
-
-        lineSumElement.textContent = `Line Sum: ${lineSum}`;
-        lineDiv.appendChild(lineSumElement);
-
-        gpContainer.appendChild(lineDiv);
-    });
-}
-
-/**
- * Function to update the Lucas View
- */
-function updateLucasView(inputText) {
-    const gpContainer = document.getElementById('lucas-visualization');
-    // Clear the container
-    gpContainer.innerHTML = '';
-
-    if (!inputText.trim()) return;
-
-    // Split into lines by newline ⊹, or . character
-    const lines = inputText.split(/[\n\.\⊹\␍\␗\␊]/);
-
-    lines.forEach(line => {
-        if (!line.trim()) return; // Skip empty lines
-
-        // Create a line container
-        const lineDiv = document.createElement('div');
-        lineDiv.className = 'gp-line';
-
-        // Split the line into words
-        const words = line.trim().split(/[\s•]+/);
-
-        let lineSum = 0;
-
-        // Process each word
-        words.forEach(word => {
-            if (!word.trim()) return; // Skip empty words
-
-            // Calculate word value
-            const wordValue = calculateWordValue(word);
-            const latin = transposeRuneToLatin(word);
-            lineSum += wordValue;
-
-            // Determine color coding
-            let boxClass = 'gp-word-nonprime';
-            if (isLucasNumber(wordValue)) {
-                boxClass = 'gp-word-circular-prime';
-            }
-
-            // Create the word box
-            const wordBox = document.createElement('div');
-            wordBox.className = `gp-word-box ${boxClass}`;
-            wordBox.title = `Value: ${wordValue}`;
-
-            // Create and append text element
-            const wordText = document.createElement('div');
-            wordText.className = 'gp-word-text';
-            wordText.textContent = latin + ' (' + word + ')';
-            wordBox.appendChild(wordText);
-
-            // Create and append value element
-            const wordValueElement = document.createElement('div');
-            wordValueElement.className = 'gp-word-value';
-            wordValueElement.textContent = wordValue;
-            wordBox.appendChild(wordValueElement);
-
-            lineDiv.appendChild(wordBox);
-        });
-
-        // Add the line sum at the end
-        const lineSumElement = document.createElement('div');
-        lineSumElement.className = 'gp-line-sum-nonprime';
-
-        if (isLucasNumber(lineSum)) {
-            lineSumElement.className = 'gp-line-sum-circular-prime';
         }
 
         lineSumElement.textContent = `Line Sum: ${lineSum}`;

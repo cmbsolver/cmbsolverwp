@@ -2,7 +2,7 @@
 /*
 Plugin Name: CMB Solver Rune Calculator
 Description: A rune calculation tool with conversion capabilities
-Version: 1.16
+Version: 1.17
 Author: CMBSOLVER
 */
 
@@ -148,8 +148,6 @@ function cmbsolver_runecalc_shortcode() {
         <div class="tabs-navigation">
             <button class="tab-button active" data-tab="information-tab">Information View</button>
             <button class="tab-button" data-tab="gp-view-tab">Prime View</button>
-            <button class="tab-button" data-tab="gp-fib-tab">Fibonacci View</button>
-            <button class="tab-button" data-tab="gp-lucas-tab">Lucas View</button>
             <button class="tab-button" data-tab="totient-view-tab">Totient View</button>
         </div>
 
@@ -216,7 +214,7 @@ function cmbsolver_runecalc_shortcode() {
                                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                             </svg>
                         </button>
-                        <div class="result-label">Total Character Count:</div>
+                        <div class="result-label">Character Count:</div>
                         <div id="totalcount-result" class="result-content"></div>
                     </div>
                     <div class="result-row">
@@ -282,35 +280,12 @@ function cmbsolver_runecalc_shortcode() {
                         <div class="gp-line-sum-circular-prime">Circular Prime</div>
                         <div class="gp-line-sum-prime">Prime</div>
                         <div class="gp-line-sum-emirp">Emirp</div>
+                        <div class="gp-line-sum-semi-prime">Semi-Prime</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Fibonacci View Tab (Third Tab) -->
-            <div id="gp-fib-tab" class="tab-pane">
-                <div class="gp-view-content">
-                    <div id="fib-visualization" class="gp-lines-container"></div>
-                    <div>
-                        <b>Legend:</b>
-                        <div class="gp-line-sum-nonprime">Not In Sequence</div>
-                        <div class="gp-line-sum-circular-prime">In Sequence</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lucas View Tab (Fourth Tab) -->
-            <div id="gp-lucas-tab" class="tab-pane">
-                <div class="gp-view-content">
-                    <div id="lucas-visualization" class="gp-lines-container"></div>
-                    <div>
-                        <b>Legend:</b>
-                        <div class="gp-line-sum-nonprime">Not In Sequence</div>
-                        <div class="gp-line-sum-circular-prime">In Sequence</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Totient View Tab (Fifth Tab) -->
+            <!-- Totient View Tab (Third Tab) -->
             <div id="totient-view-tab" class="tab-pane">
                 <div class="totient-view-content">
                     <div id="totient-sigma"></div>

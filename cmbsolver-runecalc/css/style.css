@@ -312,6 +312,11 @@
     background-color: #008fd8; /* Green */
 }
 
+.gp-word-semi-prime {
+    color: #000;
+    background-color: #9e71ff; /* Green */
+}
+
 .gp-line-sum-nonprime {
     color: #000;
     margin-left: auto;
@@ -345,6 +350,15 @@
     font-weight: bold;
     padding: 8px 15px;
     background-color: #008fd8;
+    border-radius: 4px;
+}
+
+.gp-line-sum-semi-prime {
+    color: #000;
+    margin-left: auto;
+    font-weight: bold;
+    padding: 8px 15px;
+    background-color: #9e71ff;
     border-radius: 4px;
 }
 
