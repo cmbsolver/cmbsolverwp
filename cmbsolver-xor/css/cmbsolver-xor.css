@@ -1,0 +1,64 @@
+.cmbsolver-xor-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.cmbsolver-xor-input-group {
+    margin-bottom: 15px;
+}
+
+.cmbsolver-xor-input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.cmbsolver-xor-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#cmbsolver-xor-datatype {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.cmbsolver-xor-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.cmbsolver-xor-button:hover {
+    background-color: #45a049;
+}
+
+.cmbsolver-xor-result-group {
+    margin-top: 20px;
+}
+
+.cmbsolver-xor-result {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 4px;
+    min-height: 50px;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.cmbsolver-xor-error {
+    color: #f44336;
+    font-weight: bold;
+}
