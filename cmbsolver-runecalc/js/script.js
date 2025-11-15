@@ -729,6 +729,10 @@ function sumAllRuneValues(text) {
 function getWordCount(text) {
     let result = 0;
     const tmpText = text.replaceAll('⊹', '•')
+        .replaceAll('␍', '•')
+        .replaceAll('␍', '•')
+        .replaceAll('\n', '•')
+        .replaceAll('␊', '•')
     const words = tmpText.split('•');
     for (let i = 0; i < words.length; i++) {
         const word = words[i];
