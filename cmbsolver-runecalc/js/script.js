@@ -119,6 +119,7 @@ jQuery(document).ready(function($) {
         updateFirstLastFields(runeText);
         updateIocTexts(isReversable);
         updateFrequencyView(runeText);
+        updateSpaceView(runeText);
     });
 
     // Handle special character buttons
@@ -209,6 +210,7 @@ jQuery(document).ready(function($) {
         updateFirstLastFields(runeText);
         updateIocTexts(isReversable);
         updateFrequencyView(runeText);
+        updateSpaceView(runeText);
     });
 });
 
@@ -239,6 +241,7 @@ function clearAll() {
     updateTotientView('', 0);
     updateFirstLastFields('');
     updateFrequencyView('');
+    updateSpaceView('');
 
     // Add a small notification that everything was cleared
     const snackbar = jQuery('#snackbar');
@@ -927,6 +930,96 @@ function updateFrequencyView(runeText) {
     });
 
     container.appendChild(resultsArea);
+}
+
+/**
+ * Function to update the Frequency View
+ */
+function updateSpaceView(runeText) {
+    const container = document.getElementById('space-view-content');
+    container.innerHTML = '';
+
+    if (!runeText) {
+        container.innerHTML = 'No text to analyze.';
+        return;
+    }
+
+    const distinctRunes = getDistinctOnlyRunes(runeText);
+    const onlyRunes = getOnlyRunes(runeText);
+
+    if (onlyRunes.length === 0) {
+        container.innerHTML = 'No runes found.';
+        return;
+    }
+
+    const resultsArea = document.createElement('div');
+    resultsArea.className = 'results-area';
+
+    distinctRunes.forEach((distinctRune) => {
+        let tripped = false;
+        let counter = -1;
+        const counts = [];
+
+        onlyRunes.forEach(rune => {
+            if (rune === distinctRune && !tripped) {
+                tripped = true;
+            }
+
+            if (tripped) {
+                if (rune === distinctRune && counter >= 0) {
+                    counts.push(counter);
+                    counter = -1;
+                } else {
+                    counter++
+                }
+            }
+        });
+
+        const row = document.createElement('div');
+        row.className = 'result-row';
+
+        const label = document.createElement('div');
+        label.className = 'result-label';
+        label.textContent = `${distinctRune}:`;
+
+        const content = document.createElement('div');
+        content.className = 'result-content';
+        content.textContent = `${counts.join(', ')}`;
+
+        row.appendChild(label);
+        row.appendChild(content);
+        resultsArea.appendChild(row);
+    });
+
+    container.appendChild(resultsArea);
+}
+
+/**
+ * Function to get only the runes in a string.
+ */
+function getOnlyRunes(runeText) {
+    const runeArray = [];
+    for (let i = 0; i < runeText.length; i++) {
+        if (isRune(runeText[i]) && !isDinkus(runeText[i])) {
+            runeArray.push(runeText[i]);
+        }
+    }
+
+    return runeArray
+}
+
+function getDistinctOnlyRunes(runeText) {
+    const runeArray = [];
+    for (let i = 0; i < runeText.length; i++) {
+        const rune = runeText[i];
+        if (!runeArray.includes(rune)) {
+            if (isRune(rune) && !isDinkus(rune)) {
+                runeArray.push(rune);
+            }
+        }
+    }
+
+    return runeArray;
 }
 
 /**
