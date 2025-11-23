@@ -118,6 +118,7 @@ jQuery(document).ready(function($) {
         updateTotientView(runeText, gemSum);
         updateFirstLastFields(runeText);
         updateIocTexts(isReversable);
+        updateFrequencyView(runeText);
     });
 
     // Handle special character buttons
@@ -207,6 +208,7 @@ jQuery(document).ready(function($) {
         updateTotientView(runeText, gemSum);
         updateFirstLastFields(runeText);
         updateIocTexts(isReversable);
+        updateFrequencyView(runeText);
     });
 });
 
@@ -236,6 +238,7 @@ function clearAll() {
     updateGPView('');
     updateTotientView('', 0);
     updateFirstLastFields('');
+    updateFrequencyView('');
 
     // Add a small notification that everything was cleared
     const snackbar = jQuery('#snackbar');
@@ -877,6 +880,53 @@ function calculateWordValue(word) {
         sum += runeValue;
     }
     return sum;
+}
+
+/**
+ * Function to update the Frequency View
+ */
+function updateFrequencyView(runeText) {
+    const container = document.getElementById('frequency-view-content');
+    container.innerHTML = '';
+
+    if (!runeText) {
+        container.innerHTML = 'No text to analyze.';
+        return;
+    }
+
+    const distinctRunes = getDistinctRunes(runeText);
+    let totalCount = 0;
+    distinctRunes.forEach(count => totalCount += count);
+
+    if (totalCount === 0) {
+        container.innerHTML = 'No runes found.';
+        return;
+    }
+
+    const resultsArea = document.createElement('div');
+    resultsArea.className = 'results-area';
+
+    distinctRunes.forEach((count, rune) => {
+        const percentage = ((count / totalCount) * 100).toFixed(2);
+        const latin = getLetterFromRune(rune);
+
+        const row = document.createElement('div');
+        row.className = 'result-row';
+
+        const label = document.createElement('div');
+        label.className = 'result-label';
+        label.textContent = `${rune} (${latin}):`;
+
+        const content = document.createElement('div');
+        content.className = 'result-content';
+        content.textContent = `${count} (${percentage}%)`;
+
+        row.appendChild(label);
+        row.appendChild(content);
+        resultsArea.appendChild(row);
+    });
+
+    container.appendChild(resultsArea);
 }
 
 /**

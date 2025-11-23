@@ -149,6 +149,7 @@ function cmbsolver_runecalc_shortcode() {
             <button class="tab-button active" data-tab="information-tab">Information View</button>
             <button class="tab-button" data-tab="gp-view-tab">Prime View</button>
             <button class="tab-button" data-tab="totient-view-tab">Totient View</button>
+            <button class="tab-button" data-tab="frequency-view-tab">Frequency View</button>
         </div>
 
         <!-- Tab Content -->
@@ -304,6 +305,11 @@ function cmbsolver_runecalc_shortcode() {
                         <div id="totient-coprimes" class="expandable-content collapsed"></div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Frequency View Tab (Fourth Tab) -->
+            <div id="frequency-view-tab" class="tab-pane">
+                <div id="frequency-view-content"></div>
             </div>
 
         </div>
