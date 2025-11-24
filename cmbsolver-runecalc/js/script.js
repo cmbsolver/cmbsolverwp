@@ -120,6 +120,7 @@ jQuery(document).ready(function($) {
         updateIocTexts(isReversable);
         updateFrequencyView(runeText);
         updateSpaceView(runeText);
+        updateISpaceView(runeText)
     });
 
     // Handle special character buttons
@@ -211,6 +212,7 @@ jQuery(document).ready(function($) {
         updateIocTexts(isReversable);
         updateFrequencyView(runeText);
         updateSpaceView(runeText);
+        updateISpaceView(runeText)
     });
 });
 
@@ -242,6 +244,7 @@ function clearAll() {
     updateFirstLastFields('');
     updateFrequencyView('');
     updateSpaceView('');
+    updateISpaceView('')
 
     // Add a small notification that everything was cleared
     const snackbar = jQuery('#snackbar');
@@ -251,6 +254,14 @@ function clearAll() {
         setTimeout(function(){ snackbar.removeClass('show'); }, 3000);
     }
 }
+
+const orderedRunes = [
+    'ᚠ', 'ᚢ', 'ᚦ', 'ᚩ', 'ᚱ', 'ᚳ', 'ᚷ',
+    'ᚹ', 'ᚻ', 'ᚾ', 'ᛁ', 'ᛄ', 'ᛇ', 'ᛈ',
+    'ᛉ', 'ᛋ', 'ᛏ', 'ᛒ', 'ᛖ', 'ᛗ', 'ᛚ',
+    'ᛝ', 'ᛟ', 'ᛞ', 'ᚪ', 'ᚫ', 'ᚣ', 'ᛡ',
+    'ᛠ'
+]
 
 const runeToValue = {
     'ᛝ': 79, 'ᛟ': 83, 'ᛇ': 41, 'ᛡ': 107, 'ᛠ': 109, 'ᚫ': 101, 'ᚦ': 5, 'ᚠ': 2,
@@ -944,7 +955,6 @@ function updateSpaceView(runeText) {
         return;
     }
 
-    const distinctRunes = getDistinctOnlyRunes(runeText);
     const onlyRunes = getOnlyRunes(runeText);
 
     if (onlyRunes.length === 0) {
@@ -955,12 +965,71 @@ function updateSpaceView(runeText) {
     const resultsArea = document.createElement('div');
     resultsArea.className = 'results-area';
 
-    distinctRunes.forEach((distinctRune) => {
+    orderedRunes.forEach((distinctRune) => {
         let tripped = false;
         let counter = -1;
         const counts = [];
 
         onlyRunes.forEach(rune => {
+            if (rune === distinctRune && !tripped) {
+                tripped = true;
+            }
+
+            if (tripped) {
+                if (rune === distinctRune && counter >= 0) {
+                    counts.push(counter);
+                    counter = -1;
+                } else {
+                    counter++
+                }
+            }
+        });
+
+        const row = document.createElement('div');
+        row.className = 'result-row';
+
+        const label = document.createElement('div');
+        label.className = 'result-label';
+        label.textContent = `${distinctRune}:`;
+
+        const content = document.createElement('div');
+        content.className = 'result-content';
+        content.textContent = `${counts.join(', ')}`;
+
+        row.appendChild(label);
+        row.appendChild(content);
+        resultsArea.appendChild(row);
+    });
+
+    container.appendChild(resultsArea);
+}
+
+/**
+ * Function to update the Frequency View
+ */
+function updateISpaceView(runeText) {
+    const container = document.getElementById('ispace-view-content');
+    container.innerHTML = '';
+
+    if (!runeText) {
+        container.innerHTML = 'No text to analyze.';
+        return;
+    }
+
+    if (runeText.length === 0) {
+        container.innerHTML = 'No runes found.';
+        return;
+    }
+
+    const resultsArea = document.createElement('div');
+    resultsArea.className = 'results-area';
+
+    orderedRunes.forEach((distinctRune) => {
+        let tripped = false;
+        let counter = -1;
+        const counts = [];
+
+        runeText.split('').forEach(rune => {
             if (rune === distinctRune && !tripped) {
                 tripped = true;
             }
@@ -1006,20 +1075,6 @@ function getOnlyRunes(runeText) {
     }
 
     return runeArray
-}
-
-function getDistinctOnlyRunes(runeText) {
-    const runeArray = [];
-    for (let i = 0; i < runeText.length; i++) {
-        const rune = runeText[i];
-        if (!runeArray.includes(rune)) {
-            if (isRune(rune) && !isDinkus(rune)) {
-                runeArray.push(rune);
-            }
-        }
-    }
-
-    return runeArray;
 }
 
 /**
